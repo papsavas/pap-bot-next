@@ -3,6 +3,9 @@ node_modules
 .pnp
 .pnp.js
 
+#Enviromental Variables
+**/*.env
+
 # testing
 coverage
 
@@ -31,3 +34,4 @@ yarn-error.log*
 .turbo
 
 resources.txt
+
