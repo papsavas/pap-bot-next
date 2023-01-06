@@ -2,8 +2,9 @@
   "name": "bot",
   "version": "0.1.0",
   "description": "Multipurporsed Discord Bot",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
+    "build": "tsc && node dist/src/index.js",
     "dev": "ts-node src/index.ts"
   },
   "author": "",

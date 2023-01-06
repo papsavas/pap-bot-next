@@ -6,7 +6,6 @@
     "allowJs": true,
     "noEmit": true,
     "module": "esnext",
-    "resolveJsonModule": true,
     "jsx": "preserve",
     "incremental": true,
     "plugins": [

@@ -8,6 +8,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
+    "resolveJsonModule": true,
     "moduleResolution": "node",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
