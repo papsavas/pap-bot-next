@@ -14,5 +14,4 @@ model Guild{
   id String @unique @id
   name String
   icon String
-  fakefield Int
 }
