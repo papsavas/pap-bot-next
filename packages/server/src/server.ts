@@ -1,0 +1,1 @@
+export const serverFunc = () => "Hello from server"
