@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "lib": ["ESNext"],
+    "baseUrl": ".",
+    "outDir": "./dist"
+  },
+  "module": "esnext",
+  "resolveJsonModule": true,
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}

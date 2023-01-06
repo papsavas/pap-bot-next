@@ -1,0 +1,16 @@
+{
+  "name": "bot",
+  "version": "0.1.0",
+  "description": "Multipurporsed Discord Bot",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "ts-node src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "server": "*",
+    "ts-node": "^10.9.1"
+  }
+}
