@@ -5,15 +5,19 @@ require('dotenv')
 
 const socket = io(`http://localhost:${process.env.SOCKET_PORT}`);
 
+socket.onAny((ev, ...args) => {
+    console.log(`recv ${ev} | data: ${args}`)
+})
+
 const bot = new Client({
     intents: ["Guilds", "DirectMessages", "MessageContent", "GuildMessages"],
     partials: [Partials.Message, Partials.User, Partials.Channel]
 })
 
-bot.on("ready", () => { socket.emit("command", { data: "client ready" }) })
+bot.on("ready", () => { socket.emit("command", "client ready") })
 
 bot.on("messageCreate", (message) => {
-
+    socket.emit("message", message.content)
 })
 
 // const eventFiles: DiscordEventFile[] = readdirSync("./ClientEvents")
