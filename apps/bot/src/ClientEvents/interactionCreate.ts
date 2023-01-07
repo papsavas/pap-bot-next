@@ -1,5 +1,5 @@
 import { ChannelType, ClientEvents, EmbedBuilder, Interaction } from "discord.js";
-import { bugsChannel, dmHandler, globalCommandHandler, globalCommandsIDs, guilds } from "../..";
+import { bugsChannel, dmHandler, globalCommandHandler, globalCommandsIDs, guilds } from "..";
 
 
 

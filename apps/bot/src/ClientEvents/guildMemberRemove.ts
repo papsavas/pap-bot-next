@@ -1,5 +1,5 @@
 import { ClientEvents, GuildMember, PartialGuildMember } from "discord.js";
-import { guilds } from "../..";
+import { guilds } from "..";
 
 
 const name: keyof ClientEvents = "guildMemberRemove";

@@ -1,5 +1,5 @@
 import { ClientEvents, VoiceState } from "discord.js";
-import { guilds } from "../..";
+import { guilds } from "..";
 
 
 const name: keyof ClientEvents = "voiceStateUpdate";

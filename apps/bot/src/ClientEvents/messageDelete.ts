@@ -1,5 +1,5 @@
 import { ChannelType, ClientEvents, Message, PartialMessage } from "discord.js";
-import { dmHandler, guilds } from "../..";
+import { dmHandler, guilds } from "..";
 
 
 const name: keyof ClientEvents = "messageDelete";

@@ -1,5 +1,5 @@
 import { ClientEvents, Guild } from "discord.js";
-import { logsChannel } from "../..";
+import { logsChannel } from "..";
 import { guildID as botGuildID } from '../../../bot.config.json';
 
 

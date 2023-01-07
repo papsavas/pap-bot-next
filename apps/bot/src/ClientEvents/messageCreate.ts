@@ -1,5 +1,5 @@
 import { ChannelType, ClientEvents, Message } from "discord.js";
-import { dmHandler, guilds, PAP } from "../..";
+import { dmHandler, guilds, PAP } from "..";
 import { creatorID } from '../../../bot.config.json';
 
 const name: keyof ClientEvents = 'messageCreate';
