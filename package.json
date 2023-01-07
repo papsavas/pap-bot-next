@@ -20,6 +20,10 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "dependencies": {},
-  "packageManager": "npm@8.8.0"
+  "packageManager": "npm@8.8.0",
+  "dependencies": {
+    "custom-env": "^2.0.1",
+    "dotenv": "^16.0.3",
+    "find-config": "^1.0.0"
+  }
 }

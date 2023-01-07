@@ -1,23 +1,29 @@
-import { Client } from "discord.js";
-import * as dotenv from 'dotenv';
-import { readdirSync } from "node:fs";
-import { DiscordEventFile } from "./types/DiscordEvent";
-dotenv.config()
+import { Client, Partials } from "discord.js";
+import { io } from "socket.io-client";
+require('dotenv')
+    .config({ path: require('find-config')('.env') })
+
+const socket = io(`http://localhost:${process.env.SOCKET_PORT}`);
 
 const bot = new Client({
-    intents: ["Guilds", "DirectMessages", "MessageContent"]
+    intents: ["Guilds", "DirectMessages", "MessageContent", "GuildMessages"],
+    partials: [Partials.Message, Partials.User, Partials.Channel]
 })
 
-const eventFiles: DiscordEventFile[] = readdirSync("/ClientEvents/")
-    .map(file => require(`@bot/src/Events/Impl/${file}`).default);
+bot.on("ready", () => { socket.emit("command", { data: "client ready" }) })
 
+bot.on("messageCreate", (message) => {
 
+})
 
-eventFiles.forEach(ev => bot.on(ev.name,
-    async (...args) => { ev.execute(...args) })
-)
+// const eventFiles: DiscordEventFile[] = readdirSync("./ClientEvents")
+//     .map(file => require(`./ClientEvents/${file}`).default);
 
-bot.login(process.env.BOT_TOKEN)
+// eventFiles.forEach(ev => bot.on(ev.name,
+//     async (...args) => { ev.execute(...args) })
+// )
+
+bot.login(process.env.DISCORD_BOT_TOKEN)
 
 //catch unhandled rejections
 process.on('unhandledRejection', (reason, p) => {
