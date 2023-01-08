@@ -1,12 +1,8 @@
 "use client";
 import { useSocket } from "../hooks/useSocket";
 const DataComponent = () => {
-  const { data, isConnected } = useSocket<string>("message");
-  return (
-    <div className="text-center text-5xl">
-      {isConnected ? "loading..." : data}
-    </div>
-  );
+  const { data, isConnected } = useSocket<string>("prefix");
+  return <div>prefix is {isConnected ? data : "loading..."}</div>;
 };
 
 export default DataComponent;

@@ -1,12 +1,17 @@
 import { Client, Partials } from "discord.js";
-import { io } from "socket.io-client";
+import { ClientToServerEvents, ServerToClientEvents } from "server";
+import { io, Socket } from "socket.io-client";
 require('dotenv')
     .config({ path: require('find-config')('.env') })
 
-const socket = io(`http://localhost:${process.env.SOCKET_PORT}`);
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(`http://localhost:${process.env.SOCKET_PORT}`);
 
-socket.onAny((ev, ...args) => {
-    console.log(`recv ${ev} | data: ${args}`)
+socket.on("connect", () => {
+    socket.onAny((ev, ...args) => {
+        console.log(`client recv ${ev} | ${args}`)
+    })
+
+    socket.emit("prefix", "$", "1314")
 })
 
 const bot = new Client({
@@ -14,20 +19,17 @@ const bot = new Client({
     partials: [Partials.Message, Partials.User, Partials.Channel]
 })
 
-bot.on("ready", () => { socket.emit("command", "client ready") })
-
-bot.on("messageCreate", (message) => {
-    socket.emit("message", message.content)
-})
+bot.on("ready", () => { console.log(`client ready.Listing to ${bot.guilds.cache.mapValues(v => v.name)}`) })
 
 // const eventFiles: DiscordEventFile[] = readdirSync("./ClientEvents")
-//     .map(file => require(`./ClientEvents/${file}`).default);
+//     .map(file => require(`./ ClientEvents / ${ file }`).default);
 
 // eventFiles.forEach(ev => bot.on(ev.name,
 //     async (...args) => { ev.execute(...args) })
 // )
 
-bot.login(process.env.DISCORD_BOT_TOKEN)
+// bot.login(process.env.DISCORD_BOT_TOKEN)
+//     .then(_ => console.log("Logged in"))
 
 //catch unhandled rejections
 process.on('unhandledRejection', (reason, p) => {
