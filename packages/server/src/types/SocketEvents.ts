@@ -1,10 +1,9 @@
 
-export type ServerToClientEvents = {
-    prefix: (prefix: string, guildId: string) => void
-
-}
-
-export type ClientToServerEvents = {
+type Events = {
     prefix: (prefix: string, guildId: string) => void
 }
+
+export type ServerToClientEvents = Events
+
+export type ClientToServerEvents = Events
 
