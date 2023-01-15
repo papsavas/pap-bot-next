@@ -1,18 +1,19 @@
 import { Client, Partials } from "discord.js";
-import { ClientToServerEvents, ServerToClientEvents } from "server";
-import { io, Socket } from "socket.io-client";
+import { ClientSocket } from "server";
+import { io } from "socket.io-client";
 import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
 
 require('dotenv')
     .config({ path: require('find-config')('.env') })
 
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(`http://localhost:${process.env.SOCKET_PORT}`);
+
+const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
 const actions = [poll, prefix]
 
 socket.on("connect", () => {
     actions.forEach(({ name, onEvent }) =>
-        socket.on(name, (data: any) => { onEvent(...data) })
+        socket.on(name, (data: any) => { onEvent(socket, ...data) })
     )
 })
 

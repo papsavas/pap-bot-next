@@ -1,8 +1,9 @@
-import { PrismaClient } from "@prisma/client";
 import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
-import { ClientToServerEvents, ServerToClientEvents } from "./types/SocketEvents";
+import { poll } from "./actions/poll";
+import { prefix } from "./actions/prefix";
+import { ClientToServerEvents, ServerToClientEvents } from "./types/Socket/SocketEvents";
 require('dotenv').config({ path: require('find-config')('.env') })
 const app = express();
 const server = createServer(app)
@@ -14,19 +15,14 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(server, {
 })
 const PORT = process.env.SOCKET_PORT;
 
-const prisma = new PrismaClient();
+const actions = [poll, prefix]
 
 io.on("connection", (socket) => {
     console.log(socket.id, "socket connected")
-    // socket.onAny((event, ...args) => {
-    //     //act
-    //     //broadcast
-    //     socket.broadcast.emit(event, ...args);
-    // })
-    socket.on("prefix", (prefix, guildId) => {
-        console.log(`server rcv= prefix=${prefix} for ${guildId}`)
-        socket.broadcast.emit("prefix", prefix, guildId)
-    })
+
+    actions.forEach(({ name, onEvent }) =>
+        socket.on(name, (data: any) => { onEvent(socket, ...data) })
+    )
 })
 
 server.listen(PORT, () => {

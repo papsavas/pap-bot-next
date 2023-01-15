@@ -1,4 +1,4 @@
 export * from "./db";
-export * from "./types/SocketAction";
-export * from "./types/SocketEvents";
+export * from "./types/Socket/SocketAction";
+export * from "./types/Socket/SocketEvents";
 
