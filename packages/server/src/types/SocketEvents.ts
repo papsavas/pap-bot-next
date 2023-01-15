@@ -1,6 +1,6 @@
 
 type Events = {
-    prefix: (prefix: string, guildId: string) => void
+    prefix: (data: { prefix: string, guildId: string }) => void
 }
 
 export type ServerToClientEvents = Events

@@ -1,5 +1,14 @@
-import { Snowflake } from "discord.js";
+import { SocketAction } from "../types/SocketAction";
 
 
-const prefix = (prefix: string, guildId: Snowflake) => { }
+
+export const prefix: SocketAction<"prefix"> = {
+    name: "prefix",
+    onEvent(data) {
+        console.log(`prefix recv to client event, ${data}`)
+    },
+    emit: () => {
+
+    }
+}
 

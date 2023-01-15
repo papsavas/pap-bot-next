@@ -1,17 +1,16 @@
 import { Client, Partials } from "discord.js";
 import { ClientToServerEvents, ServerToClientEvents } from "server";
 import { io, Socket } from "socket.io-client";
+import actions from "./actions/actions";
 require('dotenv')
     .config({ path: require('find-config')('.env') })
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(`http://localhost:${process.env.SOCKET_PORT}`);
 
 socket.on("connect", () => {
-    socket.onAny((ev, ...args) => {
-        console.log(`client recv ${ev} | ${args}`)
-    })
-
-    socket.emit("prefix", "$", "1314")
+    actions.forEach(({ name, onEvent }) =>
+        socket.on(name, (data) => onEvent(data))
+    )
 })
 
 const bot = new Client({
@@ -19,7 +18,9 @@ const bot = new Client({
     partials: [Partials.Message, Partials.User, Partials.Channel]
 })
 
-bot.on("ready", () => { console.log(`client ready.Listing to ${bot.guilds.cache.mapValues(v => v.name)}`) })
+bot.on("ready", () => {
+    console.log(`client ready.Listing to ${bot.guilds.cache.mapValues(v => v.name)}`)
+})
 
 // const eventFiles: DiscordEventFile[] = readdirSync("./ClientEvents")
 //     .map(file => require(`./ ClientEvents / ${ file }`).default);
