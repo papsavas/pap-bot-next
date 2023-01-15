@@ -1,6 +1,4 @@
-import { SocketAction } from "../types/SocketAction";
-
-
+import { SocketAction } from "server"
 
 export const prefix: SocketAction<"prefix"> = {
     name: "prefix",

@@ -1,5 +1,4 @@
-import { ServerToClientEvents } from "server"
-
+import { ServerToClientEvents } from "./SocketEvents"
 
 export type SocketAction<T extends keyof ServerToClientEvents> = {
     name: T,
