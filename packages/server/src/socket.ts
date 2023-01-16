@@ -3,7 +3,8 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
-import { ClientToServerEvents, ServerToClientEvents } from "./types/Socket/SocketEvents";
+import { ClientToServerEvents, ServerToClientEvents } from "./types/Socket";
+
 require('dotenv').config({ path: require('find-config')('.env') })
 const app = express();
 const server = createServer(app)
