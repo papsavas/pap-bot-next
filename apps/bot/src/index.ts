@@ -1,7 +1,7 @@
 import { Client, Partials } from "discord.js";
-import { ClientSocket } from "server";
+import { ActionData, ClientSocket } from "server";
+
 import { io } from "socket.io-client";
-import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
 
 require('dotenv')
@@ -9,11 +9,11 @@ require('dotenv')
 
 
 const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
-const actions = [poll, prefix]
+const actions = [prefix]
 
 socket.on("connect", () => {
     actions.forEach(({ name, onEvent }) =>
-        socket.on(name, (data: any) => { onEvent(socket, ...data) })
+        socket.on(name, (...data: ActionData<typeof name>) => { onEvent(socket, data) })
     )
 })
 
@@ -23,7 +23,8 @@ const bot = new Client({
 })
 
 bot.on("ready", () => {
-    console.log(`bot ready, emitting...`)
+    console.log(`bot ready`)
+
     prefix.emit(socket)
 })
 

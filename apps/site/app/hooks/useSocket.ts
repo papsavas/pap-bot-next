@@ -14,7 +14,7 @@ export const useSocket = <E extends keyof ClientToServerEvents>(ev: E, ...initia
 
     useEffect(() => {
         //@ts-expect-error
-        socket.on(ev, (...data: ActionData<E>) => {
+        socket.on(ev, (data: ActionData<E>) => {
             setState(data);
         });
         socket.on('connect', () => { setIsConnected(true) })

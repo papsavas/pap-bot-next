@@ -1,14 +1,13 @@
 import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
-import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
-import { ClientToServerEvents, ServerToClientEvents } from "./types/Socket";
+import { ActionData, ClientToServerEvents, ServerToClientEvents } from "./types/Socket";
 
 require('dotenv').config({ path: require('find-config')('.env') })
 const app = express();
 const server = createServer(app)
-const io = new Server<ClientToServerEvents, ServerToClientEvents>(server, {
+const io = new Server<ClientToServerEvents, ServerToClientEvents, any, ActionData<keyof ServerToClientEvents>>(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
@@ -16,13 +15,13 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(server, {
 })
 const PORT = process.env.SOCKET_PORT;
 
-const actions = [poll, prefix]
+const actions = [prefix]
 
 io.on("connection", (socket) => {
     console.log(socket.id, "socket connected")
 
     actions.forEach(({ name, onEvent }) =>
-        socket.on(name, (data: any) => { onEvent(socket, ...data) })
+        socket.on(name, (data) => { onEvent(socket, data) })
     )
 })
 

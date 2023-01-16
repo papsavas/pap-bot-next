@@ -7,12 +7,14 @@ const DataComponent = () => {
   });
   return (
     <>
-      prefix is {isConnected ? data : "loading..."}
+      prefix is {isConnected ? data.toString() : "loading..."}
       <button
         onClick={() => {
           emit({ guildId: "final_guildid", prefix: "final_prefix" });
         }}
-      />
+      >
+        Send
+      </button>
     </>
   );
 };
