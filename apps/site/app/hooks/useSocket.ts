@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
+import { ClientSocket, ClientToServerEvents } from "server";
 import { io } from "socket.io-client";
 // require('dotenv')
 //     .config({ path: require('find-config')('.env') })
 
-const socket = io(`http://localhost:4001`);
+const socket: ClientSocket = io(`http://localhost:4001`);
+type ActionData<T extends keyof ClientToServerEvents> = ClientToServerEvents[T];
+type initialState<T extends keyof ClientToServerEvents> = Parameters<ActionData<T>> | undefined[]
 
-export const useSocket = <T>(event: string, initialState?: T) => {
+//TODO: error when no generic is specified
+export const useSocket = <E extends keyof ClientToServerEvents>(...initialState: initialState<E>) => {
     const [isConnected, setIsConnected] = useState(socket.connected);
-    const [state, setState] = useState<T>(initialState as T);
-    const emit = (data: T) => {
+    const [state, setState] = useState(initialState);
+    const emit = (data) => {
         socket.emit(event, data)
     }
     useEffect(() => {
