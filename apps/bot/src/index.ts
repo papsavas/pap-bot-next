@@ -23,7 +23,8 @@ const bot = new Client({
 })
 
 bot.on("ready", () => {
-    console.log(`client ready.Listing to ${bot.guilds.cache.mapValues(v => v.name)}`)
+    console.log(`bot ready, emitting...`)
+    prefix.emit(socket)
 })
 
 // const eventFiles: DiscordEventFile[] = readdirSync("./ClientEvents")
@@ -33,8 +34,8 @@ bot.on("ready", () => {
 //     async (...args) => { ev.execute(...args) })
 // )
 
-// bot.login(process.env.DISCORD_BOT_TOKEN)
-//     .then(_ => console.log("Logged in"))
+bot.login(process.env.DISCORD_BOT_TOKEN)
+    .then(_ => console.log("Logged in"))
 
 //catch unhandled rejections
 process.on('unhandledRejection', (reason, p) => {

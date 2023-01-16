@@ -1,9 +1,10 @@
-import { SocketAction } from "server"
+import { SocketAction } from "server";
 
 export const prefix: SocketAction<"prefix", "server"> = {
     name: "prefix",
     onEvent(socket, data) {
-        console.log(`prefix recv to client event, ${data}`)
+        console.log(`server: prefix : `, data)
+        socket.broadcast.emit("prefix", data);
     },
     emit: (socket) => {
 
