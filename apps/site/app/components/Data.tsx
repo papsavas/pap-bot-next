@@ -7,7 +7,7 @@ const DataComponent = () => {
   });
   return (
     <>
-      prefix is {isConnected ? data.toString() : "loading..."}
+      prefix is {isConnected ? JSON.stringify(data) : "loading..."}
       <button
         onClick={() => {
           emit({ guildId: "final_guildid", prefix: "final_prefix" });

@@ -1,5 +1,5 @@
 import { Client, Partials } from "discord.js";
-import { ActionData, ClientSocket } from "server";
+import { ClientSocket } from "server";
 
 import { io } from "socket.io-client";
 import { prefix } from "./actions/prefix";
@@ -13,7 +13,7 @@ const actions = [prefix]
 
 socket.on("connect", () => {
     actions.forEach(({ name, onEvent }) =>
-        socket.on(name, (...data: ActionData<typeof name>) => { onEvent(socket, data) })
+        socket.on(name, (data) => { onEvent(socket, data) })
     )
 })
 
@@ -35,8 +35,8 @@ bot.on("ready", () => {
 //     async (...args) => { ev.execute(...args) })
 // )
 
-bot.login(process.env.DISCORD_BOT_TOKEN)
-    .then(_ => console.log("Logged in"))
+// bot.login(process.env.DISCORD_BOT_TOKEN)
+//     .then(_ => console.log("Logged in"))
 
 //catch unhandled rejections
 process.on('unhandledRejection', (reason, p) => {
