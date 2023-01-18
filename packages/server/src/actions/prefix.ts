@@ -1,6 +1,6 @@
-import { SocketAction } from "server";
+import { makeServerAction } from "../utils/makeAction";
 
-export const prefix: SocketAction<"prefix", "server"> = {
+export const prefix = makeServerAction({
     name: "prefix",
     onEvent(socket, data) {
         console.log(`server: recv prefix : `, data)
@@ -9,5 +9,5 @@ export const prefix: SocketAction<"prefix", "server"> = {
     emit: (socket) => {
         socket.emit("prefix", { guildId: "server_guild_id", prefix: "server_new_prefix" })
     }
-}
+})
 

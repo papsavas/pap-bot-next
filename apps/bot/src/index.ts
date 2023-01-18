@@ -2,20 +2,20 @@ import { Client, Partials } from "discord.js";
 import { ClientSocket } from "server";
 import { io } from "socket.io-client";
 import { prefix } from "./actions/prefix";
-import { guildBanAdd } from "./Events/guildBanAdd";
-import { guildBanRemove } from "./Events/guildBanRemove";
-import { guildCreate } from "./Events/guildCreate";
-import { guildDelete } from "./Events/guildDelete";
-import { guildMemberAdd } from "./Events/guildMemberAdd";
-import { guildMemberRemove } from "./Events/guildMemberRemove";
-import { guildUnavailable } from "./Events/guildUnavailable";
-import { interactionCreate } from "./Events/interactionCreate";
-import { messageCreate } from './Events/messageCreate';
-import { messageDelete } from "./Events/messageDelete";
-import { messageReactionAdd } from "./Events/messageReactionAdd";
-import { messageReactionRemove } from "./Events/messageReactionRemove";
-import { ready } from "./Events/ready";
-import { voiceStateUpdate } from "./Events/voiceStateUpdate";
+import { guildBanAdd } from "./events/guildBanAdd";
+import { guildBanRemove } from "./events/guildBanRemove";
+import { guildCreate } from "./events/guildCreate";
+import { guildDelete } from "./events/guildDelete";
+import { guildMemberAdd } from "./events/guildMemberAdd";
+import { guildMemberRemove } from "./events/guildMemberRemove";
+import { guildUnavailable } from "./events/guildUnavailable";
+import { interactionCreate } from "./events/interactionCreate";
+import { messageCreate } from './events/messageCreate';
+import { messageDelete } from "./events/messageDelete";
+import { messageReactionAdd } from "./events/messageReactionAdd";
+import { messageReactionRemove } from "./events/messageReactionRemove";
+import { ready } from "./events/ready";
+import { voiceStateUpdate } from "./events/voiceStateUpdate";
 
 require('dotenv')
     .config({ path: require('find-config')('.env') })
