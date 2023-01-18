@@ -1,0 +1,8 @@
+import { makeEvent } from "./makeEvent"
+
+export const guildDelete = makeEvent({
+    name: "guildDelete",
+    async execute(guild) {
+        return Promise.reject(`${name} has no execution implemented`)
+    },
+})
