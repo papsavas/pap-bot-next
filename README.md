@@ -4,6 +4,7 @@ The 3rd iteration
 
 ## What's new?
 - Dashboard website
+- Websocket communication
 
 ### Tech Improvements
 - Bundled with [Turborepo](https://turbo.build/repo) for maximum inclusivity 
