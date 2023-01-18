@@ -1,4 +1,4 @@
-import { makeEvent } from "./makeEvent"
+import { makeEvent } from "../Utils/makeDiscordEvent"
 
 export const messageReactionRemove = makeEvent({
     name: "messageReactionRemove",
