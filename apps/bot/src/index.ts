@@ -35,8 +35,8 @@ bot.on("ready", () => {
 //     async (...args) => { ev.execute(...args) })
 // )
 
-// bot.login(process.env.DISCORD_BOT_TOKEN)
-//     .then(_ => console.log("Logged in"))
+bot.login(process.env.DISCORD_BOT_TOKEN)
+    .then(_ => console.log("Logged in"))
 
 //catch unhandled rejections
 process.on('unhandledRejection', (reason, p) => {
