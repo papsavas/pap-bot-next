@@ -46,12 +46,11 @@ const bot = new Client({
 
 bot.on("ready", () => {
     console.log(`bot ready`)
-
-    prefix.emit(socket)
 })
 
 events.forEach(ev =>
     bot.on(ev.name,
+        //@ts-expect-error //execute args typed as 'never'
         async (...args) => { ev.execute(...args) }
     )
 )
