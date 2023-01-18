@@ -1,10 +1,8 @@
 import { ClientEvents } from "discord.js";
 
-
-
-export type DiscordEventFile = {
-    name: keyof ClientEvents,
-    execute: <K extends keyof ClientEvents> (...args: ClientEvents[K]) => Promise<unknown>,
+export type DiscordEvent<T extends keyof ClientEvents> = {
+    name: T,
+    execute: (...args: ClientEvents[T]) => Promise<unknown>,
 }
 
 export type { ClientEvents };
