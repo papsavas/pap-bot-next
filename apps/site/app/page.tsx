@@ -1,3 +1,9 @@
+import DataComponent from "./components/Data";
+
 export default function Home() {
-  return <main className="">papbot</main>;
+  return (
+    <main>
+      <DataComponent />
+    </main>
+  );
 }

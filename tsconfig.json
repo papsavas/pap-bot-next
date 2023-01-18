@@ -4,6 +4,8 @@
   "compilerOptions": {
     "composite": false,
     "declaration": true,
+    "rootDir": ".",
+    "baseUrl": ".",
     "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -14,7 +16,13 @@
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "paths": {
+      "@bot/*": ["./apps/bot/*"],
+      "@site/*": ["./apps/site/*"],
+      "@root/*": ["./*"]
+    }
   },
+
   "exclude": ["node_modules"]
 }
