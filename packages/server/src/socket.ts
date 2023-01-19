@@ -22,8 +22,12 @@ const actions = [prefix, poll, guilds]
 io.on("connection", (socket) => {
     console.log(socket.id, "socket connected")
 
-    actions.forEach(({ action: name, onEvent }) =>
-        socket.on(name, (data: any) => { onEvent(socket, data) })
+    actions.forEach(({ action: name, onEvent, emit }) =>
+        socket.on(name, async (data: any) => {
+            onEvent(socket, data)
+                //@ts-ignore
+                .then(({ socket, data }) => { emit(socket, data) })
+        })
     )
 })
 

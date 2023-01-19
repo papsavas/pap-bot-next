@@ -16,8 +16,11 @@ type SocketScope = "client" | "server";
 
 type SocketType<S> = S extends "client" ? ClientSocket : ServerSocket;
 
+type PureActionEvent<E extends keyof Actions, S extends SocketScope> =
+    (socket: SocketType<S>, data: ActionData<E>) => Promise<{ socket: SocketType<S>, data: ActionData<E> }>
+
 export type SocketAction<E extends keyof Actions, S extends SocketScope> = {
     action: E,
-    onEvent: (socket: SocketType<S>, data: ActionData<E>) => void
-    emit: (socket: SocketType<S>, data: ActionData<E>) => void
+    onEvent: PureActionEvent<E, S>
+    emit: PureActionEvent<E, S>
 }

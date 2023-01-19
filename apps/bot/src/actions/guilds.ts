@@ -2,10 +2,11 @@ import { makeClientAction } from "server";
 
 export const guilds = makeClientAction({
     action: "guilds",
-    onEvent(socket, data) {
-
+    async onEvent(socket, data) {
+        return { socket, data }
     },
-    emit(socket, guilds) {
-        socket.emit("guilds", guilds);
+    async emit(socket, data) {
+        socket.emit("guilds", data);
+        return { socket, data }
     },
 })

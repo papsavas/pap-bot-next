@@ -4,11 +4,13 @@ import { makeServerAction } from "../utils/makeAction";
 //TODO!: fix `this` scope. 
 export const guilds = makeServerAction({
     action: "guilds",
-    onEvent(socket, data) {
+    async onEvent(socket, data) {
         //TODO: sync db
+        return { socket, data }
     },
-    emit(socket, guilds) {
-        socket.broadcast.emit("guilds", guilds);
+    async emit(socket, data) {
+        socket.broadcast.emit("guilds", data);
+        return { socket, data };
     },
 })
 

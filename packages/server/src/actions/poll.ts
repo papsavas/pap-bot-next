@@ -2,10 +2,10 @@ import { makeServerAction } from "../utils/makeAction";
 
 export const poll = makeServerAction({
     action: "poll",
-    onEvent(socket, data) {
-
+    async onEvent(socket, data) {
+        return { socket, data }
     },
-    emit(socket) {
-
+    async emit(socket, data) {
+        return { socket, data }
     },
 })

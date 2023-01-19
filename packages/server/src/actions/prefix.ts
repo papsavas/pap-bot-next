@@ -2,12 +2,14 @@ import { makeServerAction } from "../utils/makeAction";
 
 export const prefix = makeServerAction({
     action: "prefix",
-    onEvent(socket, data) {
+    async onEvent(socket, data) {
         console.log(`server: recv prefix : `, data)
-        socket.broadcast.emit("prefix", data)
+        return { socket, data }
     },
-    emit: (socket) => {
-        socket.emit("prefix", { guildId: "server_guild_id", prefix: "server_new_prefix" })
+    async emit(socket, data) {
+        data = { guildId: "server_guild_id", prefix: "server_new_prefix" }
+        socket.emit("prefix", data)
+        return { socket, data }
     }
 })
 
