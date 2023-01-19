@@ -6,6 +6,6 @@ export const ready = makeEvent({
     async execute(socket, client) {
         console.log(`Bot cache ready. Serving ${client.guilds.cache.size} servers`)
 
-        guilds.emit(socket, [...client.guilds.cache.mapValues(({ name, id, iconURL }) => ({ name, id, iconUrl: iconURL({ extension: "webp" }) })).values()])
+        guilds.emit(socket, [{ name: "testname", id: "test_id", iconUrl: null }]) //[...client.guilds.cache.mapValues(({ name, id, iconURL }) => ({ name, id, iconUrl: iconURL({ extension: "webp" }) })).values()])
     },
 })
