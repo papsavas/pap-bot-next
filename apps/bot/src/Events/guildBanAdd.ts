@@ -1,9 +1,9 @@
 import { makeEvent } from "../utils/makeEvent";
 
 
-export const guildBanAdd = makeEvent({
+export default makeEvent({
     event: "guildBanAdd",
     async execute(socket, ban) {
-        return Promise.reject(`${name} has no execution implemented`)
+        return Promise.reject(`method has no execution implemented`)
     },
 })

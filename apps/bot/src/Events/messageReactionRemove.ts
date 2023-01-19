@@ -1,8 +1,8 @@
 import { makeEvent } from "../utils/makeEvent"
 
-export const messageReactionRemove = makeEvent({
+export default makeEvent({
     event: "messageReactionRemove",
     async execute(socket, reaction, user) {
-        return Promise.reject(`${name} has no execution implemented`)
+        return Promise.reject(`method has no execution implemented`)
     },
 })

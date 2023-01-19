@@ -1,8 +1,8 @@
 import { makeEvent } from "../utils/makeEvent"
 
-export const guildCreate = makeEvent({
+export default makeEvent({
     event: "guildCreate",
     async execute(socket, guild) {
-        return Promise.reject(`${name} has no execution implemented`)
+        return Promise.reject(`method has no execution implemented`)
     },
 })

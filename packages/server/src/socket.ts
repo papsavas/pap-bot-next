@@ -25,7 +25,7 @@ io.on("connection", (socket) => {
     actions.forEach(({ action: name, onEvent, emit }) =>
         socket.on(name, async (data: any) => {
             onEvent(socket, data)
-                //@ts-ignore
+                //@ts-ignore action type gets lost, emit expects specified action data, gets union
                 .then(({ socket, data }) => { emit(socket, data) })
         })
     )
