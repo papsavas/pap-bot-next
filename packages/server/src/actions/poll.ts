@@ -1,7 +1,7 @@
 import { makeServerAction } from "../utils/makeAction";
 
 export const poll = makeServerAction({
-    name: "poll",
+    action: "poll",
     onEvent(socket, data) {
 
     },

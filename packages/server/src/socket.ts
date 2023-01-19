@@ -22,7 +22,7 @@ const actions = [prefix, poll, guilds]
 io.on("connection", (socket) => {
     console.log(socket.id, "socket connected")
 
-    actions.forEach(({ name, onEvent }) =>
+    actions.forEach(({ action: name, onEvent }) =>
         socket.on(name, (data: any) => { onEvent(socket, data) })
     )
 })

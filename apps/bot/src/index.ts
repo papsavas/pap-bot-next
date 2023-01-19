@@ -47,7 +47,7 @@ const bot = new Client({
 })
 
 events.forEach(ev =>
-    bot.on(ev.name,
+    bot.on(ev.event,
         //@ts-expect-error //execute args typed as 'never'
         async (...args) => { ev.execute(socket, ...args) }
     )

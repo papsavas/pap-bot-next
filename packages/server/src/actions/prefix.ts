@@ -1,7 +1,7 @@
 import { makeServerAction } from "../utils/makeAction";
 
 export const prefix = makeServerAction({
-    name: "prefix",
+    action: "prefix",
     onEvent(socket, data) {
         console.log(`server: recv prefix : `, data)
         socket.broadcast.emit("prefix", data)
