@@ -5,5 +5,3 @@ export type DiscordEvent<T extends keyof ClientEvents> = {
     execute: (...args: ClientEvents[T]) => Promise<unknown>,
 }
 
-export type { ClientEvents };
-
