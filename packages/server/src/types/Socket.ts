@@ -16,7 +16,7 @@ export type ClientSocket = CSocket<ServerToClientEvents, ClientToServerEvents>
 
 export type ActionData<T extends keyof Events> = Parameters<Events[T]>[number]
 
-export type SocketScope = "client" | "server";
+type SocketScope = "client" | "server";
 
 type SocketType<S> = S extends "client" ? ClientSocket : ServerSocket;
 
