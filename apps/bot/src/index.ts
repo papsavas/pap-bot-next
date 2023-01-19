@@ -1,6 +1,8 @@
 import { Client, Partials } from "discord.js";
 import { ClientSocket } from "server";
 import { io } from "socket.io-client";
+import { guilds } from "./actions/guilds";
+import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
 import { guildBanAdd } from "./events/guildBanAdd";
 import { guildBanRemove } from "./events/guildBanRemove";
@@ -22,7 +24,7 @@ require('dotenv')
 
 
 const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
-const actions = [prefix];
+const actions = [prefix, poll, guilds];
 const events = [
     guildBanAdd, guildBanRemove, guildCreate,
     guildDelete, guildMemberAdd,
@@ -35,7 +37,7 @@ const events = [
 
 socket.on("connect", () => {
     actions.forEach(({ name, onEvent }) =>
-        socket.on(name, (data) => { onEvent(socket, data) })
+        socket.on(name, (data: any) => { onEvent(socket, data) })
     )
 })
 
@@ -44,14 +46,10 @@ const bot = new Client({
     partials: [Partials.Message, Partials.User, Partials.Channel]
 })
 
-bot.on("ready", () => {
-    console.log(`bot ready`)
-})
-
 events.forEach(ev =>
     bot.on(ev.name,
         //@ts-expect-error //execute args typed as 'never'
-        async (...args) => { ev.execute(...args) }
+        async (...args) => { ev.execute(socket, ...args) }
     )
 )
 

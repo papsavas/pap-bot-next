@@ -3,7 +3,8 @@
   "compilerOptions": {
     "noEmit": false,
     "rootDir": ".",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "downlevelIteration": true
   },
   "module": "esnext",
   "include": ["src/**/*.ts"],
