@@ -6,7 +6,7 @@ export const guilds = makeServerAction({
     name: "guilds",
     onEvent(socket, data) {
         //TODO: sync db
-        socket.broadcast.emit("guilds", data);
+        this.emit(socket, data);
     },
     emit(socket, guilds) {
         socket.broadcast.emit("guilds", guilds);

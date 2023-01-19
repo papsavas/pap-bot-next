@@ -19,5 +19,5 @@ type SocketType<S> = S extends "client" ? ClientSocket : ServerSocket;
 export type SocketAction<E extends keyof Actions, S extends SocketScope> = {
     name: E,
     onEvent: (socket: SocketType<S>, data: ActionData<E>) => void
-    emit: (socket: SocketType<S>, data: ActionData<E>) => unknown
+    emit: (socket: SocketType<S>, data: ActionData<E>) => void
 }
