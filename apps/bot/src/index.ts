@@ -36,8 +36,8 @@ const events = [
 ]
 
 socket.on("connect", () => {
-    actions.forEach(({ name, onEvent }) =>
-        socket.on(name, (data: any) => { onEvent(socket, data) })
+    actions.forEach(({ action, onEvent }) =>
+        socket.on(action, (data: any) => { onEvent(socket, data) })
     )
 })
 

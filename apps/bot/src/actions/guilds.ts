@@ -1,7 +1,7 @@
 import { makeClientAction } from "server";
 
 export const guilds = makeClientAction({
-    name: "guilds",
+    action: "guilds",
     onEvent(socket, data) {
 
     },
