@@ -12,6 +12,7 @@ require('dotenv')
 
 
 const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
+
 const actions = [prefix, poll, guilds];
 
 socket.on("connect", () => {
@@ -29,10 +30,10 @@ const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>(
     "events",
     (file) => file.endsWith('.ts')
 )
+
 Promise.all(eventFiles)
     .then(events => events.forEach(ev =>
         bot.on(ev.event,
-            ////@ts-expect-error //execute args typed as 'never'
             async (...args) => { ev.execute(socket, ...args) }
         ))
     )

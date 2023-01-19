@@ -1,8 +1,14 @@
-import { makeEvent } from "../utils/makeEvent"
+import { Command } from "../types/Command";
+import { importDir } from "../utils/importDir";
+import { makeEvent } from "../utils/makeEvent";
+
+const commandFiles = importDir<Command>("commands", (f) => f.endsWith(".ts"))
 
 export default makeEvent({
     event: "interactionCreate",
     async execute(socket, interaction) {
-        return Promise.reject(`method has no execution implemented`)
+        const commands = await Promise.all(commandFiles);
+        commands.find(c => c.command === interaction.id)
+            ?.execute(socket, interaction) ?? Promise.reject(`${interaction.id} is not handled`);
     }
 })
