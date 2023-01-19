@@ -1,6 +1,6 @@
-import { SocketAction } from "server"
+import { makeClientAction } from "server"
 
-export const prefix: SocketAction<"prefix", "client"> = {
+export const prefix = makeClientAction({
     name: "prefix",
     onEvent(socket, data) {
         console.log(`bot: recv prefix : `, data)
@@ -8,5 +8,5 @@ export const prefix: SocketAction<"prefix", "client"> = {
     emit: (socket) => {
         socket.emit("prefix", { guildId: "bot_guild_id", prefix: "bot_new_prefix" })
     }
-}
+})
 

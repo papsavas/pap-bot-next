@@ -16,10 +16,12 @@ export type ClientSocket = CSocket<ServerToClientEvents, ClientToServerEvents>
 
 export type ActionData<T extends keyof Events> = Parameters<Events[T]>[number]
 
-type SocketScope<T> = T extends "client" ? ClientSocket : ServerSocket
+type SocketScope = "client" | "server";
 
-export type SocketAction<E extends keyof Events, S extends "client" | "server"> = {
+type SocketType<S> = S extends "client" ? ClientSocket : ServerSocket;
+
+export type SocketAction<E extends keyof Events, S extends SocketScope> = {
     name: E,
-    onEvent: (socket: SocketScope<S>, data: ActionData<E>) => void
-    emit: (socket: SocketScope<S>) => unknown
+    onEvent: (socket: SocketType<S>, data: ActionData<E>) => void
+    emit: (socket: SocketType<S>) => unknown
 }

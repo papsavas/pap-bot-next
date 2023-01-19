@@ -1,4 +1,4 @@
-import { makeEvent } from "../Utils/makeDiscordEvent"
+import { makeEvent } from "../utils/makeEvent"
 
 export const messageReactionAdd = makeEvent({
     name: "messageReactionAdd",
