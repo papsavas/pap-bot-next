@@ -12,4 +12,4 @@ export const importDir = <T extends any>(
     filter: (v: string) => boolean = () => true): Promise<T>[] =>
     readdirSync(join(__dirname, "..", dir))
         .filter(filter)
-        .map(async file => (await import(join(__dirname, "..", dir, file))).default); 
+        .map(file => import(join(__dirname, "..", dir, file)).then(r => r.default)); 

@@ -1,8 +1,9 @@
+import { Command } from "../types/Command";
 
 export default {
     command: "prefix",
-    execute() {
+    async execute() {
 
     }
 
-}
+} satisfies Command
