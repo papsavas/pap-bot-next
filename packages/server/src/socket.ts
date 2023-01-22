@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { guilds } from "./actions/guilds";
+import { message } from "./actions/message";
 import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
 import { ActionData, ClientToServerEvents, ServerToClientEvents } from "./types/Socket";
@@ -17,7 +18,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, any, ActionDat
 })
 const PORT = process.env.SOCKET_PORT;
 
-const actions = [prefix, poll, guilds]
+const actions = [prefix, poll, guilds, message]
 
 io.on("connection", (socket) => {
     console.log(socket.id, "socket connected")

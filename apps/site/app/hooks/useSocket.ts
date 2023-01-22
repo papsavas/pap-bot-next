@@ -15,18 +15,25 @@ export const useSocket = <E extends keyof ClientToServerEvents>(ev: E, initialSt
     useEffect(() => {
         // @ts-expect-error
         socket.on(ev, (data: ActionData<E>) => {
-            console.log(`${ev} with data: ${data}`)
+            console.log(`${ev} with data:`, data)
             setState(data);
         });
-        socket.on('connect', () => { setIsConnected(true) })
-        socket.on('disconnect', () => { setIsConnected(false) })
+
+        socket.on('connect', () => {
+            console.log(`++ socket ${socket.id}`)
+            setIsConnected(true)
+        })
+        socket.on('disconnect', (reason, description) => {
+            console.log(` -- socket | reason: ${reason}`)
+            setIsConnected(false)
+        })
 
         return () => {
             socket.off(ev);
             socket.off('connect');
             socket.off('disconnect')
         }
-    }, []);
+    }, [])
 
     const emit = (data: ActionData<E>) => {
         //@ts-expect-error
