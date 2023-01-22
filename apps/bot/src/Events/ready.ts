@@ -6,15 +6,7 @@ export default makeEvent({
     async execute(socket, client) {
         console.log(`Bot cache ready. Serving ${client.guilds.cache.size} servers`)
 
-        guilds.emit(socket,
-            [
-                ...client.guilds.cache.mapValues(({ name, id, icon }) =>
-                ({
-                    name,
-                    id,
-                    iconUrl: icon
-                })).values()
-            ]
+        guilds.emit(socket, client.guilds.cache
         )
     },
 })

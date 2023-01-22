@@ -1,14 +1,9 @@
-import { useSocket } from "../hooks/useSocket";
+import useSWR from "swr";
 
 const Guilds = () => {
-  const { data, isConnected } = useSocket("guilds");
-  return (
-    <nav>
-      {isConnected
-        ? data?.map((g) => <li id={g.id}>{g.name}</li>)
-        : "loading guilds..."}
-    </nav>
-  );
+  const { data, isLoading } = useSWR("/api/guilds");
+  console.log(data);
+  return <nav>{isLoading ? "loading guilds..." : data}</nav>;
 };
 
 export default Guilds;

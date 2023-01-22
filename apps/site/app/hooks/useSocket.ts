@@ -26,12 +26,12 @@ export const useSocket = <E extends keyof ClientToServerEvents>(ev: E, initialSt
             socket.off('connect');
             socket.off('disconnect')
         }
-    }, [state]);
-
+    }, []);
 
     const emit = (data: ActionData<E>) => {
         //@ts-expect-error
         socket.emit(ev, data)
     };
+
     return { data: state, isConnected, emit }
 }

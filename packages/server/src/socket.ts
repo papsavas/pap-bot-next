@@ -21,7 +21,7 @@ const actions = [prefix, poll, guilds]
 
 io.on("connection", (socket) => {
     console.log(socket.id, "socket connected")
-
+    //TODO: fetch data from db, distribute
     actions.forEach(({ action: name, onEvent, emit }) =>
         socket.on(name, async (data: any) => {
             onEvent(socket, data)

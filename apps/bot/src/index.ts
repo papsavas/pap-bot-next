@@ -1,4 +1,4 @@
-import { Client, ClientEvents, Partials } from "discord.js";
+import { Client, ClientEvents, Collection, Guild, Partials } from "discord.js";
 import { ClientSocket } from "server";
 import { io } from "socket.io-client";
 import { guilds } from "./actions/guilds";
@@ -15,13 +15,16 @@ const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
 
 const actions = [prefix, poll, guilds];
 
+
 socket.on("connect", () => {
     actions.forEach(({ action, onEvent }) =>
         socket.on(action, (data: any) => { onEvent(socket, data) })
     )
+
+    socket.emit("guilds", new Collection<string, Guild>());
 })
 
-const bot = new Client({
+export const bot = new Client({
     intents: ["Guilds", "DirectMessages", "MessageContent", "GuildMessages"],
     partials: [Partials.Message, Partials.User, Partials.Channel]
 })
@@ -38,8 +41,8 @@ Promise.all(eventFiles)
         ))
     )
 
-bot.login(process.env.DISCORD_BOT_TOKEN)
-    .then(_ => console.log("Logged in"))
+// bot.login(process.env.DISCORD_BOT_TOKEN)
+//     .then(_ => console.log("Logged in"))
 
 //catch unhandled rejections
 process.on('unhandledRejection', (reason, p) => {
