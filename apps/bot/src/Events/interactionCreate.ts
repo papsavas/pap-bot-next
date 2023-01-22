@@ -1,5 +1,5 @@
+import { importDir } from "server";
 import { Command } from "../types/Command";
-import { importDir } from "../utils/importDir";
 import { makeEvent } from "../utils/makeEvent";
 
 const commandFiles = importDir<Command>("commands", (f) => f.endsWith(".ts"))

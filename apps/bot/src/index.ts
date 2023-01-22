@@ -1,11 +1,10 @@
 import { Client, ClientEvents, Partials } from "discord.js";
-import { ClientSocket } from "server";
+import { ClientSocket, importDir } from "server";
 import { io } from "socket.io-client";
 import { guilds } from "./actions/guilds";
 import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
 import { DiscordEvent } from "./types/DiscordEvent";
-import { importDir } from "./utils/importDir";
 
 require('dotenv')
     .config({ path: require('find-config')('.env') })
