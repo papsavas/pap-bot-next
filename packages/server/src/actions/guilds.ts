@@ -2,7 +2,7 @@ import { makeServerAction } from "../utils/makeAction";
 
 
 //TODO!: fix `this` scope. 
-export const guilds = makeServerAction({
+export default makeServerAction({
     action: "guilds",
     async onEvent(socket, data) {
         //TODO: sync db

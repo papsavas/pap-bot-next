@@ -1,6 +1,6 @@
 import { makeServerAction } from "../utils/makeAction";
 
-export const poll = makeServerAction({
+export default makeServerAction({
     action: "poll",
     async onEvent(socket, data) {
         return { socket, data }

@@ -1,8 +1,9 @@
+import { join } from "node:path";
 import { importDir } from "server";
 import { Command } from "../types/Command";
 import { makeEvent } from "../utils/makeEvent";
 
-const commandFiles = importDir<Command>("commands", (f) => f.endsWith(".ts"))
+const commandFiles = importDir<Command>(join(__dirname, "..", "commands"), (f) => f.endsWith(".ts"))
 
 export default makeEvent({
     event: "interactionCreate",

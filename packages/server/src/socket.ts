@@ -1,11 +1,10 @@
 import express from "express";
 import { createServer } from "node:http";
+import { join } from "node:path";
 import { Server } from "socket.io";
-import { guilds } from "./actions/guilds";
-import { message } from "./actions/message";
-import { poll } from "./actions/poll";
-import { prefix } from "./actions/prefix";
-import { ActionData, ClientToServerEvents, ServerToClientEvents } from "./types/Socket";
+import { Actions } from "./types/Actions";
+import { ActionData, ClientToServerEvents, ServerToClientEvents, SocketAction } from "./types/Socket";
+import { importDir } from "./utils/importDir";
 
 require('dotenv').config({ path: require('find-config')('.env') })
 const app = express();
@@ -18,18 +17,24 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, any, ActionDat
 })
 const PORT = process.env.SOCKET_PORT;
 
-const actions = [prefix, poll, guilds, message]
+const actionFiles = importDir<SocketAction<keyof Actions, "server">>(
+    join(__dirname, "actions"),
+    (file) => file.endsWith(".ts")
+)
 
 io.on("connection", (socket) => {
     console.log(socket.id, "socket connected")
     //TODO: fetch data from db, distribute
-    actions.forEach(({ action: name, onEvent, emit }) =>
-        socket.on(name, async (data: any) => {
-            onEvent(socket, data)
-                //@ts-ignore action type gets lost, emit expects specified action data, gets union
-                .then(({ socket, data }) => { emit(socket, data) })
+    Promise.all(actionFiles)
+        .then(actions => {
+            actions.forEach(({ action, onEvent, emit }) => {
+                socket.on(action, async (data: ActionData<typeof action>) => {
+                    onEvent(socket, data)
+                        .then(({ socket, data }) => { emit(socket, data) })
+                })
+            })
         })
-    )
+
 })
 
 server.listen(PORT, () => {

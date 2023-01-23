@@ -1,6 +1,6 @@
 import { makeServerAction } from "../utils/makeAction";
 
-export const message = makeServerAction({
+export default makeServerAction({
     action: "message",
     async onEvent(socket, data) {
         return { socket, data }

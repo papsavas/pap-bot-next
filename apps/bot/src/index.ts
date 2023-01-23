@@ -1,4 +1,5 @@
 import { Client, ClientEvents, Partials } from "discord.js";
+import { join } from "node:path";
 import { ClientSocket, importDir } from "server";
 import { io } from "socket.io-client";
 import { guilds } from "./actions/guilds";
@@ -27,7 +28,7 @@ export const bot = new Client({
 })
 
 const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>(
-    "events",
+    join(__dirname, "events"),
     (file) => file.endsWith('.ts')
 )
 

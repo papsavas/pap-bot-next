@@ -1,6 +1,6 @@
 import { makeServerAction } from "../utils/makeAction";
 
-export const prefix = makeServerAction({
+export default makeServerAction({
     action: "prefix",
     async onEvent(socket, data) {
         console.log(`server: recv prefix : `, data)

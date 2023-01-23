@@ -8,8 +8,9 @@ import { join } from "node:path";
  * @returns Promise Array of provided Type `T`
  */
 export const importDir = <T extends any>(
-    dir: string,
+    path: string,
     filter: (v: string) => boolean = () => true): Promise<T>[] =>
-    readdirSync(join(__dirname, "..", dir))
+    readdirSync(path)
         .filter(filter)
-        .map(file => import(join(__dirname, "..", dir, file)).then(r => r.default)); 
+        .map(file =>
+            import(join(path, file)).then(r => r.default));
