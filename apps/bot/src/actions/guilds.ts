@@ -4,7 +4,7 @@ import { bot } from "..";
 export const guilds = makeClientAction({
     action: "guilds",
     async onEvent(socket, data) {
-        data = bot.guilds.cache;
+        data.guilds = bot.guilds.cache;
         return { socket, data }
     },
     async emit(socket, data) {
