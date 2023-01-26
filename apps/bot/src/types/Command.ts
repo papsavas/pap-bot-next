@@ -1,6 +1,13 @@
+import { ApplicationCommandDataResolvable, Snowflake } from "discord.js";
 import { ClientSocket } from "server";
 
-export type Command = {
+export type Command = PartialCommand & {
+    register: (guildId?: Snowflake) => Promise<void>;
+    unregister: (guildId?: Snowflake) => Promise<void>
+}
+
+export type PartialCommand = {
     command: string;
-    execute: (socket: ClientSocket, ...args: any) => Promise<unknown>
+    data: ApplicationCommandDataResolvable;
+    execute: (socket: ClientSocket, ...args: any) => Promise<unknown>;
 }
