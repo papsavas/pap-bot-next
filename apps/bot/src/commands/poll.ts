@@ -1,5 +1,4 @@
 import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ChatInputCommandInteraction, ComponentType } from "discord.js";
-import { Command } from "../types/Command";
 import { makeCommand } from "../utils/makeCommand";
 
 export default makeCommand({
@@ -70,5 +69,4 @@ export default makeCommand({
             })
         })
     }
-
-}) satisfies Command
+})

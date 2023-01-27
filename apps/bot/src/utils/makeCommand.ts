@@ -4,7 +4,8 @@ import { Command, PartialCommand } from "../types/Command";
 
 export const makeCommand = (command: PartialCommand): Command => {
     return {
-        ...command, register: async (guildId?: Snowflake) => {
+        ...command,
+        register: async (guildId?: Snowflake) => {
             const res = await bot.application?.commands.create(command.data, guildId)
             console.log(`registered command ${res?.name} for ${res?.guild?.name ?? "global manager"}`)
         },
