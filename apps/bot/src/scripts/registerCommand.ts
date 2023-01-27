@@ -14,10 +14,10 @@ Available commands: ${files.map(f => f.command).toString()}`)
     createCommand(bot.application?.commands!, cmd.data, guildId)
 }
 )()
-export default function createCommand(
-    CommandManager: ApplicationCommandManager,
+export default async function createCommand(
+    commandManager: ApplicationCommandManager,
     command: ApplicationCommandDataResolvable,
     guildId?: Snowflake
 ) {
-    return CommandManager.create(command, guildId);
+    return await commandManager.create(command, guildId);
 }

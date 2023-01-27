@@ -12,10 +12,10 @@ Available commands: ${commands?.map(c => c.name).toString()}`)
 }
 )()
 
-export default function deleteCommand(
+export default async function deleteCommand(
     CommandManager: ApplicationCommandManager,
     command: ApplicationCommandResolvable,
     guildId?: Snowflake
 ) {
-    return CommandManager.delete(command, guildId);
+    return await CommandManager.delete(command, guildId);
 }
