@@ -47,8 +47,8 @@ export default makeCommand({
             componentType: ComponentType.Button,
             filter: (button, collector) =>
                 collector
-                    .some(collectedButton =>
-                        collectedButton.user.id === button.user.id
+                    .every(collectedButton =>
+                        collectedButton.user.id !== button.user.id
                     )
         })
 
