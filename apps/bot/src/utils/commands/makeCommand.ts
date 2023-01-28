@@ -1,8 +1,8 @@
 import { Snowflake } from "discord.js";
-import { bot } from "..";
-import deleteCommand from "../scripts/deleteCommand";
-import createCommand from "../scripts/registerCommand";
-import { Command, PartialCommand } from "../types/Command";
+import { bot } from "../..";
+import { Command, PartialCommand } from "../../types/Command";
+import createCommand from "./create";
+import deleteCommand from "./delete";
 
 export const makeCommand = (command: PartialCommand): Command => {
     return {

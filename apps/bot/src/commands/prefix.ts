@@ -1,9 +1,15 @@
-import { Command } from "../types/Command";
+import { ApplicationCommandType } from "discord.js";
+import { makeCommand } from "../utils/commands/makeCommand";
 
-export default {
+export default makeCommand({
     command: "prefix",
-    async execute() {
+    data: {
+        name: "prefix",
+        description: "prefix for manual commands",
+        type: ApplicationCommandType.ChatInput
+    },
+    execute: async () => {
 
     }
 
-} satisfies Command
+})

@@ -8,8 +8,12 @@ const commandFiles = importDir<Command>(join(__dirname, "..", "commands"), (f) =
 export default makeEvent({
     event: "interactionCreate",
     async execute(socket, interaction) {
-        const commands = await Promise.all(commandFiles);
-        commands.find(c => c.command === interaction.id)
-            ?.execute(socket, interaction) ?? Promise.reject(`${interaction.id} is not handled`);
+        if (interaction.isCommand()) {
+            const commands = await Promise.all(commandFiles); //TODO: resolve once
+            commands.find(c => c.command === interaction.commandName)
+                ?.execute(socket, interaction)
+                .catch(console.error) ?? Promise.reject(`${interaction.commandName} is not handled`);
+        }
+
     }
 })

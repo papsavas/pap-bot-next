@@ -1,4 +1,4 @@
-import { ApplicationCommandManager, ApplicationCommandResolvable, Snowflake } from "discord.js";
+import deleteCommand from "../utils/commands/delete";
 import client from "./client";
 
 (async function () {
@@ -12,10 +12,3 @@ Available commands: ${commands?.map(c => c.name).toString()}`)
 }
 )()
 
-export default async function deleteCommand(
-    CommandManager: ApplicationCommandManager,
-    command: ApplicationCommandResolvable,
-    guildId?: Snowflake
-) {
-    return await CommandManager.delete(command, guildId);
-}

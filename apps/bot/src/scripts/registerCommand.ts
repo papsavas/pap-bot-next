@@ -1,7 +1,7 @@
-import { ApplicationCommandDataResolvable, ApplicationCommandManager, Snowflake } from "discord.js";
 import { join } from "node:path";
 import { importDir } from "server";
 import { Command } from "../types/Command";
+import createCommand from "../utils/commands/create";
 import client from "./client";
 
 (async function () {
@@ -14,10 +14,3 @@ Available commands: ${files.map(f => f.command).toString()}`)
     createCommand(bot.application?.commands!, cmd.data, guildId)
 }
 )()
-export default async function createCommand(
-    commandManager: ApplicationCommandManager,
-    command: ApplicationCommandDataResolvable,
-    guildId?: Snowflake
-) {
-    return await commandManager.create(command, guildId);
-}

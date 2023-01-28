@@ -1,5 +1,5 @@
-import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ChatInputCommandInteraction, ComponentType } from "discord.js";
-import { makeCommand } from "../utils/makeCommand";
+import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, ComponentType } from "discord.js";
+import { makeCommand } from "../utils/commands/makeCommand";
 
 export default makeCommand({
     command: "poll",
@@ -15,24 +15,24 @@ export default makeCommand({
         }]
 
     },
-    async execute(socket, interaction: ChatInputCommandInteraction) {
-        const data = interaction.options.getString("text");
-        let [upCount, downCount] = [0, 0]
+    execute: async (socket, interaction: ChatInputCommandInteraction) => {
+        const text = interaction.options.getString("text", true);
+        let [upCount, downCount] = [0, 0];
         const upvoteBtn = new ButtonBuilder({
             customId: "upvote",
             emoji: "➕",
-            label: upCount.toString()
-
+            label: upCount.toString(),
+            style: ButtonStyle.Success
         })
         const downvoteBtn = new ButtonBuilder({
             customId: "downvote",
             emoji: "➖",
-            label: upCount.toString()
-
+            label: upCount.toString(),
+            style: ButtonStyle.Danger
         })
 
         const response = await interaction.reply({
-            content: data!,
+            content: text,
             components: [
                 new ActionRowBuilder<ButtonBuilder>()
                     .setComponents(
@@ -40,7 +40,7 @@ export default makeCommand({
                         ButtonBuilder.from(downvoteBtn)
                     )
             ]
-        })
+        });
 
         const collector = response.createMessageComponentCollector({
             componentType: ComponentType.Button,
@@ -51,10 +51,9 @@ export default makeCommand({
                     )
         })
 
-        collector.on("collect", collected => {
-            if (collected.customId === "upvote") upCount++
-            else downCount++
-            collected.message.edit({
+        collector.on("collect", buttonInteraction => {
+            buttonInteraction.customId === "upvote" ? ++upCount : ++downCount
+            buttonInteraction.message.edit({
                 components: [
                     new ActionRowBuilder<ButtonBuilder>()
                         .setComponents(
@@ -66,7 +65,7 @@ export default makeCommand({
                                 .setLabel(downCount.toString())
                         )
                 ]
-            })
+            }).then(() => buttonInteraction.reply({ content: `Thanks for voting` }))
         })
     }
 })
