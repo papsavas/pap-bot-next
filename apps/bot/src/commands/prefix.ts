@@ -1,7 +1,7 @@
 import { ApplicationCommandType } from "discord.js";
 import { makeCommand } from "../utils/commands/makeCommand";
 
-export default makeCommand({
+const prefixCommand = makeCommand({
     command: "prefix",
     data: {
         name: "prefix",
@@ -13,3 +13,5 @@ export default makeCommand({
     }
 
 })
+
+export default prefixCommand;
