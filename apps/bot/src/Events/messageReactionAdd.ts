@@ -1,4 +1,4 @@
-import { makeEvent } from "../utils/makeEvent"
+import { makeEvent } from "../utils/events/makeEvent"
 
 export default makeEvent({
     event: "messageReactionAdd",

@@ -1,5 +1,5 @@
 import { guilds } from "../actions/guilds"
-import { makeEvent } from "../utils/makeEvent"
+import { makeEvent } from "../utils/events/makeEvent"
 
 export default makeEvent({
     event: "ready",
