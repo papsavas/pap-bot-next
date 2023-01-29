@@ -1,8 +1,10 @@
-import { makeEvent } from "../utils/events/makeEvent"
+import { makeEvent } from "../utils/events/makeEvent";
 
-export default makeEvent({
+const guildUnavailable = makeEvent({
     event: "guildUnavailable",
     async execute(socket, guild) {
-        return Promise.reject(`method has no execution implemented`)
+        return console.log(`guild ${guild.name} is unavailable`)
     },
 })
+
+export default guildUnavailable;

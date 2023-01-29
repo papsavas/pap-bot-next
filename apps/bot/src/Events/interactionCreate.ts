@@ -5,7 +5,7 @@ import { makeEvent } from "../utils/events/makeEvent";
 
 const commandFiles = importDir<Command>(join(__dirname, "..", "commands"), (f) => f.endsWith(".ts"))
 
-export default makeEvent({
+const interactionCreate = makeEvent({
     event: "interactionCreate",
     async execute(socket, interaction) {
         if (interaction.isCommand()) {
@@ -15,6 +15,7 @@ export default makeEvent({
                 .catch(err => console.error("\x1b[31m", err))
                 ?? Promise.reject(`${interaction.commandName} is not handled`);
         }
-
     }
 })
+
+export default interactionCreate;

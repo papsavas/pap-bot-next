@@ -1,8 +1,10 @@
-import { makeEvent } from "../utils/events/makeEvent"
+import { makeEvent } from "../utils/events/makeEvent";
 
-export default makeEvent({
+const guildMemberAdd = makeEvent({
     event: "guildMemberAdd",
     async execute(socket, member) {
         return Promise.reject(`method has no execution implemented`)
     },
 })
+
+export default guildMemberAdd;
