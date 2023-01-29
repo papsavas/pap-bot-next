@@ -1,9 +1,10 @@
+import { guilds } from "../actions/guilds";
 import { makeEvent } from "../utils/events/makeEvent";
 
 const guildCreate = makeEvent({
     event: "guildCreate",
     async execute(socket, guild) {
-        return Promise.reject(`method has no execution implemented`)
+        guilds.emit(socket, { guilds: guild.client.guilds.cache })
     },
 })
 
