@@ -8,7 +8,7 @@ export const makeCommand = (command: PartialCommand): Command => {
     return {
         ...command,
         register: async (guildId?: Snowflake) => {
-            const res = await createCommand(bot.application?.commands!, command.data, guildId)
+            const res = await createCommand(bot.application?.commands!, command.data, guildId);
             console.log(`registered command ${res?.name} for ${res?.guild?.name ?? "global manager"}`)
         },
         unregister: async (guildId?: Snowflake) => {
