@@ -1,34 +1,50 @@
-import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, ComponentType, italic } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, ComponentType, EmbedBuilder } from "discord.js";
 import { makeCommand } from "../utils/commands/makeCommand";
 
+const commandName = "poll" as const;
+const [textOption, pingOption, timeOption] = ["text", "ping", "time",];
+
 const pollCommand = makeCommand({
-    command: "poll",
+    command: commandName,
     data: {
-        name: "poll",
+        name: commandName,
         description: "Creates a poll",
         type: ApplicationCommandType.ChatInput,
         options: [
             {
-                name: "text",
+                name: textOption,
                 description: "the poll's message",
                 required: true,
                 type: ApplicationCommandOptionType.String
             },
             {
-                name: "time",
+                name: timeOption,
                 description: "Minutes to keep poll active",
                 type: ApplicationCommandOptionType.Number,
                 minValue: 1,
                 maxValue: 10,
                 required: false
+            },
+            {
+                name: pingOption,
+                description: "Role to ping",
+                type: ApplicationCommandOptionType.Role,
+                required: false,
             }
+
         ]
 
     },
     execute: async (socket, interaction: ChatInputCommandInteraction) => {
         await interaction.deferReply();
-        const text = interaction.options.getString("text", true);
-        const timeLimit = interaction.options.getNumber("time", false);
+        const text = interaction.options.getString(textOption, true);
+        const timeLimit = interaction.options.getNumber(timeOption, false);
+        const pingRole = interaction.options.getRole(pingOption, false);
+        const embed = new EmbedBuilder({
+            title: `${interaction.user.username} started a poll`,
+            description: text,
+            footer: timeLimit ? { text: `Lasts for ${timeLimit} minutes` } : undefined
+        })
         let [upCount, downCount] = [0, 0];
         const upvoteBtn = new ButtonBuilder({
             customId: "upvote",
@@ -44,7 +60,9 @@ const pollCommand = makeCommand({
         })
 
         const response = await interaction.editReply({
-            content: text,
+            content: pingRole?.toString(),
+            allowedMentions: { parse: ["roles", "everyone"] },
+            embeds: [embed],
             components: [
                 new ActionRowBuilder<ButtonBuilder>()
                     .setComponents(
@@ -94,7 +112,9 @@ const pollCommand = makeCommand({
 
         collector.on("end", (collection) => {
             interaction.editReply({
-                content: `${text}\n\n${italic(`Poll has ended. Thanks for voting`)}`,
+                embeds: [EmbedBuilder.from(embed).setFooter({
+                    text: "Poll has ended. Thanks for voting!"
+                })],
                 components: [
                     new ActionRowBuilder<ButtonBuilder>()
                         .setComponents(
