@@ -3,13 +3,13 @@ import { createServer } from "node:http";
 import { join } from "node:path";
 import { Server } from "socket.io";
 import { Actions } from "./types/Actions";
-import { ActionData, ClientToServerEvents, ServerSocketAction, ServerToClientEvents } from "./types/Socket";
+import { ClientToServerEvents, ServerSocketAction, ServerToClientEvents } from "./types/Socket";
 import { importDir } from "./utils/importDir";
 
 require('dotenv').config({ path: require('find-config')('.env') })
 const app = express();
 const server = createServer(app)
-const io = new Server<ClientToServerEvents, ServerToClientEvents, any, ActionData<keyof ServerToClientEvents>>(server, {
+const io = new Server<ClientToServerEvents, ServerToClientEvents, any, any>(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
@@ -28,8 +28,10 @@ io.on("connection", (socket) => {
     Promise.all(actionFiles)
         .then(actions => {
             actions.forEach(({ action, onEvent }) => {
-                socket.on(action, async (data: ActionData<typeof action>) => {
-                    onEvent(socket, data)
+                //@ts-expect-error
+                //TODO: infer action
+                socket.on(action, (data, callback) => {
+                    onEvent(socket, data, callback)
                         .then(({ socket, data }) =>
                             //@ts-expect-error
                             socket.broadcast.emit(action, data)
