@@ -1,15 +1,19 @@
+import { prisma } from "../db";
 import { makeServerAction } from "../utils/makeAction";
 
-export default makeServerAction({
+const prefixServerAction = makeServerAction({
     action: "prefix",
     async onEvent(socket, data) {
-        console.log(`server: recv prefix : `, data)
-        return { socket, data }
-    },
-    async emit(socket, data) {
-        data = { guildId: "server_guild_id", prefix: "server_new_prefix" }
-        socket.emit("prefix", data)
+        const { guildId: guild_id, value, userId } = data;
+        const res = await prisma.prefix.update({
+            where: { guild_id },
+            data: {
+                value,
+                userId
+            }
+        });
         return { socket, data }
     }
 })
 
+export default prefixServerAction;

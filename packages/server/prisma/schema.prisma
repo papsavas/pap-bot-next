@@ -14,4 +14,15 @@ model Guild{
   id String @unique @id
   name String
   icon String
+  prefix Prefix?
+}
+
+model Prefix{
+  value String
+  userId String
+
+  guild_id String @unique @id
+  guild Guild  @relation(fields: [guild_id], references: [id])
+  
+  
 }

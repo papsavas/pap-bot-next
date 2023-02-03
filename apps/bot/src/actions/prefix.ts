@@ -7,7 +7,6 @@ export const prefix = makeClientAction({
         return { socket, data };
     },
     async emit(socket, data) {
-        data = { guildId: "bot_guild_id", prefix: "bot_new_prefix" }
         socket.emit("prefix", data)
         return { socket, data }
     }

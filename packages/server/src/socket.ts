@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import { join } from "node:path";
 import { Server } from "socket.io";
 import { Actions } from "./types/Actions";
-import { ActionData, ClientToServerEvents, ServerToClientEvents, SocketAction } from "./types/Socket";
+import { ActionData, ClientToServerEvents, ServerSocketAction, ServerToClientEvents } from "./types/Socket";
 import { importDir } from "./utils/importDir";
 
 require('dotenv').config({ path: require('find-config')('.env') })
@@ -17,7 +17,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, any, ActionDat
 })
 const PORT = process.env.SOCKET_PORT;
 
-const actionFiles = importDir<SocketAction<keyof Actions, "server">>(
+const actionFiles = importDir<ServerSocketAction<keyof Actions, "server">>(
     join(__dirname, "actions"),
     (file) => file.endsWith(".ts")
 )
@@ -27,10 +27,13 @@ io.on("connection", (socket) => {
     //TODO: fetch data from db, distribute
     Promise.all(actionFiles)
         .then(actions => {
-            actions.forEach(({ action, onEvent, emit }) => {
+            actions.forEach(({ action, onEvent }) => {
                 socket.on(action, async (data: ActionData<typeof action>) => {
                     onEvent(socket, data)
-                        .then(({ socket, data }) => { emit(socket, data) })
+                        .then(({ socket, data }) =>
+                            //@ts-expect-error
+                            socket.broadcast.emit(action, data)
+                        )
                 })
             })
         })
