@@ -6,9 +6,5 @@ export const guilds = makeClientAction({
     async onEvent(socket, data) {
         data.guilds = bot.guilds.cache;
         return { socket, data }
-    },
-    async emit(socket, data) {
-        socket.emit("guilds", data);
-        return { socket, data }
-    },
+    }
 })

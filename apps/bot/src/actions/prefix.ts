@@ -5,10 +5,7 @@ export const prefix = makeClientAction({
     async onEvent(socket, data) {
         console.log(`bot: recv prefix : `, data)
         return { socket, data };
-    },
-    async emit(socket, data) {
-        socket.emit("prefix", data)
-        return { socket, data }
     }
+
 })
 
