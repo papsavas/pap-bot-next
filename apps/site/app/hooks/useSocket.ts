@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { ActionData, ClientSocket, ClientToServerEvents } from "server";
+import { ClientSocket, ClientToServerEvents } from "server";
+import { ActionOptions } from "server/src/types/Actions";
 import { io } from "socket.io-client";
 // require('dotenv')
 //     .config({ path: require('find-config')('.env') })
@@ -8,13 +9,13 @@ import { io } from "socket.io-client";
 const socket: ClientSocket = io(`http://localhost:4001`);
 
 
-export const useSocket = <E extends keyof ClientToServerEvents>(ev: E, initialState?: ActionData<E>) => {
+export const useSocket = <E extends keyof ClientToServerEvents>(ev: E, initialState?: ActionOptions[E]) => {
     const [isConnected, setIsConnected] = useState(socket.connected);
     const [state, setState] = useState(initialState);
 
     useEffect(() => {
         // @ts-expect-error
-        socket.on(ev, (data: ActionData<E>) => {
+        socket.on(ev, (data: ActionOptions[E]) => {
             console.log(`${ev} with data:`, data)
             setState(data);
         });
@@ -35,7 +36,7 @@ export const useSocket = <E extends keyof ClientToServerEvents>(ev: E, initialSt
         }
     }, [])
 
-    const emit = (data: ActionData<E>) => {
+    const emit = (data: ActionOptions[E]) => {
         //@ts-expect-error
         socket.emit(ev, data)
     };
