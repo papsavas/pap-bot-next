@@ -18,7 +18,7 @@ const prefixServerAction = makeServerAction({
                 await callback(data);
 
         } catch (error) {
-            //TODO: handle
+            console.error(error);
         }
 
         return { socket, data }

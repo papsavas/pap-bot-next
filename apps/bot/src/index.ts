@@ -23,7 +23,7 @@ socket.on("connect", () => {
 })
 
 export const bot = new Client({
-    intents: ["Guilds", "DirectMessages", "MessageContent", "GuildMessages"],
+    intents: ["Guilds", "DirectMessages", "MessageContent", "GuildMessages", "GuildMembers", "GuildMessages"],
     partials: [Partials.Message, Partials.User, Partials.Channel]
 })
 

@@ -1,5 +1,6 @@
-import { ApplicationCommandDataResolvable, Snowflake } from "discord.js";
+import { ApplicationCommandDataResolvable, CommandInteraction, Message, Snowflake } from "discord.js";
 import { ClientSocket } from "server";
+import { ActionOptions } from "server/src/types/Actions";
 
 export type PartialCommand = {
     command: string;
@@ -12,3 +13,6 @@ export type Command =
         register: (guildId?: Snowflake) => Promise<void>;
         unregister: (guildId?: Snowflake) => Promise<void>
     }
+
+//guild interaction, guild message, action event
+export type CommandSource<T extends keyof ActionOptions> = CommandInteraction<"cached" | "raw"> | Message<true> | ActionOptions[T]
