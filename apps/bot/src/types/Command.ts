@@ -1,6 +1,7 @@
 import { ApplicationCommandDataResolvable, CommandInteraction, Message, Snowflake } from "discord.js";
 import { ClientSocket } from "server";
-import { ActionOptions } from "server/src/types/Actions";
+import { ActionCallback, ActionOptions } from "server/src/types/Actions";
+import { Nullable } from "./Utilities";
 
 export type PartialCommand = {
     command: string;
@@ -15,4 +16,10 @@ export type Command =
     }
 
 //guild interaction, guild message, action event
-export type CommandSource<T extends keyof ActionOptions> = CommandInteraction<"cached" | "raw"> | Message<true> | ActionOptions[T]
+export type CommandSource<T extends keyof ActionOptions> = CommandInteraction | Message | ActionOptions[T]
+
+type CommandHandlerOutput<T extends keyof ActionOptions> = {
+    res: Nullable<ActionOptions[T]>;
+    callback?: ActionCallback<T>
+}
+export type CommandHandler<T extends keyof ActionOptions> = (source: CommandSource<T>) => Promise<CommandHandlerOutput<T>>

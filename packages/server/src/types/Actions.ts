@@ -16,7 +16,7 @@ export type ActionOptions = {
     message: { message: Message },
 }
 
-export type ActionCallback<K extends keyof ActionOptions> = (data: ActionOptions[K]) => Promise<void>
+export type ActionCallback<K extends keyof ActionOptions> = (data?: ActionOptions[K]) => Promise<void>
 
 export type Actions = {
     [K in keyof ActionOptions]: (data: ActionOptions[K], callback?: ActionCallback<K>) => void;
