@@ -1,12 +1,20 @@
+import dotenv from 'dotenv';
 import express from "express";
+import findConfig from "find-config";
 import { createServer } from "node:http";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { Server } from "socket.io";
+import { fileURLToPath } from 'url';
 import { Actions } from "./types/Actions";
 import { ClientToServerEvents, ServerSocketAction, ServerToClientEvents } from "./types/Socket";
 import { importDir } from "./utils/importDir";
 
-require('dotenv').config({ path: require('find-config')('.env') })
+dotenv.config({ path: findConfig('.env')! })
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+
 const app = express();
 const server = createServer(app)
 const io = new Server<ClientToServerEvents, ServerToClientEvents, any, any>(server, {
@@ -16,6 +24,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, any, any>(serv
     }
 })
 const PORT = process.env.SOCKET_PORT;
+
 
 const actionFiles = importDir<ServerSocketAction<keyof Actions, "server">>(
     join(__dirname, "actions"),

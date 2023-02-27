@@ -1,7 +1,11 @@
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from 'node:url';
 import { importDir } from "server";
 import { Command } from "../types/Command";
 import { makeEvent } from "../utils/events/makeEvent";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const commandFiles = importDir<Command>(join(__dirname, "..", "commands"), (f) => f.endsWith(".ts"))
 
