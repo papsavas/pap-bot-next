@@ -1,11 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "ES2017",
     "noEmit": false,
     "rootDir": ".",
     "outDir": "./dist",
     "downlevelIteration": true
   },
+
   "module": "esnext",
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

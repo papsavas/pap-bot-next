@@ -1,5 +1,6 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 
 /**
  * @description Only targets top level directories (`src/<dir>`)
@@ -13,4 +14,4 @@ export const importDir = <T extends any>(
     readdirSync(path)
         .filter(filter)
         .map(file =>
-            import(join(path, file)).then(r => r.default));
+            import(join(pathToFileURL(path).toString(), file)).then(r => r.default));

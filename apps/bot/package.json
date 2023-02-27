@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Multipurporsed Discord Bot",
   "main": "src/index.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc && node dist/src/index.js",
     "dev": "ts-node src/index.ts"

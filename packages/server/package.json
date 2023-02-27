@@ -4,6 +4,7 @@
   "description": "Internal Server for bot",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/socket.ts",
