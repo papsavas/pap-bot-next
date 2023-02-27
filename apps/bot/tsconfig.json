@@ -1,16 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
     "moduleResolution": "node",
     "target": "ES2017",
-    "esModuleInterop": true,
     "noEmit": false,
     "rootDir": ".",
     "outDir": "./dist",
     "downlevelIteration": true
   },
-  "ts-node": { "esm": true, "experimentalSpecifierResolution": "node" },
+
   "module": "esnext",
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
