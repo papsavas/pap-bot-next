@@ -1,4 +1,4 @@
-import { Client, ClientEvents, Partials } from "discord.js";
+import { Client, ClientEvents, Collection, Partials, Snowflake } from "discord.js";
 import { join } from "node:path";
 import { ClientSocket, importDir } from "server";
 import { io } from "socket.io-client";
@@ -6,6 +6,7 @@ import { guilds } from "./actions/guilds";
 import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
 import { DiscordEvent } from "./types/DiscordEvent";
+import { GuildSettings } from "./types/GuildSettings";
 
 require('dotenv')
     .config({ path: require('find-config')('.env') })
@@ -15,6 +16,7 @@ const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
 
 const actions = [prefix, poll, guilds];
 
+export const guildSettings = new Collection<Snowflake, GuildSettings>([]);
 
 socket.on("connect", () => {
     actions.forEach(({ action, onEvent }) =>

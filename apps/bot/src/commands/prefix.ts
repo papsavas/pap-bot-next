@@ -1,11 +1,10 @@
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
-import { prisma } from "server";
 import { ActionOptions } from "server/src/types/Actions";
+import { guildSettings } from "..";
 import { CommandHandler, CommandSource } from "../types/Command";
 import { Nullable } from "../types/Utilities";
 import { makeCommand } from "../utils/commands/makeCommand";
 import { sliceCommand } from "../utils/commands/slice";
-
 
 const commandName = "prefix" as const;
 const valueOption = "value";
@@ -30,12 +29,12 @@ const resolveInput: CommandHandler<typeof commandName> =
             }
             const value = (source as ChatInputCommandInteraction).options.getString(valueOption);
             if (!value) {
-                const storedPrefix = await prisma.prefix.findUniqueOrThrow({ where: { guild_id: source.guildId } });
+                const prefix = guildSettings.get(source.guildId)!.prefix
                 return {
                     res,
                     callback: async () => {
                         await source.editReply({
-                            content: `Current prefix is set to \`${storedPrefix.value}\` by ${userMention(storedPrefix.userId)}`
+                            content: `Current prefix is set to \`${prefix.value}\` by ${userMention(prefix.userId)}`
                         })
                     }
                 }
@@ -59,13 +58,13 @@ const resolveInput: CommandHandler<typeof commandName> =
                     }
                 }
             }
-            const storedPrefix = await prisma.prefix.findUniqueOrThrow({ where: { guild_id: source.guildId } });
-            const { arg1 } = sliceCommand(source, storedPrefix.value);
+            const prefix = guildSettings.get(source.guildId)!.prefix
+            const { arg1 } = sliceCommand(source, prefix.value);
             if (!arg1)
                 return {
                     res,
                     callback: async () => {
-                        await source.reply(`Current prefix is set to \`${storedPrefix.value}\` by ${userMention(storedPrefix.userId)}`)
+                        await source.reply(`Current prefix is set to \`${prefix.value}\` by ${userMention(prefix.userId)}`)
                     }
                 }
             res.guildId = source.guildId;
@@ -102,9 +101,10 @@ const prefixCommand = makeCommand({
     execute: async (socket, source: CommandSource<typeof commandName>) => {
         const { res, callback } = await resolveInput(source)
 
-        if (Object.values(res).find(v => v === null)) {
+        if (Object.values(res).some(v => v === null)) {
+
             if (callback)
-                callback()
+                await callback()
             return
         }
         socket.emit(commandName, res as NonNullable<ActionOptions[typeof commandName]>, callback)

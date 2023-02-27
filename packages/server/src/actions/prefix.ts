@@ -4,10 +4,10 @@ import { makeServerAction } from "../utils/makeAction";
 const prefixServerAction = makeServerAction({
     action: "prefix",
     async onEvent(socket, data, callback) {
-        const { guildId: guild_id, value, userId } = data;
+        const { guildId, value, userId } = data;
         try {
             const res = await prisma.prefix.update({
-                where: { guild_id },
+                where: { guildId },
                 include: { guild: true },
                 data: {
                     value,

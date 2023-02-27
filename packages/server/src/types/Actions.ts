@@ -2,7 +2,11 @@ import { Collection, Embed, Guild, GuildChannel, Interaction, Message, Role, Use
 
 
 export type ActionOptions = {
-    prefix: { value: string, guildId: Guild['id'], userId: User['id'] },
+    prefix: {
+        value: string,
+        guildId: Guild['id'],
+        userId: User['id']
+    },
     poll: {
         content: Embed,
         guildId: Guild['id'],

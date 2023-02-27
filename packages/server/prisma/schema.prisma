@@ -21,8 +21,8 @@ model Prefix{
   value String
   userId String
 
-  guild_id String @unique @id
-  guild Guild  @relation(fields: [guild_id], references: [id])
+  guildId String @unique @id
+  guild Guild  @relation(fields: [guildId], references: [id])
   
   
 }
