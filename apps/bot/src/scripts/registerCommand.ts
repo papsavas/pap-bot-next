@@ -1,16 +1,21 @@
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from 'node:url';
 import { importDir } from "server";
 import { Command } from "../types/Command";
 import createCommand from "../utils/commands/create";
 import client from "./client";
 
-(async function () {
-    const bot = await client(["Guilds"], []);
-    const [path, file, inputCommand, guildId, ...rest] = process.argv;
-    const files = await Promise.all(importDir<Command>(join(__dirname, "..", "commands")))
-    const cmd = files.find(c => c.command === inputCommand)
-    if (!cmd) return console.error(`Command ${inputCommand} not found. 
-Available commands: ${files.map(f => f.command).toString()}`)
-    createCommand(bot.application?.commands!, cmd.data, guildId)
-}
-)()
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const bot = await client(["Guilds"], []);
+const [path, file, inputCommand, guildId, ...rest] = process.argv;
+if (!inputCommand) throw new Error("You must provide a command name");
+const files = await Promise.all(importDir<Command>(join(__dirname, "..", "commands")))
+const cmd = files.find(c => c.command === inputCommand)
+if (!cmd) throw new Error(`Command ${inputCommand} not found. 
+Available commands: ${files.map(f => f.command).toString()}`);
+const res = await createCommand(bot.application?.commands!, cmd.data, guildId);
+console.log(`registered command "${res.name}" for ${guildId ?? "global command manager"}`);
+process.exit(0);

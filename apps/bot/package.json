@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc && node dist/src/index.js",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "registerCommand": "node --loader ts-node/esm ./src/scripts/registerCommand",
+    "unregisterCommand": "node --loader ts-node/esm ./src/scripts/deleteCommand"
   },
   "author": "",
   "license": "ISC",

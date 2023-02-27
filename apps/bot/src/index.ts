@@ -17,7 +17,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
-export const guildSettings = new Collection<Snowflake, GuildSettings>([]);
+export const guildSettings = new Collection<Snowflake, GuildSettings>();
 
 const actions = [prefix, poll, guilds];
 socket.on("connect", () => {
