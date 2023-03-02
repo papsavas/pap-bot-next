@@ -16,8 +16,8 @@ const ready = makeEvent({
 
 const loadReactionNotifiers = async (client: Client) => {
     const reactionNotifiers = await prisma.reactionNotifications.findMany();
-    for (const { guilds, userId } of reactionNotifiers) {
-        await updateCachedReactionNotifiers(client, guilds, userId);
+    for (const { guilds, userId, targetId } of reactionNotifiers) {
+        await updateCachedReactionNotifiers(client, guilds, userId, targetId);
     }
 }
 

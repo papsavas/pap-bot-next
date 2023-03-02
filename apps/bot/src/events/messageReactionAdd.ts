@@ -11,9 +11,14 @@ const messageReactionAdd = makeEvent({
             const msg = await r.message.fetch()
             const authorId = msg.author.id;
             const u = user.partial ? await user.fetch() : user;
-            const shouldNotify = guildReactionNotifiers.get(guildId)?.includes(authorId)
+            const shouldNotify = () => {
+                const grn = guildReactionNotifiers.get(guildId);
+                if (!grn) return false;
+                const targetResolver = grn.targetId ? u.id === grn.targetId : true
+                return grn.users.includes(authorId) && targetResolver
+            }
 
-            if (shouldNotify) {
+            if (shouldNotify()) {
                 console.log(`notifying ${msg.author.tag} for ${user.tag} reaction on ${msg.url}`)
                 msg.author
                     .send({

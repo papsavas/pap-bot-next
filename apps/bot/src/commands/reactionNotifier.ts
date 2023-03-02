@@ -1,9 +1,10 @@
-import { ActionRowBuilder, ApplicationCommandType, ChatInputCommandInteraction, ComponentType, StringSelectMenuBuilder } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, ComponentType, StringSelectMenuBuilder } from "discord.js";
 import { prisma } from "server";
 import { makeCommand } from "../utils/commands/makeCommand";
 import { updateCachedReactionNotifiers } from "../utils/settings/reactionNotifier";
 
 const commandName = "reaction-notifier" as const;
+const targetOption = "target" as const;
 const allGuildsOption = "all_guilds" as const;
 
 const ReactionNotifierCommand = makeCommand({
@@ -12,10 +13,19 @@ const ReactionNotifierCommand = makeCommand({
         name: commandName,
         description: "Setup reaction notifications",
         type: ApplicationCommandType.ChatInput,
+        options: [
+            {
+                name: targetOption,
+                description: "Receive notifications only from this user",
+                type: ApplicationCommandOptionType.User,
+                required: false
+            }
+        ]
 
     },
     execute: async (socket, command: ChatInputCommandInteraction) => {
         await command.deferReply({ ephemeral: true, fetchReply: true })
+        const target = command.options.getUser(targetOption, false);
         const memberGuilds = command.client.guilds.cache
             .filter(async g => (await g.members.fetch()).has(command.user.id))
         const select = new StringSelectMenuBuilder({
@@ -53,9 +63,11 @@ const ReactionNotifierCommand = makeCommand({
         await prisma.reactionNotifications.upsert({
             where: { userId },
             update: {
+                targetId: target?.id,
                 guilds: resolvedValues
             },
             create: {
+                targetId: target?.id,
                 userId,
                 guilds: resolvedValues
             }
@@ -70,7 +82,7 @@ const ReactionNotifierCommand = makeCommand({
         })
 
         //update cache
-        await updateCachedReactionNotifiers(command.client, resolvedValues, userId);
+        await updateCachedReactionNotifiers(command.client, resolvedValues, userId, target?.id);
     }
 })
 

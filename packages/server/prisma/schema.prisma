@@ -27,5 +27,6 @@ model Prefix{
 
 model ReactionNotifications{
   userId String @unique @id
+  targetId String? @unique
   guilds String[]  
 }
