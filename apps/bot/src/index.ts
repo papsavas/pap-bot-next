@@ -9,7 +9,7 @@ import { guilds } from "./actions/guilds";
 import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
 import { DiscordEvent } from "./types/DiscordEvent";
-import { GuildSettings } from "./types/GuildSettings";
+import { GuildPrefix, GuildReactionNotifiers } from "./types/GuildSettings";
 
 dotenv.config({ path: findConfig('.env')! })
 
@@ -17,8 +17,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
-export const guildSettings = new Collection<Snowflake, GuildSettings>();
-
+export const guildPrefixes = new Collection<Snowflake, GuildPrefix>();
+export const guildReactionNotifiers = new Collection<Snowflake, GuildReactionNotifiers>()
 const actions = [prefix, poll, guilds];
 socket.on("connect", () => {
     actions.forEach(({ action, onEvent }) =>
@@ -27,8 +27,8 @@ socket.on("connect", () => {
 })
 
 export const bot = new Client({
-    intents: ["Guilds", "DirectMessages", "MessageContent", "GuildMessages", "GuildMembers", "GuildMessages"],
-    partials: [Partials.Message, Partials.User, Partials.Channel]
+    intents: ["Guilds", "DirectMessages", "MessageContent", "GuildMessages", "GuildMembers", "GuildMessages", "GuildMessageReactions"],
+    partials: [Partials.Message, Partials.User, Partials.Channel, Partials.Reaction]
 })
 
 const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>(

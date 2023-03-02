@@ -23,6 +23,9 @@ model Prefix{
 
   guildId String @unique @id
   guild Guild  @relation(fields: [guildId], references: [id])
-  
-  
+}
+
+model ReactionNotifications{
+  userId String @unique @id
+  guilds String[]  
 }
