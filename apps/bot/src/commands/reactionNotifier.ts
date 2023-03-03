@@ -1,7 +1,8 @@
 import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, ComponentType, italic, RESTJSONErrorCodes, spoiler, StringSelectMenuBuilder } from "discord.js";
 import { prisma } from "server";
+import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
 import { makeCommand } from "../utils/commands/makeCommand";
-import { updateCachedReactionNotifiers } from "../utils/settings/reactionNotifier";
+
 
 //TODO: support multiple users across multiple guilds
 
