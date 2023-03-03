@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
 import { ActionOptions } from "server/src/types/Actions";
-import { guildPrefixes } from "..";
+import { cache } from "..";
 import { CommandHandler, CommandSource } from "../types/Command";
 import { Nullable } from "../types/Utilities";
 import { makeCommand } from "../utils/commands/makeCommand";
@@ -29,7 +29,7 @@ const resolveInput: CommandHandler<typeof commandName> =
             }
             const value = (source as ChatInputCommandInteraction).options.getString(valueOption);
             if (!value) {
-                const prefix = guildPrefixes.get(source.guildId)!
+                const prefix = cache.prefix.get(source.guildId)!
                 return {
                     res,
                     callback: async () => {
@@ -58,7 +58,7 @@ const resolveInput: CommandHandler<typeof commandName> =
                     }
                 }
             }
-            const prefix = guildPrefixes.get(source.guildId)!
+            const prefix = cache.prefix.get(source.guildId)!
             const { arg1 } = sliceCommand(source, prefix.value);
             if (!arg1)
                 return {

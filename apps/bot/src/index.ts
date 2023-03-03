@@ -9,7 +9,7 @@ import { guilds } from "./actions/guilds";
 import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
 import { DiscordEvent } from "./types/DiscordEvent";
-import { GuildPrefix, GuildReactionNotifiers } from "./types/GuildSettings";
+import { GuildCache, GuildPrefix, GuildReactionNotifier } from "./types/GuildSettings";
 
 dotenv.config({ path: findConfig('.env')! })
 
@@ -17,8 +17,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
-export const guildPrefixes = new Collection<Snowflake, GuildPrefix>();
-export const guildReactionNotifiers = new Collection<Snowflake, GuildReactionNotifiers>()
+
+export const cache: GuildCache = {
+    commands: [],
+    prefix: new Collection<Snowflake, GuildPrefix>(),
+    reactionNotifier: new Collection<Snowflake, GuildReactionNotifier>(),
+}
 
 const actions = [prefix, poll, guilds];
 socket.on("connect", () => {
