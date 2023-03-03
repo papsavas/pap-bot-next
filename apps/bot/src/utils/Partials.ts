@@ -12,5 +12,5 @@ type Unpartialize<T> =
     User :
     T
 
-export const resolvePartial = async <T extends Complete | Partials>(source: T, force: boolean = false) =>
+export const fetchPartial = async <T extends Complete | Partials>(source: T, force: boolean = false) =>
     (source.partial ? source.fetch(force) : source) as Promise<Unpartialize<T>>

@@ -21,7 +21,6 @@ const ReactionNotifierCommand = makeCommand({
                 required: false
             }
         ]
-
     },
     execute: async (socket, command: ChatInputCommandInteraction) => {
         await command.deferReply({ ephemeral: true, fetchReply: true })
