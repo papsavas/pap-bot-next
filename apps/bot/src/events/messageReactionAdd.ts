@@ -1,16 +1,17 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import { guildReactionNotifiers } from "..";
 import { makeEvent } from "../utils/events/makeEvent";
+import { resolvePartial } from "../utils/Partials";
 
 const messageReactionAdd = makeEvent({
     event: "messageReactionAdd",
     async execute(socket, reaction, user) {
         if (reaction.message.inGuild()) {
             const guildId = reaction.message.guildId;
-            const r = await reaction.fetch();
-            const msg = await r.message.fetch()
+            const r = await resolvePartial(reaction);
+            const msg = await resolvePartial(r.message);
             const authorId = msg.author.id;
-            const u = user.partial ? await user.fetch() : user;
+            const u = await resolvePartial(user);
             const shouldNotify = () => {
                 const grn = guildReactionNotifiers.get(guildId);
                 if (!grn) return false;
