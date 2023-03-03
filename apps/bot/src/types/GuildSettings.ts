@@ -1,9 +1,10 @@
-import { Role } from "discord.js";
+import { Role, User } from "discord.js";
 
-export type GuildSettings = {
-    prefix: {
-        value: string,
-        userId: Role['id']
-    };
-
+export type GuildPrefix = {
+    value: string,
+    userId: Role['id']
+}
+export type GuildReactionNotifiers = {
+    users: User['id'][],
+    targetId?: User['id']
 }
