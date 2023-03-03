@@ -16,8 +16,7 @@ const interactionCreate = makeEvent({
             const commands = await Promise.all(commandFiles); //TODO: resolve once
             commands.find(c => c.command === interaction.commandName)
                 ?.execute(socket, interaction)
-                .catch(err => console.error("\x1b[31m", err))
-                ?? Promise.reject(`${interaction.commandName} is not handled`);
+                ?? Promise.reject(`interaction ${interaction.commandName} is not handled`);
         }
     }
 })

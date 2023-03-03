@@ -1,8 +1,9 @@
 import { Client } from "discord.js";
 import { prisma } from "server";
 import { guildPrefixes } from "..";
+import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
 import { makeEvent } from "../utils/events/makeEvent";
-import { updateCachedReactionNotifiers } from "../utils/settings/reactionNotifier";
+
 
 const ready = makeEvent({
     event: "ready",
