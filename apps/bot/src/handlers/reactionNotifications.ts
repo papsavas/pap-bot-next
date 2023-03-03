@@ -1,5 +1,6 @@
 import { Client, Colors, EmbedBuilder, MessageReaction, User } from "discord.js";
-import { guildReactionNotifiers } from "..";
+import { cache } from "..";
+
 
 export const handleReactionNotifications = async (reaction: MessageReaction, user: User) => {
     if (reaction.message.inGuild()) {
@@ -7,7 +8,7 @@ export const handleReactionNotifications = async (reaction: MessageReaction, use
         const msg = reaction.message;
         const authorId = msg.author.id;
         const shouldNotify = () => {
-            const grn = guildReactionNotifiers.get(guildId);
+            const grn = cache.reactionNotifier.get(guildId);
             if (!grn) return false;
             const targetResolver = grn.targetId ? user.id === grn.targetId : true
             return grn.users.includes(authorId) && targetResolver
@@ -52,8 +53,8 @@ export const updateCachedReactionNotifiers = async (
         ] : guilds
 
     for (const guildId of guildIds) {
-        const g = guildReactionNotifiers.get(guildId);
-        guildReactionNotifiers.set(guildId, {
+        const g = cache.reactionNotifier.get(guildId);
+        cache.reactionNotifier.set(guildId, {
             users: [...g?.users.values() ?? [], userId],
             targetId: targetId ?? g?.targetId
         })

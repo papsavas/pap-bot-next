@@ -1,6 +1,6 @@
 import { Client } from "discord.js";
 import { prisma } from "server";
-import { guildPrefixes } from "..";
+import { cache } from "..";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
 import { makeEvent } from "../utils/events/makeEvent";
 
@@ -24,7 +24,7 @@ const loadReactionNotifiers = async (client: Client) => {
 const loadPrefixes = async () => {
     const prefixes = await prisma.prefix.findMany();
     for (const { guildId, userId, value } of prefixes)
-        guildPrefixes.set(guildId, { value, userId })
+        cache.prefix.set(guildId, { value, userId })
 }
 
 export default ready;
