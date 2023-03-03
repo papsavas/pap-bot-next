@@ -53,10 +53,11 @@ export const updateCachedReactionNotifiers = async (
         ] : guilds
 
     for (const guildId of guildIds) {
-        const g = cache.reactionNotifier.get(guildId);
+        const rn = cache.reactionNotifier.get(guildId);
         cache.reactionNotifier.set(guildId, {
-            users: [...g?.users.values() ?? [], userId],
-            targetId: targetId ?? g?.targetId
+            //add user
+            users: [...rn?.users.values() ?? [], userId],
+            targetId: targetId ?? rn?.targetId
         })
     }
 

@@ -8,7 +8,6 @@ import { io } from "socket.io-client";
 import { guilds } from "./actions/guilds";
 import { poll } from "./actions/poll";
 import { prefix } from "./actions/prefix";
-import { Command } from "./types/Command";
 import { DiscordEvent } from "./types/DiscordEvent";
 import { GuildCache, GuildPrefix, GuildReactionNotifier } from "./types/GuildSettings";
 
@@ -19,11 +18,8 @@ const __dirname = dirname(__filename);
 
 const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
 
-const commandFiles = importDir<Command>(join(__dirname, "..", "commands"), (f) => f.endsWith(".ts"));
-const commands = await Promise.all(commandFiles);
-
 export const cache: GuildCache = {
-    commands,
+    commands: [],
     prefix: new Collection<Snowflake, GuildPrefix>(),
     reactionNotifier: new Collection<Snowflake, GuildReactionNotifier>(),
 }

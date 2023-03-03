@@ -1,14 +1,22 @@
 import { Client } from "discord.js";
-import { prisma } from "server";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from 'node:url';
+import { importDir, prisma } from "server";
 import { cache } from "..";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
+import { Command } from "../types/Command";
 import { makeEvent } from "../utils/events/makeEvent";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const commands = importDir<Command>(join(__dirname, "..", "commands"), (f) => f.endsWith(".ts"));
 
 const ready = makeEvent({
     event: "ready",
     async execute(socket, client) {
         await loadReactionNotifiers(client);
         await loadPrefixes();
+        cache.commands = await Promise.all(commands);
         console.log(`Bot cache ready. Serving ${client.guilds.cache.size} guilds`)
         socket.emit("guilds", { guilds: client.guilds.cache });
     },
