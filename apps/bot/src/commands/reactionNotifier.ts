@@ -3,6 +3,8 @@ import { prisma } from "server";
 import { makeCommand } from "../utils/commands/makeCommand";
 import { updateCachedReactionNotifiers } from "../utils/settings/reactionNotifier";
 
+//TODO: support multiple users across multiple guilds
+
 const commandName = "reaction-notifier" as const;
 const targetOption = "target" as const;
 const allGuildsOption = "all_guilds" as const;
