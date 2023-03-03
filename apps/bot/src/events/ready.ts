@@ -4,13 +4,12 @@ import { guildPrefixes } from "..";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
 import { makeEvent } from "../utils/events/makeEvent";
 
-
 const ready = makeEvent({
     event: "ready",
     async execute(socket, client) {
-        console.log(`Bot cache ready. Serving ${client.guilds.cache.size} guilds`)
         await loadReactionNotifiers(client);
         await loadPrefixes();
+        console.log(`Bot cache ready. Serving ${client.guilds.cache.size} guilds`)
         socket.emit("guilds", { guilds: client.guilds.cache });
     },
 })
@@ -29,3 +28,4 @@ const loadPrefixes = async () => {
 }
 
 export default ready;
+

@@ -19,6 +19,7 @@ const __dirname = dirname(__filename);
 const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
 export const guildPrefixes = new Collection<Snowflake, GuildPrefix>();
 export const guildReactionNotifiers = new Collection<Snowflake, GuildReactionNotifiers>()
+
 const actions = [prefix, poll, guilds];
 socket.on("connect", () => {
     actions.forEach(({ action, onEvent }) =>
