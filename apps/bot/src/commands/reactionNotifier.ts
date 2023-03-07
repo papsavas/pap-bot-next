@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, ComponentType, italic, RESTJSONErrorCodes, spoiler, StringSelectMenuBuilder } from "discord.js";
-import { prisma } from "server";
+import { db } from "server";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
 import { makeCommand } from "../utils/commands/makeCommand";
 
@@ -77,7 +77,7 @@ ${spoiler("Tip: Once a DM channel between us is established you can close them a
         const userId = command.user.id;
 
         //update db
-        await prisma.reactionNotifications.upsert({
+        await db.reactionNotifications.upsert({
             where: { userId },
             update: {
                 targetId: target?.id,

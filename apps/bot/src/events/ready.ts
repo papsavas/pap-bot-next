@@ -1,7 +1,7 @@
 import { Client } from "discord.js";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
-import { importDir, prisma } from "server";
+import { db, importDir } from "server";
 import { cache } from "..";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
 import { Command } from "../types/Command";
@@ -23,14 +23,14 @@ const ready = makeEvent({
 })
 
 const loadReactionNotifiers = async (client: Client) => {
-    const reactionNotifiers = await prisma.reactionNotifications.findMany();
+    const reactionNotifiers = await db.reactionNotifications.findMany();
     for (const { guilds, userId, targetId } of reactionNotifiers) {
         await updateCachedReactionNotifiers(client, guilds, userId, targetId);
     }
 }
 
 const loadPrefixes = async () => {
-    const prefixes = await prisma.prefix.findMany();
+    const prefixes = await db.prefix.findMany();
     for (const { guildId, userId, value } of prefixes)
         cache.prefix.set(guildId, { value, userId })
 }

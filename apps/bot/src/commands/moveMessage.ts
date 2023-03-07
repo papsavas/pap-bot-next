@@ -42,24 +42,25 @@ const moveMessageCommand = makeCommand({
 
         const webhookClient = new WebhookClient({ url: webhook.url });
 
-        return webhookClient.send({
-            username: `${message.author.username}`,
-            avatarURL: message.author.avatarURL() ?? undefined,
-            content: message.content,
-            embeds: message.embeds,
-            components: message.components,
-        })
-            .then(() => collectedSelect.editReply({
-                content: "Message Moved"
-            }))
-            //TODO!: does not catch
-            .catch(err => {
-                console.log(err.code, JSON.stringify(err))
-                if (err.code === RESTJSONErrorCodes.MissingPermissions)
-                    collectedSelect.editReply({
-                        content: "I do not have permissions to create webhooks on this channel"
-                    })
+        try {
+            const sentMsg = await webhookClient.send({
+                username: `${message.author.username} from #${(message.channel as TextChannel).name}`,
+                avatarURL: message.author.avatarURL() ?? undefined,
+                content: message.content,
+                embeds: message.embeds,
+                components: message.components
             })
+
+            await collectedSelect.editReply({
+                content: `Message moved in ${targetChannel.name}`
+            });
+            //TODO!: not catching
+        } catch (err: any) {
+            if (err.code === RESTJSONErrorCodes.MissingPermissions)
+                await collectedSelect.editReply({
+                    content: "I am missing permissions"
+                })
+        }
     }
 })
 

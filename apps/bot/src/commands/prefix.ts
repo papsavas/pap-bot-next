@@ -17,7 +17,6 @@ const resolveInput: CommandHandler<typeof commandName> =
             value: null
         };
         if (source instanceof CommandInteraction) {
-
             await source.deferReply({ ephemeral: true });
             if (!source.inGuild()) {
                 return {
