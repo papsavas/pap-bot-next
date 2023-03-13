@@ -47,7 +47,6 @@ let counter = 0;
 const allMessages = await collectAllMessages()
 for (const [msdId, oldMessage] of allMessages) {
     counter++;
-    if (oldMessage.author.id !== "702931803542913044") continue //TODO! REMOVE
     try {
         const webhookClient = new WebhookClient({ url: webhook.url });
         const newAPIMessage = await webhookClient.send({
