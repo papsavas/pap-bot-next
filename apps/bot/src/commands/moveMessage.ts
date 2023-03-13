@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ApplicationCommandType, ChannelSelectMenuBuilder, ChannelType, ComponentType, MessageContextMenuCommandInteraction, RESTJSONErrorCodes, TextChannel, WebhookClient } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandType, AttachmentBuilder, AttachmentPayload, ChannelSelectMenuBuilder, ChannelType, ComponentType, JSONEncodable, MessageContextMenuCommandInteraction, RESTJSONErrorCodes, TextChannel, WebhookClient } from "discord.js";
 import { makeCommand } from "../utils/commands/makeCommand";
 
 const commandName = "move-message" as const;
@@ -48,7 +48,10 @@ const moveMessageCommand = makeCommand({
                 avatarURL: message.author.avatarURL() ?? undefined,
                 content: message.content,
                 embeds: message.embeds,
-                components: message.components
+                components: message.components,
+                files: message.attachments.map(a => AttachmentBuilder
+                    .from(a as JSONEncodable<AttachmentPayload>).setName(a.name)
+                )
             })
 
             await collectedSelect.editReply({
