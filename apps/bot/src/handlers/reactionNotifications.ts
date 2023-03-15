@@ -16,6 +16,7 @@ export const handleReactionNotifications = async (reaction: MessageReaction, use
 
         if (shouldNotify()) {
             console.log(`notifying ${msg.author.tag} for ${user.tag} reaction on ${msg.url}`)
+            const messageValue = msg.content.length > 0 ? msg.content.slice(0, 1000) : `Jump to Message`
             msg.author
                 .send({
                     embeds: [new EmbedBuilder({
@@ -23,7 +24,7 @@ export const handleReactionNotifications = async (reaction: MessageReaction, use
                         title: `Reacted with ${reaction.emoji.name} in ${reaction.message.guild.name}`,
                         fields: [{
                             name: "Message",
-                            value: `[${msg.content.slice(0, 1000)}](${msg.url})`
+                            value: `[${messageValue}](${msg.url})`
                         }],
                         thumbnail: { url: reaction.message.guild.banner! },
                         color: Colors.Red
