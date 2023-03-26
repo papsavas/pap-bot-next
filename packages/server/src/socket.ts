@@ -23,7 +23,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, any, any>(serv
         methods: ["GET", "POST"]
     }
 })
-const PORT = process.env.SOCKET_PORT;
+const PORT = process.env.SERVER_SOCKET;
 
 
 const actionFiles = importDir<ServerSocketAction<keyof Actions, "server">>(

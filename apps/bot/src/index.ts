@@ -16,7 +16,7 @@ dotenv.config({ path: findConfig('.env')! })
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const socket: ClientSocket = io(`http://localhost:${process.env.SOCKET_PORT}`);
+const socket: ClientSocket = io(`http://localhost:${process.env.SERVER_PORT}`);
 
 export const cache: GuildCache = {
     commands: [],
@@ -32,8 +32,21 @@ socket.on("connect", () => {
 })
 
 export const bot = new Client({
-    intents: ["Guilds", "DirectMessages", "MessageContent", "GuildMessages", "GuildMembers", "GuildMessages", "GuildMessageReactions"],
-    partials: [Partials.Message, Partials.User, Partials.Channel, Partials.Reaction]
+    intents: [
+        "Guilds",
+        "DirectMessages",
+        "MessageContent",
+        "GuildMessages",
+        "GuildMembers",
+        "GuildMessages",
+        "GuildMessageReactions"
+    ],
+    partials: [
+        Partials.Message,
+        Partials.User,
+        Partials.Channel,
+        Partials.Reaction
+    ]
 })
 
 const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>(

@@ -1,9 +1,9 @@
-import DataComponent from "./components/Data";
+import GuildList from "./components/Guilds";
 
 export default function Home() {
   return (
     <main>
-      <DataComponent />
+      <GuildList />
     </main>
   );
 }
