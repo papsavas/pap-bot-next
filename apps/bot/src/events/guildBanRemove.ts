@@ -3,7 +3,7 @@ import { makeEvent } from "../utils/events/makeEvent";
 const guildBanRemove = makeEvent({
     event: "guildBanRemove",
     async execute(socket, ban) {
-        return Promise.reject(`method has no execution implemented`)
+        console.log(`unbanned ${ban.user.tag} in ${ban.guild.name}`)
     },
 })
 

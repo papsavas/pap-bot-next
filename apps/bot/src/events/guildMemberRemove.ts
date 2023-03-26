@@ -1,9 +1,9 @@
 import { makeEvent } from "../utils/events/makeEvent";
 
 const guildMemberRemove = makeEvent({
-    event: "guildBanRemove",
-    async execute(socket, guildMemberRemove) {
-        return Promise.reject(`method has no execution implemented`)
+    event: "guildMemberRemove",
+    async execute(socket, member) {
+        console.log(`member ${member.user.tag} left ${member.guild.name}`);
     },
 })
 

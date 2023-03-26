@@ -1,4 +1,4 @@
-import { Client, ClientEvents, Collection, Partials, Snowflake } from "discord.js";
+import { Client, ClientEvents, Collection, Events, Partials, Snowflake } from "discord.js";
 import dotenv from 'dotenv';
 import findConfig from "find-config";
 import { dirname, join } from "node:path";
@@ -51,7 +51,12 @@ export const bot = new Client({
 
 const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>(
     join(__dirname, "events"),
-    (file) => file.endsWith('.ts')
+    (file) => {
+        const [name, postfix] = file.split(".");
+        const isTypescriptFile = postfix === "ts";
+        const isNamedDiscordEvent = Object.values<string>(Events).includes(name)
+        return isTypescriptFile && isNamedDiscordEvent;
+    }
 )
 
 Promise.all(eventFiles)
