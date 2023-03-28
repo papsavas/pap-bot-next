@@ -1,16 +1,23 @@
+import { db, Prisma } from "database";
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
 import { cache } from "..";
-import { CommandHandler, CommandSource } from "../types/Command";
+import { CommandSource } from "../types/Command";
 import { makeCommand } from "../utils/commands/makeCommand";
 import { sliceCommand } from "../utils/commands/slice";
 
 const commandName = "prefix" as const;
 const valueOption = "value";
 
-const resolveInput: CommandHandler =
-    async (source: CommandSource) => {
+const storePrefix = ({ guildId, value, userId }: Prisma.PrefixCreateManyInput) =>
+    db.prefix.update({
+        where: { guildId },
+        include: { guild: true },
+        data: {
+            value,
+            userId
+        }
+    });
 
-    }
 
 const prefixCommand = makeCommand({
     command: commandName,
@@ -34,11 +41,12 @@ const prefixCommand = makeCommand({
             const value = (source as ChatInputCommandInteraction).options.getString(valueOption);
             if (!value) {
                 const prefix = cache.prefix.get(source.guildId)!
-                await source.editReply({
+                return source.editReply({
                     content: `Current prefix is set to \`${prefix.value}\` by ${userMention(prefix.userId)}`
                 })
-                return;
             }
+            const res = await storePrefix({ guildId: source.guildId, value, userId: source.user.id });
+            source.editReply(`Prefix set to \`${res.value}\``);
         }
 
         else if (source instanceof Message) {
@@ -50,6 +58,8 @@ const prefixCommand = makeCommand({
             const { arg1 } = sliceCommand(source, prefix.value);
             if (!arg1)
                 return source.reply(`Current prefix is set to \`${prefix.value}\` by ${userMention(prefix.userId)}`)
+            const res = await storePrefix({ guildId: source.guildId, value: arg1, userId: source.author.id });
+            return source.reply(`Prefix set to \`${res.value}\``);
         }
     }
 })

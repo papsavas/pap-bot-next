@@ -1,20 +1,15 @@
 "use client";
-import { db } from "database";
-import { Guild as GuildProps } from "discord.js";
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import Guild from "./Guild";
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const GuildList = () => {
-  const [guilds, setGuilds] = useState<GuildProps[]>([]);
-  useEffect(()=> {
-    const fetchData = async () => {
-      await db.
-    }
-  })
+  const { data, isLoading } = useSWR("api/guilds", fetcher);
   return (
     <ul>
-      {guilds?.map((g) => <Guild guild={g} key={g.id} />) ??
-        "connecting..."}
+      {isLoading
+        ? "Loading..."
+        : data?.guilds?.map((g: any) => <Guild guild={g} key={g.id} />)}
     </ul>
   );
 };

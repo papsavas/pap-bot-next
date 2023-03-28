@@ -1,24 +1,20 @@
 "use client";
 import { FC } from "react";
-import { useSocket } from "../../hooks/useSocket";
-
+import useSWR from "swr";
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const GuildPage: FC<{
-  params: { guildId: string };
+  params: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }> = ({ params }) => {
-  const { data, emit } = useSocket("prefix");
-  const handleClick = () => {
-    emit({
-      guildId: "746309734851674122",
-      userId: "<site-user>",
-      value: "^",
-    });
-  };
+  const { data, isLoading } = useSWR(
+    `api/prefix/${params.id}?guildId=${params.id}`,
+    fetcher
+  );
   return (
     <div>
-      <p>{params.guildId} prefix is:</p>
-      {data?.value ?? "loading..."}
-      <button onClick={handleClick}>New Prefix</button>
+      <p>
+        {params.id} prefix is: {isLoading ? "loading" : data?.prefix}
+      </p>
     </div>
   );
 };
