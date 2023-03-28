@@ -1,5 +1,2 @@
-import { PrismaClient } from "@prisma/client";
+export { prisma as db } from "./prisma";
 
-export const prisma = new PrismaClient({
-    log: ['info', 'warn', 'error'],
-});

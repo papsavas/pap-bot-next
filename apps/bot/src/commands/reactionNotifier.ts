@@ -1,5 +1,5 @@
+import { db } from "database";
 import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, ComponentType, italic, RESTJSONErrorCodes, spoiler, StringSelectMenuBuilder } from "discord.js";
-import { db } from "server";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
 import { makeCommand } from "../utils/commands/makeCommand";
 

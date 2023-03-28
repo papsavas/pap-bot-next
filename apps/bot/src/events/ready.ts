@@ -1,7 +1,8 @@
+import { db } from "database";
 import { Client } from "discord.js";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
-import { db, importDir } from "server";
+import { importDir } from "utils";
 import { cache } from "..";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
 import { Command } from "../types/Command";
@@ -18,7 +19,6 @@ const ready = makeEvent({
         await loadPrefixes();
         cache.commands = await Promise.all(commands);
         console.log(`Bot cache ready. Serving ${client.guilds.cache.size} guilds`)
-        socket.emit("guilds", { guilds: client.guilds.cache });
     },
 })
 
