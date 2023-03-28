@@ -25,7 +25,7 @@ const ReactionNotifierCommand = makeCommand({
             }
         ]
     },
-    execute: async (socket, command: ChatInputCommandInteraction) => {
+    execute: async (command: ChatInputCommandInteraction) => {
         await command.deferReply({ ephemeral: true, fetchReply: true })
 
         //establish dms or abort

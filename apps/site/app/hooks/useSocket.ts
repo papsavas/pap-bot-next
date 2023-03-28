@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { ClientSocket, ClientToServerEvents } from "server";
 import { ActionOptions } from "server/src/types/Actions";
 import { io } from "socket.io-client";
 // require('dotenv')

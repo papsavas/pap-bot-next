@@ -97,7 +97,7 @@ const prefixCommand = makeCommand({
             required: false
         }]
     },
-    execute: async (socket, source: CommandSource<typeof commandName>) => {
+    execute: async (source: CommandSource<typeof commandName>) => {
         const { res, callback } = await resolveInput(source)
 
         if (Object.values(res).some(v => v === null)) {

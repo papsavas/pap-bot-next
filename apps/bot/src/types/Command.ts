@@ -1,12 +1,11 @@
 import { ApplicationCommandDataResolvable, CommandInteraction, Message, Snowflake } from "discord.js";
-import { ClientSocket } from "server";
 import { ActionCallback, ActionOptions } from "server/src/types/Actions";
 import { Nullable } from "./Utilities";
 
 export type PartialCommand = {
     command: string;
     data: ApplicationCommandDataResolvable;
-    execute: (socket: ClientSocket, ...args: any) => Promise<unknown>;
+    execute: (socket: Client...args: any) => Promise<unknown>;
 }
 
 export type Command =

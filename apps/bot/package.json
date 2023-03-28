@@ -14,9 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.8.0",
-    "server": "*",
-    "socket.io-client": "^4.5.4"
+    "database": "*",
+    "discord.js": "^14.8.0"
   },
   "devDependencies": {
     "ts-node": "^10.9.1"

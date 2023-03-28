@@ -4,7 +4,7 @@ import { fetchPartial } from "../utils/Partials";
 
 const messageReactionAdd = makeEvent({
     event: "messageReactionAdd",
-    async execute(socket, reaction, user) {
+    async execute(reaction, user) {
         handleReactionNotifications(await fetchPartial(reaction), await fetchPartial(user));
     },
 })

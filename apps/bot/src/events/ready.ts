@@ -13,7 +13,7 @@ const commands = importDir<Command>(join(__dirname, "..", "commands"), (f) => f.
 
 const ready = makeEvent({
     event: "ready",
-    async execute(socket, client) {
+    async execute(client) {
         await loadReactionNotifiers(client);
         await loadPrefixes();
         cache.commands = await Promise.all(commands);
