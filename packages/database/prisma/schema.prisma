@@ -22,7 +22,7 @@ model Prefix{
   userId String
 
   guildId String @unique @id
-  guild Guild  @relation(fields: [guildId], references: [id])
+  guild Guild  @relation(fields: [guildId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model ReactionNotifications{
