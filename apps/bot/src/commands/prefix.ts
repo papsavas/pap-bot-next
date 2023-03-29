@@ -1,4 +1,4 @@
-import { db, Prisma } from "database";
+import { db, Prefix } from "database";
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
 import { cache } from "..";
 import { CommandSource } from "../types/Command";
@@ -8,7 +8,7 @@ import { sliceCommand } from "../utils/commands/slice";
 const commandName = "prefix" as const;
 const valueOption = "value";
 
-const storePrefix = ({ guildId, value, userId }: Prisma.PrefixCreateManyInput) =>
+const storePrefix = ({ guildId, value, userId }: Prefix) =>
     db.prefix.update({
         where: { guildId },
         include: { guild: true },
@@ -17,7 +17,6 @@ const storePrefix = ({ guildId, value, userId }: Prisma.PrefixCreateManyInput) =
             userId
         }
     });
-
 
 const prefixCommand = makeCommand({
     command: commandName,

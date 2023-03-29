@@ -1,7 +1,7 @@
-import { db } from "database";
-import { NextResponse } from "next/server";
+import { db, Guild } from "database";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     const guilds = await db.guild.findMany();
-    return NextResponse.json({ guilds });
+    return NextResponse.json(guilds satisfies Guild[]);
 }

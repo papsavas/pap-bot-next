@@ -1,3 +1,3 @@
-export { prisma as db } from "./client";
-export { Prisma } from "./types";
+export { db } from "./client";
+export type { Guild, Prefix } from "./types";
 
