@@ -13,7 +13,7 @@ datasource db {
 model Guild{
   id String @unique @id
   name String
-  icon String
+  icon String ?
   prefix Prefix?
 }
 

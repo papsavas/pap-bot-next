@@ -9,7 +9,8 @@
     "dev": "ts-node src/index.ts",
     "registerCommand": "node --loader ts-node/esm ./src/scripts/registerCommand",
     "unregisterCommand": "node --loader ts-node/esm ./src/scripts/deleteCommand",
-    "migrateChannel": "node --loader ts-node/esm ./src/scripts/migrateChannel"
+    "migrateChannel": "node --loader ts-node/esm ./src/scripts/migrateChannel",
+    "syncGuilds": "node --loader ts-node/esm ./src/scripts/syncDBguilds"
   },
   "author": "",
   "license": "ISC",
