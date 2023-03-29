@@ -35,7 +35,7 @@ const pollCommand = makeCommand({
         ]
 
     },
-    execute: async (socket, interaction: ChatInputCommandInteraction) => {
+    execute: async (interaction: ChatInputCommandInteraction) => {
         await interaction.deferReply();
         const text = interaction.options.getString(textOption, true);
         const timeLimit = interaction.options.getNumber(timeOption, false);

@@ -1,8 +1,8 @@
-import { Guild as GuildProps } from "discord.js";
+import { Prisma } from "database";
 import { FC } from "react";
 
-const Guild: FC<{ guild: GuildProps }> = ({ guild }) => {
-  const { id, name, iconURL } = guild;
+const Guild: FC<{ guild: Prisma.GuildGetPayload<true> }> = ({ guild }) => {
+  const { id, name, icon } = guild;
   return (
     <li id={id} className="flex flex-col">
       <img

@@ -10,7 +10,7 @@ const moveMessageCommand = makeCommand({
         type: ApplicationCommandType.Message
 
     },
-    execute: async (socket, command: MessageContextMenuCommandInteraction) => {
+    execute: async (command: MessageContextMenuCommandInteraction) => {
         const message = command.targetMessage;
         const guildChannels = command.guild?.channels;
         if (!guildChannels) return

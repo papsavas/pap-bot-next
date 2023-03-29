@@ -1,0 +1,6 @@
+{
+    "name": "utils",
+    "type": "module",
+    "main": "index.ts",
+    "types": "index.ts"
+}

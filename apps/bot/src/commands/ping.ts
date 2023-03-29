@@ -9,7 +9,7 @@ const pingCommand = makeCommand({
         type: ApplicationCommandType.ChatInput,
 
     },
-    execute: async (socket, command: ChatInputCommandInteraction) => {
+    execute: async (command: ChatInputCommandInteraction) => {
         await command.reply("Pong");
     }
 })

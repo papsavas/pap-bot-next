@@ -3,11 +3,8 @@ import dotenv from 'dotenv';
 import findConfig from "find-config";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
-import { ClientSocket, importDir } from "server";
-import { io } from "socket.io-client";
-import { guilds } from "./actions/guilds";
-import { poll } from "./actions/poll";
-import { prefix } from "./actions/prefix";
+import { importDir } from "utils";
+
 import { DiscordEvent } from "./types/DiscordEvent";
 import { GuildCache, GuildPrefix, GuildReactionNotifier } from "./types/GuildSettings";
 
@@ -16,7 +13,7 @@ dotenv.config({ path: findConfig('.env')! })
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const socket: ClientSocket = io(`http://localhost:${process.env.SERVER_PORT}`);
+
 
 export const cache: GuildCache = {
     commands: [],
@@ -24,12 +21,6 @@ export const cache: GuildCache = {
     reactionNotifier: new Collection<Snowflake, GuildReactionNotifier>(),
 }
 
-const actions = [prefix, poll, guilds];
-socket.on("connect", () => {
-    actions.forEach(({ action, onEvent }) =>
-        socket.on(action, (data: any) => { onEvent(socket, data) })
-    )
-})
 
 export const bot = new Client({
     intents: [
@@ -62,7 +53,7 @@ const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>(
 Promise.all(eventFiles)
     .then(events => events.forEach(ev =>
         bot.on(ev.event,
-            async (...args) => { ev.execute(socket, ...args) }
+            async (...args) => { ev.execute(...args) }
         ))
     )
 
