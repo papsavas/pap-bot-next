@@ -1,16 +1,17 @@
 import { Guild } from "database";
+import Link from "next/link";
 import { FC } from "react";
 const GuildLink: FC<{ guild: Guild }> = ({ guild }) => {
   const { id, name, icon } = guild;
   return (
     <li id={id} className="flex list-none flex-col items-center">
-      <a href={`/guilds/${id}`} className="text-xl">
+      <Link href={`/guilds/${id}`} className="text-xl">
         <img
           src={icon!}
           alt={`${name} picture`}
           className="rounded-2xl object-contain"
         />
-      </a>
+      </Link>
     </li>
   );
 };

@@ -1,9 +1,7 @@
+import Link from "next/link";
+
 const HomeButton = () => {
-  return (
-    <a href="/" className="">
-      Home
-    </a>
-  );
+  return <Link href="/">Home</Link>;
 };
 
 export default HomeButton;

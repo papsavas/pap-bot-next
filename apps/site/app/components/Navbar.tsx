@@ -1,5 +1,3 @@
-"use client";
-
 import HomeButton from "./HomeButton";
 
 const NavBar = () => {

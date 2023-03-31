@@ -9,11 +9,11 @@ const GuildNav = () => {
   const { data: guilds, isLoading } = useSWR<Guild[]>("/api/guilds", fetcher);
 
   return (
-    <ul className="flex w-20 flex-shrink list-none flex-col gap-5 bg-neutral-800 px-2 py-6 dark:bg-neutral-800">
+    <nav className="flex w-20 flex-shrink list-none flex-col gap-5 bg-neutral-800 px-2 py-6 dark:bg-neutral-800">
       {isLoading
         ? null //TODO: fallback
         : guilds?.map((g) => <GuildLink guild={g} key={g.id} />)}
-    </ul>
+    </nav>
   );
 };
 

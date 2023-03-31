@@ -1,8 +1,6 @@
 import { db, Guild } from "database";
 import { NextRequest, NextResponse } from "next/server";
 
-type Params = { params: { id: string } };
-
 export async function GET(request: NextRequest, { params }: Params) {
     const guildId = params.id
     if (!guildId) return NextResponse.error();

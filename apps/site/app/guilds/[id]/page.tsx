@@ -12,7 +12,7 @@ const GuildPage: FC<{
     data: guild,
     isLoading,
     error,
-  } = useSWR<Guild>(`api/${params.id}`, fetcher);
+  } = useSWR<Guild>(`/guilds/api/${params.id}`, fetcher);
 
   const handleSubmit: (event: FormEvent<Element>, value: string) => void = (
     ev,
@@ -20,21 +20,21 @@ const GuildPage: FC<{
   ) => {
     ev.preventDefault();
     if (!guild) return;
-    if (value !== guild.prefix?.value)
+    if (value !== guild?.prefix?.value)
       fetch(`api/${params.id}`, {
         method: "PUT",
         body: JSON.stringify({ value, guildId: guild.id }),
       });
   };
 
-  if (error) return <>{error}</>;
-  if (isLoading || !guild) return <p>Loading...</p>;
+  if (error) return <>{error.toString()}</>; //TODO: error component
+  if (isLoading) return <p>Loading...</p>;
   return (
     <div className="flex flex-col items-center gap-10">
-      <h1 className="text-5xl ">{guild.name}</h1>
+      <h1 className="text-5xl ">{guild!.name}</h1>
       <Form
         onSubmit={handleSubmit}
-        initialValue={guild?.prefix?.value ?? "loading"}
+        initialValue={guild!.prefix?.value ?? "loading..."}
         label="prefix"
         submitLabel="Save"
         disabled={isLoading}
