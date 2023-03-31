@@ -4,7 +4,7 @@ const Guild: FC<{ guild: Guild }> = ({ guild }) => {
   const { id, name, icon } = guild;
   return (
     <li id={id} className="flex list-none flex-col items-center">
-      <a href={`guilds/${id}`} className="text-xl">
+      <a href={`/guilds/${id}`} className="text-xl">
         <img
           src={icon!}
           alt={`${name} picture`}

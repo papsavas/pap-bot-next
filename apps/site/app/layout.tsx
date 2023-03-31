@@ -1,5 +1,11 @@
+import GuildNav from "./components/GuildNav";
 import NavBar from "./components/Navbar";
 import "./globals.css";
+
+// export const metadata = {
+//   title: "My title",
+//   icon: "/papboticon.ico",
+// };
 
 export default function RootLayout({
   children,
@@ -8,14 +14,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
+      {/* <Head /> */}
       <body className="bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText ">
         <NavBar />
-        {children}
+        <div className="flex h-screen">
+          <GuildNav />
+          <main className="mt-4 flex flex-1 justify-center">{children}</main>
+        </div>
       </body>
     </html>
   );

@@ -1,9 +1,3 @@
-import GuildList from "./components/GuildList";
-
 export default function Home() {
-  return (
-    <main>
-      <GuildList />
-    </main>
-  );
+  return <h1 className="text-5xl">PAP</h1>;
 }
