@@ -1,20 +1,18 @@
 "use client";
-import { Guild as GuildProps } from "database";
+import { Guild } from "database";
 import useSWR from "swr";
-import Guild from "./Guild";
+import GuildLink from "./GuildLink";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) =>
+  fetch(url, { cache: "force-cache" }).then((res) => res.json());
 const GuildNav = () => {
-  const { data: guilds, isLoading } = useSWR<GuildProps[]>(
-    "/api/guilds",
-    fetcher
-  );
+  const { data: guilds, isLoading } = useSWR<Guild[]>("/api/guilds", fetcher);
 
   return (
-    <ul className="flex w-20 flex-shrink list-none flex-col gap-4 bg-neutral-800 px-2 py-4 dark:bg-neutral-800">
+    <ul className="flex w-20 flex-shrink list-none flex-col gap-5 bg-neutral-800 px-2 py-6 dark:bg-neutral-800">
       {isLoading
-        ? null //TODO: set fallback
-        : guilds?.map((g) => <Guild guild={g} key={g.id} />)}
+        ? null //TODO: fallback
+        : guilds?.map((g) => <GuildLink guild={g} key={g.id} />)}
     </ul>
   );
 };

@@ -1,6 +1,6 @@
 import { Guild } from "database";
 import { FC } from "react";
-const Guild: FC<{ guild: Guild }> = ({ guild }) => {
+const GuildLink: FC<{ guild: Guild }> = ({ guild }) => {
   const { id, name, icon } = guild;
   return (
     <li id={id} className="flex list-none flex-col items-center">
@@ -15,4 +15,4 @@ const Guild: FC<{ guild: Guild }> = ({ guild }) => {
   );
 };
 
-export default Guild;
+export default GuildLink;
