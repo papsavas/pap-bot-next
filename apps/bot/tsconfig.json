@@ -11,6 +11,6 @@
   },
 
   "module": "esnext",
-  "include": ["src/**/*.ts", "../../packages/utils/values.ts"],
+  "include": ["src/**/*.ts", "**/*.d.ts"],
   "exclude": ["node_modules"]
 }

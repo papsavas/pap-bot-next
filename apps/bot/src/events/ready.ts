@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { importDir } from "utils";
 import { cache } from "..";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
+import { BOT_PORT, server } from "../server";
 import { Command } from "../types/Command";
 import { makeEvent } from "../utils/events/makeEvent";
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +19,7 @@ const ready = makeEvent({
         await loadReactionNotifiers(client);
         await loadPrefixes();
         cache.commands = await Promise.all(commands);
+        server.listen(BOT_PORT, () => console.log(`bot server listening to ${BOT_PORT}`));
         console.log(`Bot cache ready. Serving ${client.guilds.cache.size} guilds`)
     },
 })

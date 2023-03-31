@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc && node dist/src/index.js",
-    "dev": "ts-node src/index.ts",
+    "dev": "ts-node src/index.ts && ts-node src/server.ts",
     "registerCommand": "node --loader ts-node/esm ./src/scripts/registerCommand",
     "unregisterCommand": "node --loader ts-node/esm ./src/scripts/deleteCommand",
     "migrateChannel": "node --loader ts-node/esm ./src/scripts/migrateChannel",
@@ -16,9 +16,11 @@
   "license": "ISC",
   "dependencies": {
     "database": "*",
-    "discord.js": "^14.8.0"
+    "discord.js": "^14.8.0",
+    "express": "^4.18.2"
   },
   "devDependencies": {
+    "@types/express": "^4.17.17",
     "ts-node": "^10.9.1"
   }
 }
