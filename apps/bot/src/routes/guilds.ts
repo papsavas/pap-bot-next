@@ -1,9 +1,8 @@
 import { Router } from "express";
 
-
 const route = "/guilds";
 
-export const guildsRouter = Router({ caseSensitive: false });
+const guildsRouter = Router();
 
 guildsRouter.get(route, (req, res) => {
     const client = req.app.locals.client
@@ -12,5 +11,6 @@ guildsRouter.get(route, (req, res) => {
         .status(200)
         .json(client.guilds.cache)
         .end();
-
 })
+
+export default guildsRouter;

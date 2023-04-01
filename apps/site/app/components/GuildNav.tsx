@@ -3,8 +3,7 @@ import useSWR from "swr";
 import { Guild, JSON } from "types";
 import GuildLink from "./GuildLink";
 
-const fetcher = (url: string) =>
-  fetch(url, { cache: "force-cache" }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const GuildNav = () => {
   const { data: guilds, isLoading } = useSWR<JSON<Guild[]>>(
     "/api/guilds",
