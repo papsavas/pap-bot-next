@@ -1,5 +1,5 @@
 import { CommandInteraction } from "discord.js";
-import { SourceHandlerOptions } from "../types/SourceHandler";
+import { SourceHandlerOptions } from "../../types/SourceHandler";
 
 const SourceHandler: SourceHandlerOptions = (source) => {
     return {

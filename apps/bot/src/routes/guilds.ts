@@ -1,8 +1,8 @@
-import { Router } from "express";
+import { IRouter, Router } from "express";
 
 const route = "/guilds";
 
-const guildsRouter = Router();
+const guildsRouter: IRouter = Router();
 
 guildsRouter.get(route, (req, res) => {
     const client = req.app.locals.client

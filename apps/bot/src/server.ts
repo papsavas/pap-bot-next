@@ -10,12 +10,12 @@ const __dirname = dirname(__filename);
 export const BOT_PORT = 4040;
 export const server = express();
 
-const clientMiddleware: RequestHandler = (req, res, next) => {
+const addClientToRequest: RequestHandler = (req, res, next) => {
     req.app.locals.client = bot;
     next();
 }
 
-server.use(clientMiddleware);
+server.use(addClientToRequest);
 
 const routes = await Promise.all(importDir<RequestHandler>(
     join(__dirname, "routes"),

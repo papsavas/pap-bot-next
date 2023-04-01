@@ -1,7 +1,7 @@
 import { db, Prefix } from "database";
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
 import { cache } from "..";
-import { CommandSource } from "../types/Command";
+import { CommandSource } from "../../types/Command";
 import { makeCommand } from "../utils/commands/makeCommand";
 import { sliceCommand } from "../utils/commands/slice";
 

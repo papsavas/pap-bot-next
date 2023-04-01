@@ -1,6 +1,6 @@
 import { Snowflake } from "discord.js";
 import { bot } from "../..";
-import { Command, PartialCommand } from "../../types/Command";
+import { Command, PartialCommand } from "../../../types/Command";
 import createCommand from "./create";
 import deleteCommand from "./delete";
 

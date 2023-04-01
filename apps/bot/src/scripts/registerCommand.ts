@@ -1,7 +1,7 @@
 import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
 import { importDir } from "utils";
-import { Command } from "../types/Command";
+import { Command } from "../../types/Command";
 import createCommand from "../utils/commands/create";
 import client from "./client";
 

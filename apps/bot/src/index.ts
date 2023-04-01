@@ -5,8 +5,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
 import { importDir } from "utils";
 
-import { DiscordEvent } from "./types/DiscordEvent";
-import { GuildCache, GuildPrefix, GuildReactionNotifier } from "./types/GuildSettings";
+import { DiscordEvent } from "../types/DiscordEvent";
+import { GuildCache, GuildPrefix, GuildReactionNotifier } from "../types/GuildSettings";
 
 dotenv.config({ path: findConfig('.env')! })
 
