@@ -19,6 +19,12 @@ const ready = makeEvent({
         await loadReactionNotifiers(client);
         await loadPrefixes();
         cache.commands = await Promise.all(commands);
+        //attach arguments to server
+        server.addHook("onRequest", (req, res, done) => {
+            req.client = client;
+            req.cache = cache
+            done();
+        });
         server.listen({ port: BOT_PORT }, () => console.log(`bot server listening to ${BOT_PORT}`));
         console.log(`Bot cache ready. Serving ${client.guilds.cache.size} guilds`)
     },
