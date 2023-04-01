@@ -1,16 +1,11 @@
-import { IRouter, Router } from "express";
+import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
-const route = "/guilds";
-
-const guildsRouter: IRouter = Router();
-
-guildsRouter.get(route, (req, res) => {
-    const client = req.app.locals.client
-    if (!client || !client.isReady()) return res.sendStatus(500);
-    return res
-        .status(200)
-        .json(client.guilds.cache)
-        .end();
-})
-
-export default guildsRouter;
+export default async function guildsRouter(fastify: FastifyInstance, options: FastifyPluginOptions) {
+    fastify.get("/", async (req, res) => {
+        const client = req.client
+        if (!client || !client.isReady()) return res.status(500);
+        return res
+            .status(200)
+            .serialize(client.guilds.cache)
+    })
+}

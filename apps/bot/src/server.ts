@@ -1,26 +1,36 @@
-import express, { RequestHandler } from 'express';
+
+import { Client } from 'discord.js';
+import fastify, { FastifyPluginCallback } from 'fastify';
 import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
-import { importDir } from 'utils';
+import { importMappedDir } from 'utils/importDir';
 import { bot } from '.';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export const BOT_PORT = 4040;
-export const server = express();
+export const server = fastify();
 
-const addClientToRequest: RequestHandler = (req, res, next) => {
-    req.app.locals.client = bot;
-    next();
+declare module 'fastify' {
+    interface FastifyRequest {
+        client: Client,
+    }
 }
 
-server.use(addClientToRequest);
+server.decorateRequest("client", null);
+server.addHook("onRequest", (req, res, done) => {
+    req.client = bot;
+    done();
+});
 
-const routes = await Promise.all(importDir<RequestHandler>(
+const routes = await importMappedDir<FastifyPluginCallback>(
     join(__dirname, "routes"),
-    (f => f.endsWith(".ts"))
-))
-server.use(...routes);
+    (f => f.endsWith(".ts")
+    ))
+
+//register all plugins
+for (const [name, file] of routes.entries())
+    server.register(file, { prefix: name })
 
 
