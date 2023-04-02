@@ -6,7 +6,7 @@ import { importDir, values } from "utils";
 import { cache } from "..";
 import { Command } from "../../types/Command";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
-import { BOT_PORT, server } from "../server";
+import { BOT_PORT, app } from "../server";
 import { makeEvent } from "../utils/events/makeEvent";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,13 +20,8 @@ const ready = makeEvent({
         await loadReactionNotifiers(client);
         await loadPrefixes();
         cache.commands = await Promise.all(commands);
-        //attach arguments to server
-        server.addHook("onRequest", (req, res, done) => {
-            req.client = client;
-            req.cache = cache
-            done();
-        });
-        server.listen({ port: BOT_PORT }, () => console.log(`bot server listening to ${BOT_PORT}`));
+        //launch server
+        app.listen(BOT_PORT, () => console.log(`bot server listening to ${BOT_PORT}`));
         console.log(`Bot cache ready. Serving ${client.guilds.cache.size} guilds`)
     },
 })

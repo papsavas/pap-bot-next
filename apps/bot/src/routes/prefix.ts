@@ -1,15 +1,40 @@
-import { FastifyInstance, FastifyPluginOptions, FastifyRequest } from "fastify";
-import { JSON, Prefix, prefixObject } from "types";
+import { initServer } from "@ts-rest/express";
+import { contract } from "http-contract";
+import { prefixObject } from "types";
 
-
-
-
-export default async function guildsRouter(fastify: FastifyInstance, options: FastifyPluginOptions) {
-    fastify.patch("/", async (req: FastifyRequest<{ Body: JSON<Prefix> }>, res) => {
-        const parsed = prefixObject.safeParse(req.body);
-        if (parsed.success) {
-
+const s = initServer();
+export const prefixRouter = s.router(contract.prefix, {
+    getPrefix: async ({ req, params }) => {
+        const prefix = req.cache.prefix.get(params.guildId);
+        if (!prefix) return {
+            status: 400,
+            body: { message: "Bad Request" }
         }
-        return res.status(400);
-    })
-}
+        return {
+            status: 200,
+            body: {
+                ...prefix,
+                guildId: params.guildId
+            }
+        }
+    },
+    putPrefix: async ({ req, body, params }) => {
+        const prefixCache = req.cache.prefix;
+        if (!prefixCache.has(params.guildId) || !prefixObject.safeParse(body).success) return {
+            status: 400, body: { message: "Bad Request" }
+        }
+        //patch prefix
+        prefixCache.set(params.guildId, {
+            ...body
+        })
+        //TODO: update db
+        return {
+            status: 200,
+            body: {
+                guildId: params.guildId,
+                ...body
+            }
+        }
+    }
+
+})
