@@ -5,8 +5,8 @@ import { z } from "zod";
 const schema = z.object({
     guildId: z.string(),
     userId: z.string(),
-    value: z.string()
-});
+    prefix: z.string()
+}) satisfies z.Schema<Prefix>;
 
 export default async function guildsRouter(fastify: FastifyInstance, options: FastifyPluginOptions) {
     fastify.patch("/", async (req: FastifyRequest<{ Body: JSON<Prefix> }>, res) => {
