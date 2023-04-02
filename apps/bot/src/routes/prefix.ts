@@ -1,16 +1,12 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyRequest } from "fastify";
-import { JSON, Prefix } from "types";
-import { z } from "zod";
+import { JSON, Prefix, prefixObject } from "types";
 
-const schema = z.object({
-    guildId: z.string(),
-    userId: z.string(),
-    prefix: z.string()
-}) satisfies z.Schema<Prefix>;
+
+
 
 export default async function guildsRouter(fastify: FastifyInstance, options: FastifyPluginOptions) {
     fastify.patch("/", async (req: FastifyRequest<{ Body: JSON<Prefix> }>, res) => {
-        const parsed = schema.safeParse(req.body);
+        const parsed = prefixObject.safeParse(req.body);
         if (parsed.success) {
 
         }

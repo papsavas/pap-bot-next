@@ -2,5 +2,8 @@
     "name": "types",
     "type": "module",
     "main": "index.ts",
-    "types": "index.ts"
+    "types": "index.ts",
+    "dependencies": {
+        "zod": "^3.21.4"
+    }
 }
