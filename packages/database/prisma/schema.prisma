@@ -18,7 +18,7 @@ model Guild{
 }
 
 model Prefix{
-  value String
+  prefix String
   userId String
 
   guildId String @unique @id
