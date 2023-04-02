@@ -1,4 +1,5 @@
 import { DataManager } from "discord.js";
+export { Prefix } from "database";
 export { Collection, Guild, Snowflake } from "discord.js";
 
 export type JSON<T> = {
