@@ -21,6 +21,7 @@ export const guildsContract = c.router({
         pathParams: { id: paramId },
         responses: {
             200: guildObject,
+            400: c.response<{ message: string }>()
         },
     }
 })

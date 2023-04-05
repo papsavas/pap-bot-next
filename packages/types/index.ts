@@ -1,5 +1,4 @@
-export { Collection, Snowflake } from "discord.js";
-export { Guild, guildObject } from "./Guilds";
-export { JSON } from "./JSON";
-export { Prefix, prefixObject } from "./Prefix";
+export { guildObject, type Guild } from "./Guilds";
+export { prefixObject, type Prefix } from "./Prefix";
+
 

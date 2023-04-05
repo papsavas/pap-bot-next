@@ -9,6 +9,8 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const GuildPage: FC<{
   params: { id: string };
 }> = ({ params }) => {
+  //TODO!: prefix does not update
+
   const {
     data: guild,
     isLoading: isGuildLoading,

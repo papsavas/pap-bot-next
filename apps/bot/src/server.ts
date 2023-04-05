@@ -4,6 +4,7 @@ import express from "express";
 import { contract } from "http-contract";
 import { bot, cache } from ".";
 import { GuildCache } from "../types/GuildSettings";
+import { guildsRouter } from "./routes/guilds";
 import { prefixRouter } from "./routes/prefix";
 
 //enhance request Type
@@ -26,5 +27,6 @@ app.use((req, res, next) => {
 });
 
 createExpressEndpoints(contract.prefix, prefixRouter, app, { logInitialization: true });
+createExpressEndpoints(contract.guilds, guildsRouter, app, { logInitialization: true });
 
 

@@ -4,7 +4,7 @@ export const guildObject = z.object({
     id: z.string(),
     ownerId: z.string(),
     channels: z.string().array(),
-    icon: z.string().nullable(),
+    iconURL: z.string().nullable(),
     name: z.string()
 });
 
