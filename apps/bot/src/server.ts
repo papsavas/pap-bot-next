@@ -16,8 +16,6 @@ declare global {
     }
 }
 
-export const BOT_PORT = 4040;
-
 export const app = express()
 
 //add client and cache to request object

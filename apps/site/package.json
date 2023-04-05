@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ts-rest/core": "^3.18.1",
     "database": "*",
     "http-contract": "*",
     "next": "^13.2.4",

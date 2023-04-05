@@ -1,12 +1,13 @@
 import { db } from "database";
 import { Client } from "discord.js";
+import { BOT_PORT } from "http-contract";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
 import { importDir, values } from "utils";
 import { cache } from "..";
 import { Command } from "../../types/Command";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
-import { BOT_PORT, app } from "../server";
+import { app } from "../server";
 import { makeEvent } from "../utils/events/makeEvent";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
