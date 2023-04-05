@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from "react";
+import { FC, FormEvent, useEffect, useState } from "react";
 
 const Form: FC<{
   label: string;
@@ -19,7 +19,9 @@ const Form: FC<{
   inline = false,
 }) => {
   const [value, setValue] = useState(initialValue);
-
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
   return (
     <form
       className={`flex ${inline ? "flex-row" : "flex-col"}  items-center gap-4`}
@@ -30,7 +32,7 @@ const Form: FC<{
         className="flex-1 rounded-md bg-neutral-200 px-1 dark:bg-neutral-800 dark:text-neutral-300"
         disabled={disabled}
         type="text"
-        defaultValue={value}
+        value={value}
         onChange={(ev) => setValue(ev.target.value)}
       />
       <button

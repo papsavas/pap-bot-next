@@ -3,14 +3,11 @@ import { FC, FormEvent } from "react";
 import useSWR from "swr";
 import { Guild, Prefix } from "types";
 import Form from "../../components/Form/Form";
-import { tsRest } from "../../lib/ts-rest";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const GuildPage: FC<{
   params: { id: string };
 }> = ({ params }) => {
-  //TODO!: prefix does not update
-
   const {
     data: guild,
     isLoading: isGuildLoading,
@@ -31,9 +28,9 @@ const GuildPage: FC<{
     if (!prefix) return;
     if (value !== prefix.prefix)
       //update prefix
-      await tsRest.prefix.putPrefix({
-        params: { guildId: params.id },
-        body: { prefix: value, userId: "<CURRENT_USER_PLACEHOLDER>" },
+      await fetch(`/api/prefix/${params.id}`, {
+        method: "PUT",
+        body: JSON.stringify({ prefix: value, userId: "<CURRENT_USER_ID>" }),
       });
   };
 

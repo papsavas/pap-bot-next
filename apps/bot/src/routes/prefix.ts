@@ -24,6 +24,7 @@ export const prefixRouter = s.router(contract.prefix, {
             status: 400, body: { message: "Bad Request" }
         }
         //patch prefix
+        //TODO!: cache not updating
         prefixCache.set(params.guildId, {
             ...body
         })
