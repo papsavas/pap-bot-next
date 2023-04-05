@@ -1,7 +1,7 @@
 "use client";
-import { Guild } from "database";
 import { FC, FormEvent } from "react";
 import useSWR from "swr";
+import { Guild, Prefix } from "types";
 import Form from "../../components/Form/Form";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -10,34 +10,41 @@ const GuildPage: FC<{
 }> = ({ params }) => {
   const {
     data: guild,
-    isLoading,
-    error,
+    isLoading: isGuildLoading,
+    error: guildError,
   } = useSWR<Guild>(`/guilds/api/${params.id}`, fetcher);
 
-  const handleSubmit: (event: FormEvent<Element>, value: string) => void = (
-    ev,
-    value
-  ) => {
+  const {
+    data: prefix,
+    isLoading: isPrefixLoading,
+    error: prefixError,
+  } = useSWR<Prefix>(`/api/prefix/${params.id}`, fetcher);
+
+  const handlePrefixSubmit: (
+    event: FormEvent<Element>,
+    value: string
+  ) => void = async (ev, value) => {
     ev.preventDefault();
-    if (!guild) return;
-    if (value !== guild?.prefix?.value)
-      fetch(`api/${params.id}`, {
+    if (!prefix) return;
+    if (value !== prefix.prefix)
+      //update prefix
+      await fetch(`/api/prefix/${params.id}`, {
         method: "PUT",
-        body: JSON.stringify({ value, guildId: guild.id }),
+        body: JSON.stringify({ prefix: value, userId: "<CURRENT_USER_ID>" }),
       });
   };
 
-  if (error) return <>{error.toString()}</>; //TODO: error component
-  if (isLoading) return <p>Loading...</p>;
+  if (guildError || prefixError)
+    return <>{(guildError ?? prefixError).toString()}</>; //TODO: error component
   return (
     <div className="flex flex-col items-center gap-10">
-      <h1 className="text-5xl ">{guild!.name}</h1>
+      <h1 className="text-5xl ">{guild?.name ?? "loading..."}</h1>
       <Form
-        onSubmit={handleSubmit}
-        initialValue={guild!.prefix?.value ?? "loading..."}
+        onSubmit={handlePrefixSubmit}
+        initialValue={prefix?.prefix ?? "loading..."}
         label="prefix"
         submitLabel="Save"
-        disabled={isLoading}
+        disabled={isPrefixLoading}
         inline
       />
     </div>

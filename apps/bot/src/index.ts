@@ -5,22 +5,20 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
 import { importDir } from "utils";
 
-import { DiscordEvent } from "./types/DiscordEvent";
-import { GuildCache, GuildPrefix, GuildReactionNotifier } from "./types/GuildSettings";
+import { DiscordEvent } from "../types/DiscordEvent";
+import { GuildCache, GuildPrefix, GuildReactionNotifier } from "../types/GuildSettings";
 
 dotenv.config({ path: findConfig('.env')! })
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-
-
+//TODO: handle syncing with db
 export const cache: GuildCache = {
     commands: [],
     prefix: new Collection<Snowflake, GuildPrefix>(),
     reactionNotifier: new Collection<Snowflake, GuildReactionNotifier>(),
 }
-
 
 export const bot = new Client({
     intents: [

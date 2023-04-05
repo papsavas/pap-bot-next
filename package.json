@@ -15,7 +15,8 @@
   "devDependencies": {
     "@types/find-config": "^1.0.1",
     "prettier": "latest",
-    "turbo": "^1.7.0"
+    "turbo": "^1.7.0",
+    "types": "*"
   },
   "engines": {
     "node": ">=18.0.0"

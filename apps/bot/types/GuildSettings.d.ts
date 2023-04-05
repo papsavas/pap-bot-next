@@ -2,7 +2,7 @@ import { Collection, Role, Snowflake, User } from "discord.js";
 import { Command } from "./Command";
 
 export type GuildPrefix = {
-    value: string,
+    prefix: string,
     userId: Role['id']
 }
 export type GuildReactionNotifier = {

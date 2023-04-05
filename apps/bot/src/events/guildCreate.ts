@@ -13,7 +13,7 @@ const guildCreate = makeEvent({
                 prefix: {
                     create: {
                         userId: ownerId,
-                        value: values.defaultPrefix
+                        prefix: values.defaultPrefix
                     }
                 }
             }

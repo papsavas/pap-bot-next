@@ -1,10 +1,9 @@
 "use client";
-import { Guild } from "database";
 import useSWR from "swr";
+import { Guild } from "types";
 import GuildLink from "./GuildLink";
 
-const fetcher = (url: string) =>
-  fetch(url, { cache: "force-cache" }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const GuildNav = () => {
   const { data: guilds, isLoading } = useSWR<Guild[]>("/api/guilds", fetcher);
 
