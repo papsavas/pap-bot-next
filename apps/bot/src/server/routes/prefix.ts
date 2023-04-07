@@ -3,6 +3,7 @@ import { contract } from "http-contract";
 import { prefixObject } from "types";
 
 const s = initServer();
+
 export const prefixRouter = s.router(contract.prefix, {
     getPrefix: async ({ req, params }) => {
         const prefix = req.cache.prefix.get(params.guildId);
@@ -19,12 +20,12 @@ export const prefixRouter = s.router(contract.prefix, {
         }
     },
     putPrefix: async ({ req, body, params }) => {
+        console.log("PUT----------PREFIX");
+
         const prefixCache = req.cache.prefix;
         if (!prefixCache.has(params.guildId) || !prefixObject.safeParse(body).success) return {
             status: 400, body: { message: "Bad Request" }
         }
-        //patch prefix
-        //TODO!: cache not updating
         prefixCache.set(params.guildId, {
             ...body
         })
@@ -32,8 +33,7 @@ export const prefixRouter = s.router(contract.prefix, {
         return {
             status: 200,
             body: {
-                guildId: params.guildId,
-                ...body
+                message: "Success"
             }
         }
     }

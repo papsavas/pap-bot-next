@@ -6,4 +6,10 @@ export const prefixObject = z.object({
     prefix: z.string()
 });
 
+export const prefixWithoutGuildIdObject = prefixObject.omit({ guildId: true })
+
+export const prefixPathParams = z.object({
+    guildId: z.string()
+})
+
 export type Prefix = z.infer<typeof prefixObject>

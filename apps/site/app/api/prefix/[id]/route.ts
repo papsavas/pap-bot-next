@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prefixObject } from "types";
+import { prefixWithoutGuildIdObject } from "types/Prefix";
 import { tsRest } from "../../../lib/ts-rest";
 
 export async function GET(request: NextRequest, { params }: Params) {
@@ -11,13 +11,16 @@ export async function GET(request: NextRequest, { params }: Params) {
 
 export async function PUT(request: NextRequest, { params }: Params) {
     const body = await request.json();
-    const parsedBody = prefixObject.omit({ guildId: true }).safeParse(body);
-    if (!parsedBody.success) return NextResponse.error();
+    const parsedBody = prefixWithoutGuildIdObject.safeParse(body);
+    if (!parsedBody.success)
+        return NextResponse.json({}, { status: 400, statusText: "Bad Request" });
     const res = await tsRest.prefix.putPrefix({
         params: { guildId: params.id },
         body: parsedBody.data
     });
+    console.log(JSON.stringify(res));
+
     if (res.status === 200)
-        return NextResponse.json({ message: "Success" })
-    return NextResponse.error();
+        return NextResponse.json({}, { status: 200, statusText: "Success" })
+    return NextResponse.json({}, { status: 500, statusText: "Bad Response" });
 }
