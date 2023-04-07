@@ -10,7 +10,7 @@ export type GuildReactionNotifier = {
     targetId?: User['id']
 }
 
-export type GuildCache = {
+export type Cache = {
     commands: Command[],
     prefix: Collection<Snowflake, GuildPrefix>,
     reactionNotifier: Collection<Snowflake, GuildReactionNotifier>

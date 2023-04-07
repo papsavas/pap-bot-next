@@ -8,7 +8,7 @@ import { cache } from "..";
 import { Command } from "../../types/Command";
 import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
 import { app } from "../server";
-import { makeEvent } from "../utils/events/makeEvent";
+import { makeEvent } from "../utils/makeEvent";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 

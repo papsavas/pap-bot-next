@@ -1,5 +1,5 @@
 import { db } from "database";
-import { makeEvent } from "../utils/events/makeEvent";
+import { makeEvent } from "../utils/makeEvent";
 
 const guildDelete = makeEvent({
     event: "guildDelete",

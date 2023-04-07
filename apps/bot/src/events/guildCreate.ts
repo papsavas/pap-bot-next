@@ -1,6 +1,6 @@
 import { db } from "database";
 import { values } from "utils/values";
-import { makeEvent } from "../utils/events/makeEvent";
+import { makeEvent } from "../utils/makeEvent";
 
 const guildCreate = makeEvent({
     event: "guildCreate",

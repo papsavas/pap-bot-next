@@ -1,5 +1,5 @@
 import { cache } from "..";
-import { makeEvent } from "../utils/events/makeEvent";
+import { makeEvent } from "../utils/makeEvent";
 
 const interactionCreate = makeEvent({
     event: "interactionCreate",

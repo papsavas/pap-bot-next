@@ -1,4 +1,4 @@
-import { makeEvent } from "../utils/events/makeEvent";
+import { makeEvent } from "../utils/makeEvent";
 
 const guildMemberUpdate = makeEvent({
     event: "guildMemberUpdate",

@@ -3,17 +3,16 @@ import { Client } from "discord.js";
 import express from "express";
 import { contract } from "http-contract";
 import { bot, cache } from "..";
-import { GuildCache } from "../../types/GuildSettings";
+import { Cache } from "../../types/GuildSettings";
 import { guildsRouter } from "./routes/guilds";
 import { prefixRouter } from "./routes/prefix";
-
 
 //enhance request Type
 declare global {
     namespace Express {
         export interface Request {
             bot: Client;
-            cache: GuildCache;
+            cache: Cache;
         }
     }
 }
