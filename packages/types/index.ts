@@ -1,4 +1,4 @@
 export { guildObject, type Guild } from "./Guilds";
-export { prefixObject, type Prefix } from "./Prefix";
+export { prefixObject, prefixPathParams, prefixWithoutGuildIdObject, type Prefix } from "./Prefix";
 
 

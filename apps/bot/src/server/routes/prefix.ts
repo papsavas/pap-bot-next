@@ -1,6 +1,6 @@
 import { initServer } from "@ts-rest/express";
 import { contract } from "http-contract";
-import { prefixObject } from "types";
+import { prefixWithoutGuildIdObject } from "types";
 
 const s = initServer();
 
@@ -20,10 +20,8 @@ export const prefixRouter = s.router(contract.prefix, {
         }
     },
     putPrefix: async ({ req, body, params }) => {
-        console.log("PUT----------PREFIX");
-
         const prefixCache = req.cache.prefix;
-        if (!prefixCache.has(params.guildId) || !prefixObject.safeParse(body).success) return {
+        if (!prefixCache.has(params.guildId) || !prefixWithoutGuildIdObject.safeParse(body).success) return {
             status: 400, body: { message: "Bad Request" }
         }
         prefixCache.set(params.guildId, {

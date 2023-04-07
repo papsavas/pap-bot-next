@@ -18,7 +18,9 @@ declare global {
     }
 }
 
-export const app = express()
+export const app = express();
+
+app.use(express.json());
 
 //add client and cache to request object
 app.use((req, res, next) => {
@@ -27,11 +29,7 @@ app.use((req, res, next) => {
     next();
 });
 
-
 createExpressEndpoints(contract, {
-    prefix: prefixRouter,
-    guilds: guildsRouter
+    guilds: guildsRouter,
+    prefix: prefixRouter
 }, app, { logInitialization: true });
-
-
-

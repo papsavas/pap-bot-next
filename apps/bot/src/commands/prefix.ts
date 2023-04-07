@@ -57,7 +57,10 @@ const prefixCommand = makeCommand({
             const { arg1 } = sliceCommand(source, prefix);
             if (!arg1)
                 return source.reply(`Current prefix is set to \`${prefix}\` by ${userMention(userId)}`)
-            const { prefix: storedPrefix } = await storePrefix({ guildId: source.guildId, prefix: arg1, userId: source.author.id });
+            const body = { prefix: arg1, userId: source.author.id };
+            //update cache
+            cache.prefix.set(source.guildId, body);
+            const { prefix: storedPrefix } = await storePrefix({ guildId: source.guildId, ...body });
             return source.reply(`Prefix set to \`${storedPrefix}\``);
         }
     }

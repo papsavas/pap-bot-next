@@ -14,11 +14,11 @@ export async function PUT(request: NextRequest, { params }: Params) {
     const parsedBody = prefixWithoutGuildIdObject.safeParse(body);
     if (!parsedBody.success)
         return NextResponse.json({}, { status: 400, statusText: "Bad Request" });
+
     const res = await tsRest.prefix.putPrefix({
         params: { guildId: params.id },
         body: parsedBody.data
     });
-    console.log(JSON.stringify(res));
 
     if (res.status === 200)
         return NextResponse.json({}, { status: 200, statusText: "Success" })
