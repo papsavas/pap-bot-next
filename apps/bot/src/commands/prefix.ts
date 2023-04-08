@@ -1,4 +1,3 @@
-import { db, Prefix as DBPrefix } from "database";
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
 import { cache } from "..";
 import { CommandSource } from "../../types/Command";
@@ -8,15 +7,6 @@ import { sliceCommand } from "../utils/commands/slice";
 const commandName = "prefix" as const;
 const valueOption = "value";
 
-const storePrefix = ({ guildId, prefix, userId }: DBPrefix) =>
-    db.prefix.update({
-        where: { guildId },
-        include: { guild: true },
-        data: {
-            prefix,
-            userId
-        }
-    });
 
 const prefixCommand = makeCommand({
     command: commandName,
@@ -44,8 +34,9 @@ const prefixCommand = makeCommand({
                     content: `Current prefix is set to \`${prefix}\` by ${userMention(userId)}`
                 })
             }
-            const storedPrefix = await storePrefix({ guildId: source.guildId, prefix: value, userId: source.user.id });
-            source.editReply(`Prefix set to \`${storedPrefix.prefix}\``);
+            //update cache and db
+            cache.prefix.set(source.guildId, { prefix: value, userId: source.user.id }, true);
+            source.editReply(`Prefix set to \`${value}\``);
         }
 
         else if (source instanceof Message) {
@@ -57,11 +48,9 @@ const prefixCommand = makeCommand({
             const { arg1 } = sliceCommand(source, prefix);
             if (!arg1)
                 return source.reply(`Current prefix is set to \`${prefix}\` by ${userMention(userId)}`)
-            const body = { prefix: arg1, userId: source.author.id };
-            //update cache
-            cache.prefix.set(source.guildId, body);
-            const { prefix: storedPrefix } = await storePrefix({ guildId: source.guildId, ...body });
-            return source.reply(`Prefix set to \`${storedPrefix}\``);
+            //update cache and db
+            cache.prefix.set(source.guildId, { prefix: arg1, userId: source.author.id }, true);
+            return source.reply(`Prefix set to \`${arg1}\``);
         }
     }
 })

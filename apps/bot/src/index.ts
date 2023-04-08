@@ -1,4 +1,4 @@
-import { Client, ClientEvents, Collection, Events, Partials, Snowflake } from "discord.js";
+import { Client, ClientEvents, Events, Partials, Snowflake } from "discord.js";
 import dotenv from 'dotenv';
 import findConfig from "find-config";
 import { dirname, join } from "node:path";
@@ -6,18 +6,19 @@ import { fileURLToPath } from 'node:url';
 import { importDir } from "utils";
 
 import { DiscordEvent } from "../types/DiscordEvent";
-import { Cache, GuildPrefix, GuildReactionNotifier } from "../types/GuildSettings";
+import { Cache, GuildPrefix, ReactionNotifier } from "../types/GuildSettings";
+import { prefixMonitors } from "./monitors/prefix";
+import { MonitoredCollection } from "./utils/MonitoredCollection";
 
 dotenv.config({ path: findConfig('.env')! })
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-//TODO: handle syncing with db
 export const cache: Cache = {
     commands: [],
-    prefix: new Collection<Snowflake, GuildPrefix>(),
-    reactionNotifier: new Collection<Snowflake, GuildReactionNotifier>(),
+    prefix: new MonitoredCollection<Snowflake, GuildPrefix>(undefined, prefixMonitors),
+    reactionNotifier: new MonitoredCollection<Snowflake, ReactionNotifier>(undefined, {}),
 }
 
 export const bot = new Client({
