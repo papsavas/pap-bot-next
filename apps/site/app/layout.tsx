@@ -1,4 +1,4 @@
-import GuildNav from "./components/GuildNav";
+import GuildNavBar from "./components/GuildNavBar/GuildNavBar";
 import NavBar from "./components/Navbar";
 import "./globals.css";
 
@@ -9,11 +9,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* <Head /> */}
       <body className="bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText ">
         <NavBar />
         <div className="flex h-screen">
-          <GuildNav />
+          <GuildNavBar />
           <main className="mt-8 flex flex-1 justify-center">{children}</main>
         </div>
       </body>

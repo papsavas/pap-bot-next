@@ -3,8 +3,8 @@ import { FC, FormEvent } from "react";
 import useSWR from "swr";
 import { Guild, Prefix } from "types";
 import Form from "../../components/Form/Form";
+import { fetcher } from "../../lib/fetcher";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const GuildPage: FC<{
   params: { id: string };
 }> = ({ params }) => {
