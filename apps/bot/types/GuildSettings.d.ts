@@ -8,10 +8,10 @@ export type GuildPrefix = {
 }
 export type ReactionNotifier = {
     guilds: Guild['id'][],
-    targetId?: User['id']
+    targetId: User['id'] | null
 }
 
-export type Cache = {
+export type Context = {
     commands: Command[],
     prefix: MonitoredCollection<Guild['id'], GuildPrefix>,
     reactionNotifier: MonitoredCollection<User['id'], ReactionNotifier>

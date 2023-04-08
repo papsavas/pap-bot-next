@@ -6,8 +6,9 @@ import { fileURLToPath } from 'node:url';
 import { importDir } from "utils";
 
 import { DiscordEvent } from "../types/DiscordEvent";
-import { Cache, GuildPrefix, ReactionNotifier } from "../types/GuildSettings";
+import { Context, GuildPrefix, ReactionNotifier } from "../types/GuildSettings";
 import { prefixMonitors } from "./monitors/prefix";
+import { reactionNotifierMonitors } from "./monitors/reactionNotifier";
 import { MonitoredCollection } from "./utils/MonitoredCollection";
 
 dotenv.config({ path: findConfig('.env')! })
@@ -15,10 +16,10 @@ dotenv.config({ path: findConfig('.env')! })
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const cache: Cache = {
+export const ctx: Context = {
     commands: [],
     prefix: new MonitoredCollection<Snowflake, GuildPrefix>(undefined, prefixMonitors),
-    reactionNotifier: new MonitoredCollection<Snowflake, ReactionNotifier>(undefined, {}),
+    reactionNotifier: new MonitoredCollection<Snowflake, ReactionNotifier>(undefined, reactionNotifierMonitors),
 }
 
 export const bot = new Client({

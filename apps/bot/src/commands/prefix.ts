@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
-import { cache } from "..";
+import { ctx } from "..";
 import { CommandSource } from "../../types/Command";
 import { makeCommand } from "../utils/commands/makeCommand";
 import { sliceCommand } from "../utils/commands/slice";
@@ -29,13 +29,13 @@ const prefixCommand = makeCommand({
             }
             const value = (source as ChatInputCommandInteraction).options.getString(valueOption);
             if (!value) {
-                const { prefix, userId } = cache.prefix.get(source.guildId)!
+                const { prefix, userId } = ctx.prefix.get(source.guildId)!
                 return source.editReply({
                     content: `Current prefix is set to \`${prefix}\` by ${userMention(userId)}`
                 })
             }
             //update cache and db
-            cache.prefix.set(source.guildId, { prefix: value, userId: source.user.id }, true);
+            ctx.prefix.set(source.guildId, { prefix: value, userId: source.user.id }, true);
             source.editReply(`Prefix set to \`${value}\``);
         }
 
@@ -44,12 +44,12 @@ const prefixCommand = makeCommand({
                 return source.reply("This is a guild only command")
             }
 
-            const { prefix, userId } = cache.prefix.get(source.guildId)!
+            const { prefix, userId } = ctx.prefix.get(source.guildId)!
             const { arg1 } = sliceCommand(source, prefix);
             if (!arg1)
                 return source.reply(`Current prefix is set to \`${prefix}\` by ${userMention(userId)}`)
             //update cache and db
-            cache.prefix.set(source.guildId, { prefix: arg1, userId: source.author.id }, true);
+            ctx.prefix.set(source.guildId, { prefix: arg1, userId: source.author.id }, true);
             return source.reply(`Prefix set to \`${arg1}\``);
         }
     }

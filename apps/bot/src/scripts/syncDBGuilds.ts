@@ -17,7 +17,7 @@ bot.on("ready", async (client) => {
                 prefix: {
                     create: {
                         userId: ownerId,
-                        value: values.defaultPrefix
+                        prefix: values.defaultPrefix
                     }
                 }
             },

@@ -1,5 +1,5 @@
-import { Client, Colors, EmbedBuilder, MessageReaction, User } from "discord.js";
-import { cache } from "..";
+import { Colors, EmbedBuilder, MessageReaction, User } from "discord.js";
+import { ctx } from "..";
 
 
 export const handleReactionNotifications = async (reaction: MessageReaction, user: User) => {
@@ -8,10 +8,10 @@ export const handleReactionNotifications = async (reaction: MessageReaction, use
         const msg = reaction.message;
         const authorId = msg.author.id;
         const shouldNotify = () => {
-            const grn = cache.reactionNotifier.get(guildId);
-            if (!grn) return false;
-            const targetResolver = grn.targetId ? user.id === grn.targetId : true
-            return grn.users.includes(authorId) && targetResolver
+            const rn = ctx.reactionNotifier.get(authorId);
+            if (!rn) return false;
+            const targetResolver = rn.targetId ? user.id === rn.targetId : true
+            return rn.guilds.includes(guildId) && targetResolver
         }
 
         if (shouldNotify()) {
@@ -33,33 +33,4 @@ export const handleReactionNotifications = async (reaction: MessageReaction, use
                 .catch(console.error)
         }
     }
-}
-
-
-export const updateCachedReactionNotifiers = async (
-    client: Client,
-    guilds: string[],
-    userId: User['id'],
-    targetId?: User['id'] | null
-) => {
-    const guildIds = guilds.length === 0 ?
-        //for all guilds
-        [
-            ...client.guilds.cache
-                .filter(async g => (
-                    //TODO?: use cached members
-                    await g.members.fetch()
-                ).has(userId))
-                .keys()
-        ] : guilds
-
-    for (const guildId of guildIds) {
-        const rn = cache.reactionNotifier.get(guildId);
-        cache.reactionNotifier.set(guildId, {
-            //add user
-            users: [...rn?.users.values() ?? [], userId],
-            targetId: targetId ?? rn?.targetId
-        })
-    }
-
 }
