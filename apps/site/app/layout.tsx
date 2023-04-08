@@ -2,11 +2,6 @@ import GuildNav from "./components/GuildNav";
 import NavBar from "./components/Navbar";
 import "./globals.css";
 
-// export const metadata = {
-//   title: "My title",
-//   icon: "/papboticon.ico",
-// };
-
 export default function RootLayout({
   children,
 }: {
