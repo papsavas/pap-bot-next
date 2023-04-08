@@ -1,6 +1,7 @@
 export const metadata = {
   title: "PAP-bot",
-  icon: "/papboticon.ico",
+  //TODO!: fix
+  icon: "/papboticon.png",
   description: "PAPbot dashboard",
   viewport: {
     width: "device-width",
