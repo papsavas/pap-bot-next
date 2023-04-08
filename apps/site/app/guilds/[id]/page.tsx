@@ -40,10 +40,11 @@ const GuildPage: FC<{
     <div className="flex flex-col items-center gap-10">
       <h1 className="text-5xl ">{guild?.name ?? "loading..."}</h1>
       <Form
-        onSubmit={handlePrefixSubmit}
-        initialValue={prefix?.prefix ?? "loading..."}
         label="prefix"
         submitLabel="Save"
+        initialValue={prefix?.prefix ?? "loading..."}
+        onSubmit={handlePrefixSubmit}
+        loading={isPrefixLoading}
         disabled={isPrefixLoading}
         inline
       />
