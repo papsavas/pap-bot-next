@@ -1,9 +1,8 @@
-import { db } from "database";
 import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, ComponentType, italic, RESTJSONErrorCodes, spoiler, StringSelectMenuBuilder } from "discord.js";
-import { updateCachedReactionNotifiers } from "../handlers/reactionNotifications";
+import { ctx } from "..";
 import { makeCommand } from "../utils/commands/makeCommand";
 
-
+//TODO: handle message execution
 //TODO: support multiple users across multiple guilds
 
 const commandName = "reaction-notifier" as const;
@@ -73,30 +72,19 @@ ${spoiler("Tip: Once a DM channel between us is established you can close them a
             componentType: ComponentType.StringSelect,
         })
 
-        const resolvedValues = collectedSelect.values.includes(allGuildsOption) ? [] : collectedSelect.values;
+        const selectedGuilds = collectedSelect.values.includes(allGuildsOption) ? [] : collectedSelect.values;
         const userId = command.user.id;
 
-        //update db
-        await db.reactionNotifications.upsert({
-            where: { userId },
-            update: {
-                targetId: target?.id,
-                guilds: resolvedValues
-            },
-            create: {
-                targetId: target?.id,
-                userId,
-                guilds: resolvedValues
-            }
-        })
-
-        //update cache
-        await updateCachedReactionNotifiers(command.client, resolvedValues, userId, target?.id);
+        //update cache and db
+        ctx.reactionNotifier.set(userId, {
+            targetId: target?.id ?? null,
+            guilds: selectedGuilds
+        }, true)
 
         //respond to user
         await collectedSelect.reply({
-            content: `You selected ${resolvedValues.length > 0 ?
-                resolvedValues.map(id => memberGuilds.get(id)?.name).join(", ")
+            content: `You selected ${selectedGuilds.length > 0 ?
+                selectedGuilds.map(id => memberGuilds.get(id)?.name).join(", ")
                 : "All guilds"
                 }`,
             ephemeral: true

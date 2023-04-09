@@ -2,8 +2,8 @@ import { createExpressEndpoints } from "@ts-rest/express";
 import { Client } from "discord.js";
 import express from "express";
 import { contract } from "http-contract";
-import { bot, cache } from "..";
-import { Cache } from "../../types/GuildSettings";
+import { bot, ctx } from "..";
+import { Context } from "../../types/Context";
 import { guildsRouter } from "./routes/guilds";
 import { prefixRouter } from "./routes/prefix";
 
@@ -12,7 +12,7 @@ declare global {
     namespace Express {
         export interface Request {
             bot: Client;
-            cache: Cache;
+            ctx: Context;
         }
     }
 }
@@ -24,7 +24,7 @@ app.use(express.json());
 //add client and cache to request object
 app.use((req, res, next) => {
     req.bot = bot;
-    req.cache = cache;
+    req.ctx = ctx;
     next();
 });
 
