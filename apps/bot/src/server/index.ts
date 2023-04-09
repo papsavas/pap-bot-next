@@ -3,7 +3,7 @@ import { Client } from "discord.js";
 import express from "express";
 import { contract } from "http-contract";
 import { bot, ctx } from "..";
-import { Context } from "../../types/GuildSettings";
+import { Context } from "../../types/Context";
 import { guildsRouter } from "./routes/guilds";
 import { prefixRouter } from "./routes/prefix";
 

@@ -6,6 +6,8 @@ export type GuildPrefix = {
     prefix: string,
     userId: Role['id']
 }
+
+//TODO: support multiple targets
 export type ReactionNotifier = {
     guilds: Guild['id'][],
     targetId: User['id'] | null

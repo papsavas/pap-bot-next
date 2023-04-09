@@ -5,8 +5,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from 'node:url';
 import { importDir } from "utils";
 
+import { Context, GuildPrefix, ReactionNotifier } from "../types/Context";
 import { DiscordEvent } from "../types/DiscordEvent";
-import { Context, GuildPrefix, ReactionNotifier } from "../types/GuildSettings";
 import { prefixMonitors } from "./monitors/prefix";
 import { reactionNotifierMonitors } from "./monitors/reactionNotifier";
 import { MonitoredCollection } from "./utils/MonitoredCollection";

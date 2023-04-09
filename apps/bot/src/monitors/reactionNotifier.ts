@@ -1,6 +1,6 @@
 import { db } from "database";
 import { Snowflake } from "discord.js";
-import { ReactionNotifier } from "../../types/GuildSettings";
+import { ReactionNotifier } from "../../types/Context";
 import { Monitors } from "../utils/MonitoredCollection";
 
 export const reactionNotifierMonitors: Monitors<Snowflake, ReactionNotifier> = {

@@ -12,8 +12,6 @@ export type Command =
         unregister: (guildId?: Snowflake) => Promise<void>
     }
 
-//guild interaction, guild message, action event
 export type CommandSource = CommandInteraction | Message
-
 type CommandHandlerOutput = void
 export type CommandHandler = (source: CommandSource) => Promise<CommandHandlerOutput>

@@ -1,6 +1,6 @@
 import { db } from "database";
 import { Snowflake } from "discord.js";
-import { GuildPrefix } from "../../types/GuildSettings";
+import { GuildPrefix } from "../../types/Context";
 import { Monitors } from "../utils/MonitoredCollection";
 
 export const prefixMonitors: Monitors<Snowflake, GuildPrefix> = {
