@@ -27,7 +27,7 @@ export const prefixRouter = s.router(contract.prefix, {
         prefixCtx.set(params.guildId, {
             ...body
         }, true)
-        //TODO: update db
+
         return {
             status: 200,
             body: {
