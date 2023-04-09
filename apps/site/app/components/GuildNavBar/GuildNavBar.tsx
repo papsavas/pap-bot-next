@@ -5,15 +5,14 @@ import { fetcher } from "../../lib/fetcher";
 
 import GuildLink from "./GuildLink";
 
-const blockSize = 80;
 const GuildNavBar = () => {
   const { data: guilds, isLoading } = useSWR<Guild[]>("/api/guilds", fetcher);
   return (
     <nav
-      className={`flex w-[${blockSize}px] aspect-square flex-shrink list-none flex-col gap-5 bg-neutral-800 px-2 py-6 dark:bg-neutral-800`}
+      className={`flex aspect-square w-20 flex-shrink list-none flex-col gap-5 bg-neutral-800 px-2 py-6 dark:bg-neutral-800`}
     >
       {isLoading
-        ? Array(Math.round(window.innerHeight / blockSize))
+        ? Array(10)
             .fill(0)
             .map(() => (
               <span className="flex-1 animate-pulse rounded-xl bg-neutral-900"></span>
