@@ -1,4 +1,4 @@
-import GuildNavBar from "./components/GuildNavBar/GuildNavBar";
+import GuildNavBar from "./components/GuildNav/GuildNavBar";
 import NavBar from "./components/Navbar";
 import "./globals.css";
 
