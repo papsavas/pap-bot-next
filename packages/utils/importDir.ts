@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 /**
+ * @description Requires files with **default export**
  * @description Only targets top level directories (`src/<dir>`)
  * @param dir Target Directory 
  * @param filter 
@@ -24,7 +25,13 @@ export const importDir = <T>(
         )
 
 
-
+/**
+ * @description Requires files with **default export**
+ * @description Only targets top level directories (`src/<dir>`)
+ * @param dir Target Directory 
+ * @param filter 
+ * @returns Map<`fileName`, `T`>
+ */
 export const importMappedDir = async <T>(
     path: string,
     filter: (v: string) => boolean = () => true): Promise<Map<string, T>> => {
