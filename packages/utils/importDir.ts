@@ -1,4 +1,3 @@
-import { readdirSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -11,11 +10,18 @@ import { pathToFileURL } from "node:url";
  */
 export const importDir = <T>(
     path: string,
-    filter: (v: string) => boolean = () => true): Promise<T>[] =>
-    readdirSync(path)
-        .filter(filter)
-        .map(file =>
-            import(join(pathToFileURL(path).toString(), file)).then(r => r.default));
+    filter: (v: string) => boolean = () => true): Promise<T[]> =>
+    readdir(path)
+        .then(r =>
+            Promise.all(
+                r
+                    .filter(filter)
+                    .map(file =>
+                        import(join(pathToFileURL(path).toString(), file))
+                            .then(r => r.default)
+                    )
+            )
+        )
 
 
 
