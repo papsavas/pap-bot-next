@@ -50,7 +50,7 @@ const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>(
     }
 )
 
-Promise.all(eventFiles)
+eventFiles
     .then(events => events.forEach(ev =>
         bot.on(ev.event,
             async (...args) => { ev.execute(...args) }

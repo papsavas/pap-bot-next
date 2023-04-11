@@ -19,7 +19,7 @@ const ready = makeEvent({
         await syncGuilds(client);
         await loadReactionNotifiers();
         await loadPrefixes();
-        ctx.commands = await Promise.all(commands);
+        ctx.commands = await commands;
         //launch server
         app.listen(BOT_PORT, () => console.log(`bot server listening to ${BOT_PORT}`));
         console.log(`Bot cache ready. Serving ${client.guilds.cache.size} guilds`)

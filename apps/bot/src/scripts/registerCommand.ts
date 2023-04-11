@@ -12,7 +12,7 @@ const __dirname = dirname(__filename);
 const bot = await client(["Guilds"], []);
 const [path, file, inputCommand, guildId, ...rest] = process.argv;
 if (!inputCommand) throw new Error("You must provide a command name");
-const files = await Promise.all(importDir<Command>(join(__dirname, "..", "commands")))
+const files = await importDir<Command>(join(__dirname, "..", "commands"))
 const cmd = files.find(c => c.command === inputCommand)
 if (!cmd) throw new Error(`Command ${inputCommand} not found. 
 Available commands: ${files.map(f => f.command).toString()}`);
