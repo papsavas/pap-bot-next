@@ -1,13 +1,20 @@
 "use client";
-import { FC, FormEvent } from "react";
+import { FC, FormEvent, useEffect, useState } from "react";
 import useSWR from "swr";
 import { Guild, Prefix } from "types";
 import Form from "../../components/Form/Form";
 import { fetcher } from "../../lib/fetcher";
 
+//TODO: extract prefix to component
 const GuildPage: FC<{
   params: { id: string };
 }> = ({ params }) => {
+  const [prefixResSuccess, setPrefixResSuccess] = useState(false);
+  useEffect(() => {
+    if (!prefixResSuccess) return;
+    const timer = setTimeout(() => setPrefixResSuccess(false), 1000);
+    return () => clearTimeout(timer);
+  }, [prefixResSuccess]);
   const {
     data: guild,
     isLoading: isGuildLoading,
@@ -25,13 +32,13 @@ const GuildPage: FC<{
     value: string
   ) => void = async (ev, value) => {
     ev.preventDefault();
-    if (!prefix) return;
-    if (value !== prefix.prefix)
-      //update prefix
-      await fetch(`/api/prefix/${params.id}`, {
-        method: "PUT",
-        body: JSON.stringify({ prefix: value, userId: "<CURRENT_USER_ID>" }),
-      });
+    if (!prefix || value === prefix.prefix) return setPrefixResSuccess(true);
+    //update prefix
+    const res = await fetch(`/api/prefix/${params.id}`, {
+      method: "PUT",
+      body: JSON.stringify({ prefix: value, userId: "<CURRENT_USER_ID>" }),
+    });
+    setPrefixResSuccess(res.status === 200);
   };
 
   if (guildError || prefixError)
@@ -46,6 +53,7 @@ const GuildPage: FC<{
         onSubmit={handlePrefixSubmit}
         loading={isPrefixLoading}
         disabled={isPrefixLoading}
+        success={prefixResSuccess}
         inline
       />
     </div>
