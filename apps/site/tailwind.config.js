@@ -15,6 +15,7 @@ module.exports = {
       darkBg: colors.neutral[700],
       lightBtn: colors.neutral[200],
       darkBtn: colors.neutral[200],
+      error: colors.red[400],
     },
 
     extend: {},
