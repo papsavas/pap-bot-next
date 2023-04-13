@@ -1,1 +1,4 @@
-type Params = { params: { id: string } };
+type SegmentProps = {
+    params: { id: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+};

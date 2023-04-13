@@ -5,9 +5,7 @@ import { Guild } from "types";
 import GuildPrefix from "../../components/GuildPage/GuildPrefix";
 import { fetcher } from "../../lib/fetcher";
 
-const GuildPage: FC<{
-  params: { id: string };
-}> = ({ params }) => {
+const GuildPage: FC<SegmentProps> = ({ params }) => {
   const {
     data: guild,
     isLoading: isGuildLoading,
