@@ -1,5 +1,9 @@
-import { ClerkProvider } from "@clerk/nextjs/app-beta";
-import Link from "next/link";
+import {
+  ClerkProvider,
+  SignIn,
+  SignedIn,
+  SignedOut,
+} from "@clerk/nextjs/app-beta";
 import GuildNavBar from "./components/GuildNav/GuildNavBar";
 import NavBar from "./components/Navbar";
 import "./globals.css";
@@ -15,11 +19,23 @@ export default function RootLayout({
         <body className="bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText ">
           <NavBar />
           <div className="flex h-screen">
-            <GuildNavBar />
-            <main className="mt-8 flex flex-1 justify-center">{children}</main>
+            <SignedIn>
+              <GuildNavBar />
+              <main className="mt-8 flex flex-1 justify-center">
+                {children}
+              </main>
+            </SignedIn>
+            <SignedOut>
+              <div className="flex flex-1 items-center justify-center">
+                <SignIn
+                  afterSignInUrl={"/"}
+                  appearance={{
+                    elements: { card: "bg-neutral-200" },
+                  }}
+                />
+              </div>
+            </SignedOut>
           </div>
-
-          <Link href="/sign-in">Sign In</Link>
         </body>
       </html>
     </ClerkProvider>
