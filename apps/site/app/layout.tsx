@@ -8,14 +8,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = auth();
+  const { userId } = auth();
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText ">
+        <body className="bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText">
           <NavBar />
           <div className="flex h-screen">
-            {user ? <GuildNavBar /> : null}
+            {userId ? <GuildNavBar /> : null}
             <main className="mt-8 flex flex-1 justify-center">{children}</main>
           </div>
         </body>
