@@ -6,7 +6,7 @@ import { Guild } from "types";
 const GuildLink: FC<{ guild: Guild }> = ({ guild }) => {
   const { id, name, iconURL } = guild;
   return (
-    <li id={id} className="flex list-none flex-col items-center">
+    <li id={id}>
       <Link href={`/guilds/${id}`} className="text-xl">
         <img
           src={iconURL!}
