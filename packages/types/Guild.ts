@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const guildMemberIdQuery = z.object({
+    memberId: z.string().optional()
+})
+
 export const guildObject = z.object({
     id: z.string(),
     ownerId: z.string(),

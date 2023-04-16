@@ -9,15 +9,15 @@ const GuildNavBar = () => {
   const { data: guilds, isLoading } = useSWR<Guild[]>("/api/guilds", fetcher);
   return (
     <nav
-      className={`flex aspect-square w-20 flex-shrink list-none flex-col gap-5 bg-neutral-800 px-2 py-6 dark:bg-neutral-800`}
+      className={`no-scrollbar flex w-20 flex-shrink list-none flex-col items-center gap-5 overflow-y-auto bg-neutral-800 px-2 py-6  dark:bg-neutral-800`}
     >
       {isLoading
-        ? Array(10)
+        ? Array(11)
             .fill(0)
             .map((v, i) => (
               <span
                 key={i}
-                className="flex-1 animate-pulse rounded-xl bg-neutral-900"
+                className="aspect-square min-w-full animate-pulse rounded-xl bg-neutral-900"
               ></span>
             ))
         : guilds?.map((g) => <GuildLink guild={g} key={g.id} />)}

@@ -1,5 +1,6 @@
 import { initContract } from '@ts-rest/core';
-import { guildObject } from 'types';
+import { guildMemberIdQuery, guildObject } from 'types';
+
 
 const c = initContract();
 const paramId = "id";
@@ -9,6 +10,7 @@ export const guildsContract = c.router({
     getGuilds: {
         description: "Get guilds",
         method: "GET",
+        query: guildMemberIdQuery,
         path: "/guilds",
         responses: {
             200: guildObject.array(),
