@@ -6,7 +6,7 @@ import GuildPrefix from "./GuildPrefix";
 const GuildComponent: FC<{ id: string }> = ({ id }) => {
   const [guild, setGuild] = useState<Guild>();
   useEffect(() => {
-    fetch(`/guilds/api/${id}`)
+    fetch(`/api/guilds/${id}`)
       .then((r) => r.json())
       .then((res) => setGuild(res));
   }, []);
