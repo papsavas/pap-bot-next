@@ -1,6 +1,6 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
-import { FC, FormEvent } from "react";
+import { FC } from "react";
 import useSWR from "swr";
 import { Prefix } from "types";
 import useBlink from "../../hooks/useBlink";
@@ -9,23 +9,20 @@ import Form from "../Form/Form";
 
 const GuildPrefix: FC<{ guildId: string }> = ({ guildId }) => {
   const { user } = useUser();
-  const [prefixSuccess, triggerPrefixSuccess] = useBlink();
-  const [prefixFailure, triggerPrefixFailure] = useBlink();
+  const [success, triggerSuccess] = useBlink();
+  const [failure, triggerFailure] = useBlink();
 
-  const {
-    data: prefix,
-    isLoading: isPrefixLoading,
-    error: prefixError,
-  } = useSWR<Prefix>(`/api/prefix/${guildId}`, fetcher);
+  const { data, isLoading, error } = useSWR<Prefix>(
+    `/api/prefix/${guildId}`,
+    fetcher,
+    { revalidateOnFocus: true }
+  );
 
-  if (prefixError) triggerPrefixFailure();
+  if (error) triggerFailure();
 
-  const handlePrefixSubmit: (
-    event: FormEvent<Element>,
-    value: string
-  ) => void = async (ev, value) => {
+  const handleSubmit: FormSubmit = async (ev, value) => {
     ev.preventDefault();
-    if (!prefix || value === prefix.prefix) return triggerPrefixSuccess();
+    if (!data || value === data.prefix) return triggerSuccess();
     //update prefix
     const res = await fetch(`/api/prefix/${guildId}`, {
       method: "PUT",
@@ -34,20 +31,20 @@ const GuildPrefix: FC<{ guildId: string }> = ({ guildId }) => {
         userId: user?.externalAccounts[0].providerUserId,
       }),
     });
-    if (res.status === 200) triggerPrefixSuccess();
+    if (res.status === 200) return triggerSuccess();
   };
 
   return (
     <Form
       label="prefix"
       submitLabel="Save"
-      initialValue={prefix?.prefix ?? "loading..."}
-      onSubmit={handlePrefixSubmit}
-      loading={isPrefixLoading}
-      disabled={isPrefixLoading}
-      success={prefixSuccess}
-      failure={prefixFailure}
-      error={prefixError}
+      initialValue={data?.prefix ?? "loading..."}
+      onSubmit={handleSubmit}
+      loading={isLoading}
+      disabled={isLoading}
+      success={success}
+      failure={failure}
+      error={error}
       inline
     />
   );
