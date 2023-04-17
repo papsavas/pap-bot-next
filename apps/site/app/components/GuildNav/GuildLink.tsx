@@ -10,10 +10,15 @@ const GuildLink: FC<{ guild: Guild }> = ({ guild }) => {
 
   return (
     <li id={id} onClick={() => setSelected()}>
-      <Link href={`/guilds/${id}`} className="relative flex items-center">
-        {selected ? (
-          <span className="absolute -ml-2 h-[70%] w-1 rounded-xl bg-white transition-all duration-100 ease-in-out" />
-        ) : null}
+      <Link href={`/guilds/${id}`} className="relative flex items-center group">
+        <span
+          className={`
+          absolute -left-[24%] w-[5px] opacity-0 h-[50%]
+          rounded-xl bg-white transition-all duration-300
+          group-hover:opacity-100
+          ${selected && "opacity-100 scale-y-150"}
+         `}
+        />
         <img
           src={iconURL!}
           alt={`${name} guild`}
