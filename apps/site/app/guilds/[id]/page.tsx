@@ -1,25 +1,23 @@
 import { Metadata } from "next";
-import { Guild } from "types";
 import GuildComponent from "../../components/GuildPage/GuildComponent";
+import { getGuild } from "../../utils/getGuild";
 
 export async function generateMetadata({
   params,
 }: SegmentProps): Promise<Metadata> {
-  try {
-    const res = await fetch(`http://localhost:3000/guilds/api/${params.id}`);
-    const data: Guild = await res.json();
-    return {
-      title: `${data.name} | PAPbot`,
-      icons: data.iconURL,
-    };
-  } catch (error) {
-    console.error(error);
+  const { body: data, status } = await getGuild(params.id);
+  if (status !== 200)
     return {
       title: "PAPbot",
     };
-  }
+
+  return {
+    title: `${data.name} | PAPbot`,
+    icons: data.iconURL,
+  };
 }
 
 export default async function GuildPage({ params }: SegmentProps) {
+  //@ts-expect-error Server Component
   return <GuildComponent id={params.id} />;
 }

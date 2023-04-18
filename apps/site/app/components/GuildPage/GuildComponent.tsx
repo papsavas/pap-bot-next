@@ -1,22 +1,14 @@
-"use client";
-import { FC, useEffect, useState } from "react";
-import { Guild } from "types";
+import { getGuild } from "../../utils/getGuild";
 import GuildPrefix from "./GuildPrefix";
 
-const GuildComponent: FC<{ id: string }> = ({ id }) => {
-  const [guild, setGuild] = useState<Guild>();
-  useEffect(() => {
-    fetch(`/api/guilds/${id}`)
-      .then((r) => r.json())
-      .then((res) => setGuild(res));
-  }, []);
-
+export default async function GuildComponent({ id }: { id: string }) {
+  const { body: guild, status } = await getGuild(id);
+  if (status !== 200) return <>Error: Guild {id} not found</>;
   //TODO: extract name to component with loading state
   return (
     <div className="flex flex-col items-center gap-10">
-      <h1 className="text-5xl ">{guild?.name ?? "loading..."}</h1>
+      <h1 className="text-5xl ">{guild.name ?? "loading..."}</h1>
       <GuildPrefix guildId={id} />
     </div>
   );
-};
-export default GuildComponent;
+}
