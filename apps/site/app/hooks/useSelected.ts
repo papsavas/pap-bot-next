@@ -1,5 +1,6 @@
+
 import { useContext } from "react";
-import { SelectedContext } from "../components/GuildNav/GuildNavBar";
+import { SelectedContext } from "../context/SelectedContext";
 
 export const useSelected = (id: string) => {
     const { selected, setSelected } = useContext(SelectedContext);
