@@ -1,5 +1,8 @@
 import { ClerkProvider, auth } from "@clerk/nextjs/app-beta";
-import GuildNavBar from "./components/GuildNav/GuildNavBar";
+import { Suspense } from "react";
+import GuildNavBar, {
+  GuildNavBarFallback,
+} from "./components/GuildNav/GuildNavBar";
 import NavBar from "./components/Navbar";
 import "./globals.css";
 
@@ -15,7 +18,12 @@ export default async function RootLayout({
         <body className="bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText">
           <NavBar />
           <div className="flex h-screen">
-            {userId ? <GuildNavBar /> : null}
+            {userId ? (
+              <Suspense fallback={<GuildNavBarFallback />}>
+                {/* @ts-expect-error Server Component */}
+                <GuildNavBar />
+              </Suspense>
+            ) : null}
             <main className="mt-8 flex flex-1 justify-center">{children}</main>
           </div>
         </body>
