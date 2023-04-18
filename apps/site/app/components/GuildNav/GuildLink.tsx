@@ -1,3 +1,5 @@
+"use client";
+import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 import { Guild } from "types";
@@ -19,8 +21,10 @@ const GuildLink: FC<{ guild: Guild }> = ({ guild }) => {
           ${selected && "opacity-100 scale-y-150"}
          `}
         />
-        <img
+        <Image
           src={iconURL!}
+          width={128}
+          height={128}
           alt={`${name} guild`}
           className="rounded-2xl object-contain"
         />
