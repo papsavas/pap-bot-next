@@ -2,5 +2,12 @@
     "name": "utils",
     "type": "module",
     "main": "index.ts",
-    "types": "index.ts"
+    "types": "index.ts",
+    "scripts": {
+        "test": "vitest --coverage"
+    },
+    "devDependencies": {
+        "@vitest/coverage-c8": "^0.30.1",
+        "vitest": "^0.30.1"
+    }
 }
