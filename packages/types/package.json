@@ -4,7 +4,7 @@
     "main": "index.ts",
     "types": "index.ts",
     "scripts": {
-        "test": "vitest typecheck"
+        "test": "vitest run typecheck"
     },
     "dependencies": {
         "zod": "^3.21.4"
