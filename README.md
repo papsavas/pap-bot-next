@@ -1,9 +1,11 @@
 # PAPbot
 
-The 3rd iteration
+Multipurposed Discord Bot and Dashboard Site
 
-### Tech Improvements
+### Tech Stack
 - Monorepo with [Turborepo](https://turbo.build/repo)
-- [Next.js 13](https://beta.nextjs.org) with `app` directory for dashboard
+- [Discord.js](https://discordjs.dev)
+- [Next.js 13](https://beta.nextjs.org) with `app` directory for dashboard. Styled by [Tailwind](https://tailwindcss.com)
 - [Prisma](https://www.prisma.io) ORM
-- [TS-REST](https://ts-rest.com) API contract
+- [TS-REST](https://ts-rest.com) API contract powered by [Zod](https://zod.dev)
+- [Express](https://expressjs.com) Bot Server
