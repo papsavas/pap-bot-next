@@ -1,10 +1,11 @@
 import { ClerkProvider, auth } from "@clerk/nextjs/app-beta";
 import { Suspense } from "react";
+
 import GuildNavBar, {
   GuildNavBarFallback,
-} from "./components/GuildNav/GuildNavBar";
-import NavBar from "./components/Navbar";
-import "./globals.css";
+} from "../components/GuildNav/GuildNavBar";
+import NavBar from "../components/Navbar";
+import "../globals.css";
 
 export default async function RootLayout({
   children,

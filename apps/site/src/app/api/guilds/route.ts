@@ -1,6 +1,6 @@
 import { currentUser } from "@clerk/nextjs/app-beta";
 import { NextRequest, NextResponse } from "next/server";
-import { tsRest } from "../../lib/ts-rest";
+import { tsRest } from "../../../lib/ts-rest";
 
 export async function GET(request: NextRequest) {
     const currUser = await currentUser();
