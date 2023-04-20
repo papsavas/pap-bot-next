@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "base",
+  "compilerOptions": {
+    "module": "esnext",
+    "composite": false,
+    "declaration": true,
+    "rootDir": ".",
+    "baseUrl": "./../..",
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "paths": {
+      "@bot/*": [
+        "./apps/bot/*"
+      ],
+      "@site/*": [
+        "./apps/site/*"
+      ],
+      "@root/*": [
+        "./*"
+      ]
+    },
+    "emitDeclarationOnly": false,
+    "incremental": true,
+    "tsBuildInfoFile": "C:/Users/papsa/papturbot/node_modules/vitest/dist/tsconfig.tmp.tsbuildinfo"
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
