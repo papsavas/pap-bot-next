@@ -1,4 +1,4 @@
-import { describe, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { MonitoredCollection } from './../src/utils/MonitoredCollection';
 
 

@@ -3,7 +3,7 @@
     "type": "module",
     "main": "index.ts",
     "scripts": {
-        "test": "vitest --coverage"
+        "test": "vitest run"
     },
     "devDependencies": {
         "@vitest/coverage-c8": "^0.30.1",
