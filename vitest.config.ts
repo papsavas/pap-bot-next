@@ -3,7 +3,16 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
     test: {
         exclude: [
-            "**/node_modules", "**/dist", "**/next"
+            "**/node_modules/**",
+            "**/dist/**",
+        ],
+        environmentMatchGlobs: [
+            ["**/bot/**", "node"],
+            ["**/site/**", "jsdom"],
+            ["**/packages/**", "node"]
+        ],
+        setupFiles: [
+
         ],
         passWithNoTests: true,
         typecheck: { checker: "tsc" },
