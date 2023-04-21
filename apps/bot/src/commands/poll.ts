@@ -5,7 +5,7 @@ const commandName = "poll" as const;
 const [textOption, pingOption, timeOption] = ["text", "ping", "time",];
 
 const pollCommand = makeCommand({
-    command: commandName,
+    name: commandName,
     data: {
         name: commandName,
         description: "Creates a poll",

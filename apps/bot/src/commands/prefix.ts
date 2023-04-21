@@ -9,7 +9,7 @@ const valueOption = "value";
 
 
 const prefixCommand = makeCommand({
-    command: commandName,
+    name: commandName,
     data: {
         name: commandName,
         description: "prefix for manual commands",

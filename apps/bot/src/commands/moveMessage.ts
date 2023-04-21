@@ -4,7 +4,7 @@ import { makeCommand } from "../utils/commands/makeCommand";
 const commandName = "move-message" as const;
 
 const moveMessageCommand = makeCommand({
-    command: commandName,
+    name: commandName,
     data: {
         name: commandName,
         type: ApplicationCommandType.Message
