@@ -8,6 +8,7 @@
     "build": "tsc && node dist/src/index.js",
     "dev": "ts-node src/index.ts",
     "test": "vitest run",
+    "test:watch": "vitest",
     "registerCommand": "node --loader ts-node/esm ./src/scripts/registerCommand",
     "unregisterCommand": "node --loader ts-node/esm ./src/scripts/deleteCommand",
     "migrateChannel": "node --loader ts-node/esm ./src/scripts/migrateChannel",

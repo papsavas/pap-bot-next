@@ -4,7 +4,8 @@
     "main": "index.ts",
     "types": "index.ts",
     "scripts": {
-        "test": "vitest run typecheck"
+        "test": "vitest run typecheck",
+        "test:watch": "vitest typecheck"
     },
     "dependencies": {
         "zod": "^3.21.4"

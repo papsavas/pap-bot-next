@@ -4,7 +4,8 @@
     "main": "index.ts",
     "types": "index.ts",
     "scripts": {
-        "test": "vitest run"
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "devDependencies": {
         "@vitest/coverage-c8": "^0.30.1",
