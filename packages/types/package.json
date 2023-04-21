@@ -4,7 +4,7 @@
     "main": "index.ts",
     "types": "index.ts",
     "scripts": {
-        "test": "vitest run typecheck",
+        "test": "vitest typecheck",
         "test:watch": "vitest typecheck"
     },
     "dependencies": {
