@@ -12,7 +12,7 @@ export default defineConfig({
             ["**/packages/**", "node"]
         ],
         setupFiles: [
-
+            "tests/setupTests.ts",
         ],
         passWithNoTests: true,
         typecheck: { checker: "tsc" },
