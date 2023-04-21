@@ -10,7 +10,7 @@ const targetOption = "target" as const;
 const allGuildsOption = "all_guilds" as const;
 
 const ReactionNotifierCommand = makeCommand({
-    command: commandName,
+    name: commandName,
     data: {
         name: commandName,
         description: "Setup reaction notifications",
