@@ -1,13 +1,13 @@
 import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, ComponentType, EmbedBuilder } from "discord.js";
 import { makeCommand } from "../utils/commands/makeCommand";
 
-const commandName = "poll" as const;
+const name = "poll";
 const [textOption, pingOption, timeOption] = ["text", "ping", "time",];
 
 const pollCommand = makeCommand({
-    name: commandName,
+    name,
     data: {
-        name: commandName,
+        name,
         description: "Creates a poll",
         type: ApplicationCommandType.ChatInput,
         options: [

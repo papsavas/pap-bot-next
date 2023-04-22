@@ -1,12 +1,12 @@
 import { ActionRowBuilder, ApplicationCommandType, AttachmentBuilder, AttachmentPayload, ChannelSelectMenuBuilder, ChannelType, ComponentType, JSONEncodable, MessageContextMenuCommandInteraction, RESTJSONErrorCodes, TextChannel, WebhookClient } from "discord.js";
 import { makeCommand } from "../utils/commands/makeCommand";
 
-const commandName = "move-message" as const;
+const name = "move-message";
 
 const moveMessageCommand = makeCommand({
-    name: commandName,
+    name,
     data: {
-        name: commandName,
+        name,
         type: ApplicationCommandType.Message
 
     },

@@ -1,10 +1,12 @@
 import { ApplicationCommandType, ChatInputCommandInteraction } from "discord.js";
 import { makeCommand } from "../utils/commands/makeCommand";
 
+const name = "ping";
+
 const pingCommand = makeCommand({
-    name: "ping",
+    name,
     data: {
-        name: "ping",
+        name,
         description: "Returns a `pong` response",
         type: ApplicationCommandType.ChatInput,
 

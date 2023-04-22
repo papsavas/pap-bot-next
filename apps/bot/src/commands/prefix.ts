@@ -4,14 +4,14 @@ import { CommandSource } from "../../types/Command";
 import { makeCommand } from "../utils/commands/makeCommand";
 import { sliceCommand } from "../utils/commands/slice";
 
-const commandName = "prefix" as const;
+const name = "prefix";
 const valueOption = "value";
 
 
 const prefixCommand = makeCommand({
-    name: commandName,
+    name,
     data: {
-        name: commandName,
+        name,
         description: "prefix for manual commands",
         type: ApplicationCommandType.ChatInput,
         options: [{

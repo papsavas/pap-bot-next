@@ -5,14 +5,14 @@ import { makeCommand } from "../utils/commands/makeCommand";
 //TODO: handle message execution
 //TODO: support multiple users across multiple guilds
 
-const commandName = "reaction-notifier" as const;
-const targetOption = "target" as const;
-const allGuildsOption = "all_guilds" as const;
+const name = "reaction-notifier";
+const targetOption = "target";
+const allGuildsOption = "all_guilds";
 
 const ReactionNotifierCommand = makeCommand({
-    name: commandName,
+    name,
     data: {
-        name: commandName,
+        name,
         description: "Setup reaction notifications",
         type: ApplicationCommandType.ChatInput,
         options: [
