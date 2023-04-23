@@ -11,6 +11,10 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    env:
+      DISCORD_BOT_TOKEN: ${{secrets.DISCORD_BOT_TOKEN}}
+      DISCORD_BOT_ID: ${{secrets.DISCORD_BOT_ID}}
+      DISCORD_DEV_BOT_ID: ${{secrets.DISCORD_DEV_BOT_ID}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
