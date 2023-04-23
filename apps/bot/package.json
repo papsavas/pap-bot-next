@@ -17,8 +17,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/rest": "^1.7.0",
     "@ts-rest/express": "^3.18.1",
     "database": "*",
+    "discord-api-types": "^0.37.39",
     "discord.js": "^14.9.0",
     "express": "^4.18.2",
     "http-contract": "*"
