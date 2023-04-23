@@ -5,6 +5,7 @@ import GuildNavBar, {
   GuildNavBarFallback,
 } from "../components/GuildNav/GuildNavBar";
 import NavBar from "../components/Navbar";
+import { GuildProvider } from "../components/Providers/GuildProvider";
 import "../globals.css";
 
 export default async function RootLayout({
@@ -18,14 +19,18 @@ export default async function RootLayout({
       <html lang="en">
         <body className="bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText">
           <NavBar />
-          <div className="flex h-screen">
+          <div>
             {userId ? (
-              <Suspense fallback={<GuildNavBarFallback />}>
-                {/* @ts-expect-error Server Component */}
-                <GuildNavBar />
-              </Suspense>
+              <div className="flex h-screen">
+                <Suspense fallback={<GuildNavBarFallback />}>
+                  {/* @ts-expect-error Server Component */}
+                  <GuildNavBar />
+                </Suspense>
+                <main className="mt-8 flex flex-1 justify-center">
+                  <GuildProvider>{children}</GuildProvider>
+                </main>
+              </div>
             ) : null}
-            <main className="mt-8 flex flex-1 justify-center">{children}</main>
           </div>
         </body>
       </html>
