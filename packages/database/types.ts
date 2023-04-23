@@ -1,4 +1,4 @@
 import { Prisma } from "@prisma/client";
 
-export type Guild = Prisma.GuildGetPayload<{ include: Prisma.GuildInclude }>
-export type Prefix = Prisma.PrefixGetPayload<false>;
+export type DBGuild = Prisma.GuildGetPayload<{ include: Prisma.GuildInclude }>
+export type DBPrefix = Prisma.PrefixGetPayload<false>;

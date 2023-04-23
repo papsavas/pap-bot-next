@@ -8,4 +8,6 @@ export const db = {
     guild: prisma.guild,
     prefix: prisma.prefix,
     reactionNotifications: prisma.reactionNotifications
-} 
+}
+
+export default prisma;
