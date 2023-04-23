@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { MonitoredCollection } from './../src/utils/MonitoredCollection';
-
+import { MonitoredCollection } from "../MonitoredCollection";
 
 describe('Monitored Collection', () => {
     const [k, v] = ["key", "val"];
