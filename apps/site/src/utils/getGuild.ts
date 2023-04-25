@@ -7,7 +7,7 @@ export const getGuild = cache(
 )
 
 export const getGuilds = cache(
-    () =>
-        tsRest.guilds.getGuilds()
+    (memberId?: string) =>
+        tsRest.guilds.getGuilds({ query: { memberId } })
 
 )
