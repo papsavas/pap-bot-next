@@ -61,9 +61,11 @@ const Form: FC<{
       <input
         type="submit"
         disabled={disabled || loading}
-        className={`rounded-xl bg-lightBtn px-3 py-1 font-semibold hover:opacity-80 hover:shadow-lg dark:bg-darkBtn dark:text-neutral-900 ${
-          loading && "cursor-wait"
-        } ${disabled && "cursor-not-allowed opacity-70"}`}
+        className={`rounded-xl bg-lightBtn px-3 py-1 font-semibold cursor-pointer
+        hover:opacity-80 hover:shadow-lg
+         dark:bg-darkBtn dark:text-neutral-900 ${loading && "cursor-wait"} ${
+          disabled && "cursor-not-allowed opacity-70"
+        }`}
         value={submitLabel}
       />
     </form>
