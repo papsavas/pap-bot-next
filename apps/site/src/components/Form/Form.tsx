@@ -30,44 +30,58 @@ const Form: FC<{
   }, [initialValue]);
   return (
     <form
-      className={`flex ${
-        inline ? "flex-row" : "flex-col"
-      } items-baseline gap-4`}
+      className="h-32 w-64 flex justify-center
+      bg-form-bg  dark:bg-form-bgDark border
+      border-form-border dark:border-form-borderDark rounded-xl"
       onSubmit={(ev) => {
         onSubmit(ev, value);
         inputRef.current?.blur();
       }}
     >
-      <label>{label}</label>
-      <div className="flex flex-col items-start gap-[6px]">
-        <input
-          ref={inputRef}
-          className={`
-        flex-1 rounded-md bg-neutral-200 px-1 
-        dark:bg-neutral-800 dark:text-neutral-300 
-        ${loading && "animate-pulse"} 
-        ${disabled && "opacity-60"} 
-        ${success && "ring-2 ring-green-500"} 
-        ${failure && "ring-2 ring-error"}
-        transition-all duration-500
-        `}
-          disabled={disabled}
-          type="text"
-          value={loading ? "" : value}
-          onChange={(ev) => setValue(ev.target.value)}
-        />
-        {error ? <span className="text-sm text-error">{error}</span> : null}
+      <div className="flex flex-col w-[100%] my-2 items-center">
+        <label className="text-2xl text-form-text dark:text-form-textDark capitalize">
+          {label}
+        </label>
+        <div
+          className={`flex h-[66%] w-full ${
+            inline ? "flex-row" : "flex-col"
+          } items-center justify-evenly gap-4`}
+        >
+          <input
+            ref={inputRef}
+            className={`
+              ${inline ? "w-[60%]" : "w-[80%]"}
+              text-center rounded-md px-1 
+              bg-form-input text-form-inputText 
+              dark:bg-form-inputDark dark:text-form-inputTextDark
+              outline-none focus-visible:outline-1 focus-visible:outline-offset-0
+              focus-visible:outline-form-border focus-visible:dark:outline-form-borderDark
+              ${loading && "animate-pulse "} 
+              ${disabled && "opacity-60"} 
+              ${success && "ring-2 ring-success transition-color duration-500"} 
+              ${failure && "ring-2 ring-error transition-color duration-500"}
+            `}
+            disabled={disabled}
+            type="text"
+            value={loading ? "" : value}
+            onChange={(ev) => setValue(ev.target.value)}
+          />
+          {error ? <span className="text-sm text-error">{error}</span> : null}
+          <input
+            type="submit"
+            disabled={disabled || loading}
+            className={`
+              rounded-xl bg-Btn px-3 py-1 font-semibold cursor-pointer
+              hover:opacity-80 hover:shadow-lg
+            bg-form-submit text-form-submitText
+            dark:bg-form-submitDark dark:text-form-submitTextDark ${
+              loading && "cursor-wait"
+            } ${disabled && "cursor-not-allowed opacity-70"}
+            `}
+            value={submitLabel}
+          />
+        </div>
       </div>
-      <input
-        type="submit"
-        disabled={disabled || loading}
-        className={`rounded-xl bg-lightBtn px-3 py-1 font-semibold cursor-pointer
-        hover:opacity-80 hover:shadow-lg
-         dark:bg-darkBtn dark:text-neutral-900 ${loading && "cursor-wait"} ${
-          disabled && "cursor-not-allowed opacity-70"
-        }`}
-        value={submitLabel}
-      />
     </form>
   );
 };
