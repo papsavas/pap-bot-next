@@ -1,4 +1,4 @@
-import { db } from "database";
+import { upsertGuild } from "database";
 import { values } from "utils/values";
 import client from "./client";
 
@@ -8,7 +8,7 @@ bot.on("ready", async (client) => {
     for (const guild of client.guilds.cache.values()) {
         const { id, name, ownerId } = guild;
         const icon = guild.iconURL();
-        await db.guild.upsert({
+        await upsertGuild({
             where: { id },
             create: {
                 id,

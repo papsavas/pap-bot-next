@@ -1,4 +1,4 @@
-import { db } from "database";
+import { createGuild } from "database";
 import { values } from "utils/values";
 import { makeEvent } from "../utils/makeEvent";
 
@@ -7,7 +7,7 @@ const guildCreate = makeEvent({
     async execute(guild) {
         const { id, name, iconURL, ownerId } = guild;
         console.log(`joined ${guild.name} guild`);
-        await db.guild.create({
+        await createGuild({
             data: {
                 id, name, icon: iconURL(),
                 prefix: {

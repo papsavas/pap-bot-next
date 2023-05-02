@@ -1,4 +1,4 @@
-import { db, fetchReactNotifications } from "database";
+import { fetchPrefixes, fetchReactNotifications, upsertGuild } from "database";
 import { Client } from "discord.js";
 import { BOT_PORT } from "http-contract";
 import { dirname, join } from "node:path";
@@ -35,14 +35,14 @@ const loadReactionNotifiers = async () => {
 }
 
 const loadPrefixes = async () => {
-    const prefixes = await db.prefix.findMany();
+    const prefixes = await fetchPrefixes({});
     for (const { guildId, userId, prefix } of prefixes)
         ctx.prefix.set(guildId, { prefix, userId })
 }
 
 const syncGuilds = async (client: Client) =>
     Promise.all(
-        client.guilds.cache.map(g => db.guild.upsert({
+        client.guilds.cache.map(g => upsertGuild({
             where: { id: g.id },
             create: {
                 id: g.id, name: g.name, icon: g.iconURL(), prefix: {

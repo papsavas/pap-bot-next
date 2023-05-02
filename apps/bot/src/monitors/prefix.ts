@@ -1,11 +1,11 @@
-import { db } from "database";
+import { upsertPrefix } from "database";
 import { Snowflake } from "discord.js";
 import { Monitors } from "utils";
 import { GuildPrefix } from "../../types/Context";
 
 export const prefixMonitors: Monitors<Snowflake, GuildPrefix> = {
     set(key, value) {
-        db.prefix.upsert({
+        upsertPrefix({
             where: { guildId: key },
             create: { ...value, guildId: key },
             update: { ...value }
