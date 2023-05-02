@@ -4,7 +4,7 @@
     "build": {
       "dependsOn": [
         "^build",
-        "^db:generate"
+        "db:generate"
       ],
       "outputs": [
         "dist/**",
@@ -18,12 +18,12 @@
       "cache": false,
       "dependsOn": [
         "^dev",
-        "^db:generate"
+        "db:generate"
       ]
     },
     "test": {
       "dependsOn": [
-        "^db:generate"
+        "db:generate"
       ]
     },
     "test:watch": {
