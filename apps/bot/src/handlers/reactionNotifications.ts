@@ -1,5 +1,16 @@
 import { Colors, EmbedBuilder, MessageReaction, Snowflake, User } from "discord.js";
+import { createCombinedId, resolveCombinedId } from "utils";
 import { ctx } from "..";
+import { ReactionNotifier } from "../../types/Context";
+
+export const createReactionNotificationsId =
+    ({ guildId, userId, targetId }: ReactionNotifier) =>
+        createCombinedId(guildId, userId, targetId)
+
+export const resolveReactionNotificationsId = (id: string): ReactionNotifier => {
+    const a = resolveCombinedId(id);
+    return { guildId: a[0], userId: a[1], targetId: a[2] }
+}
 
 
 export const handleReactionNotifications = async (reaction: MessageReaction, reactor: User) => {

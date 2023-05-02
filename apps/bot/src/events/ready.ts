@@ -6,9 +6,9 @@ import { fileURLToPath } from 'node:url';
 import { importDir, values } from "utils";
 import { ctx } from "..";
 import { Command } from "../../types/Command";
+import { createReactionNotificationsId } from "../handlers/reactionNotifications";
 import { app } from "../server";
 import { makeEvent } from "../utils/makeEvent";
-import { resolveReactionNotificationId } from "../utils/resolveId";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -30,7 +30,7 @@ const ready = makeEvent({
 const loadReactionNotifiers = async () => {
     const reactionNotifiers = await fetchReactNotifications({});
     for (const { userId, targetId, guildId } of reactionNotifiers) {
-        ctx.reactionNotifier.set(resolveReactionNotificationId({ guildId, userId, targetId }), { targetId, guildId, userId })
+        ctx.reactionNotifier.set(createReactionNotificationsId({ guildId, userId, targetId }), { targetId, guildId, userId })
     }
 }
 

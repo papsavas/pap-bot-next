@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, italic, RESTJSONErrorCodes, spoiler } from "discord.js";
 import { ctx } from "..";
+import { createReactionNotificationsId } from "../handlers/reactionNotifications";
 import { makeCommand } from "../utils/commands/makeCommand";
-import { resolveReactionNotificationId } from "../utils/resolveId";
 
 //TODO: handle message execution
 //TODO: add/remove subcommands
@@ -45,7 +45,7 @@ ${spoiler("Tip: Once a DM channel between us is established you can close them a
         const targetId = (resolvedValues?.roles ?? resolvedValues?.members)!.firstKey()!;
         const [guildId, userId] = [command.guildId, command.user.id];
         //update cache and db
-        ctx.reactionNotifier.set(resolveReactionNotificationId({ guildId, userId, targetId }), {
+        ctx.reactionNotifier.set(createReactionNotificationsId({ guildId, userId, targetId }), {
             userId,
             targetId,
             guildId
