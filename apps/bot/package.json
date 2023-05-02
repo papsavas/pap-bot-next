@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "registerCommand": "node --loader ts-node/esm ./src/scripts/registerCommand",
-    "unregisterCommand": "node --loader ts-node/esm ./src/scripts/deleteCommand",
+    "unregisterCommand": "node --loader ts-node/esm ./src/scripts/unregisterCommand",
     "migrateChannel": "node --loader ts-node/esm ./src/scripts/migrateChannel",
     "syncGuilds": "node --loader ts-node/esm ./src/scripts/syncDBguilds"
   },
