@@ -3,8 +3,10 @@
     "type": "module",
     "main": "index.ts",
     "scripts": {
-        "test": "npx prisma generate && vitest run",
-        "test:watch": "npx prisma generate && vitest"
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "db:generate": "prisma generate",
+        "db:push": "prisma db push --skip-generate"
     },
     "devDependencies": {
         "@vitest/coverage-c8": "^0.30.1",

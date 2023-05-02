@@ -3,7 +3,8 @@
   "pipeline": {
     "build": {
       "dependsOn": [
-        "^build"
+        "^build",
+        "^db:generate"
       ],
       "outputs": [
         "dist/**",
@@ -16,16 +17,28 @@
     "dev": {
       "cache": false,
       "dependsOn": [
-        "^dev"
+        "^dev",
+        "^db:generate"
       ]
     },
-    "test": {},
+    "test": {
+      "dependsOn": [
+        "^db:generate"
+      ]
+    },
     "test:watch": {
+      "cache": false
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
       "cache": false
     },
     "deploy": {
       "dependsOn": [
         "build",
+        "db:generate",
         "test",
         "lint"
       ]

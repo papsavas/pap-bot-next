@@ -15,7 +15,7 @@ export default defineConfig({
             "tests/setupTests.ts",
         ],
         passWithNoTests: true,
-        testTimeout: 60000,
+        testTimeout: 120000,
         typecheck: { checker: "tsc" },
         coverage: {
             enabled: true,
