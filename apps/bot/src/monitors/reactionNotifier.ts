@@ -13,4 +13,15 @@ export const reactionNotifierMonitors: Monitors<Snowflake, ReactionNotifier> = {
             console.log(`upserted ${userId} to be notified for guild:${guildId} and target:${targetId}`)
         )
     },
+
+    async sweep(difference) {
+        difference
+            .each(v => db.reactionNotifications
+                .delete({ where: { userId_guildId_targetId: { ...v } } })
+                .then(({ guildId, userId, targetId }) =>
+                    console.log(`Deleted target:${targetId} for ${userId} in ${guildId}`))
+            )
+
+
+    },
 }
