@@ -7,7 +7,8 @@ describe('Monitored Collection', () => {
     const mc = new MonitoredCollection<string, string>(undefined, {
         get: mockMonitor,
         set: mockMonitor,
-        delete: mockMonitor
+        delete: mockMonitor,
+        sweep: mockMonitor
     });
 
     it('should trigger monitor', () => {
@@ -15,7 +16,8 @@ describe('Monitored Collection', () => {
         mc.set(k, v, true);
         mc.get(k, true);
         mc.delete(k, true);
-        expect(mockMonitor).toBeCalledTimes(3)
+        mc.sweep(() => true, true);
+        expect(mockMonitor).toBeCalledTimes(4)
     });
 
     it('should not trigger monitor', () => {
@@ -23,6 +25,7 @@ describe('Monitored Collection', () => {
         mc.set(k, v);
         mc.get(k, false);
         mc.delete(k);
+        mc.sweep(() => true);
         expect(mockMonitor).not.toBeCalled()
     });
 });
