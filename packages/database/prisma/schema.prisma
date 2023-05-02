@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Guild{
@@ -26,7 +27,8 @@ model Prefix{
 }
 
 model ReactionNotifications{
-  userId String @unique @id
-  targetId String? @unique
-  guilds String[]  
+  userId String
+  guildId String 
+  targetId String
+  @@unique([userId,guildId,targetId])
 }
