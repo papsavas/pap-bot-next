@@ -1,4 +1,4 @@
-import { db } from "database";
+import { db, fetchReactNotifications } from "database";
 import { Client } from "discord.js";
 import { BOT_PORT } from "http-contract";
 import { dirname, join } from "node:path";
@@ -8,6 +8,7 @@ import { ctx } from "..";
 import { Command } from "../../types/Command";
 import { app } from "../server";
 import { makeEvent } from "../utils/makeEvent";
+import { resolveReactionNotificationId } from "../utils/resolveId";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -27,9 +28,9 @@ const ready = makeEvent({
 })
 
 const loadReactionNotifiers = async () => {
-    const reactionNotifiers = await db.reactionNotifications.findMany();
-    for (const { guilds, userId, targetId } of reactionNotifiers) {
-        ctx.reactionNotifier.set(userId, { targetId, guilds })
+    const reactionNotifiers = await fetchReactNotifications({});
+    for (const { userId, targetId, guildId } of reactionNotifiers) {
+        ctx.reactionNotifier.set(resolveReactionNotificationId({ guildId, userId, targetId }), { targetId, guildId, userId })
     }
 }
 

@@ -4,13 +4,13 @@ import { Monitors } from "utils";
 import { ReactionNotifier } from "../../types/Context";
 
 export const reactionNotifierMonitors: Monitors<Snowflake, ReactionNotifier> = {
-    set(userId, { guilds, targetId }) {
+    set(id, { guildId, targetId, userId }) {
         db.reactionNotifications.upsert({
-            where: { userId },
-            create: { userId, targetId, guilds },
-            update: { guilds, targetId }
-        }).then(({ userId, targetId, guilds }) =>
-            console.log(`upserted ${userId} to be notified for guilds:${guilds.toString()} and target:${targetId}`)
+            where: { userId_guildId_targetId: { guildId, targetId, userId } },
+            create: { userId, targetId, guildId },
+            update: { userId, targetId, guildId, }
+        }).then(({ userId, targetId, guildId }) =>
+            console.log(`upserted ${userId} to be notified for guild:${guildId} and target:${targetId}`)
         )
     },
 }

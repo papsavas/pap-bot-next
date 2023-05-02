@@ -1,26 +1,42 @@
-import { Colors, EmbedBuilder, MessageReaction, User } from "discord.js";
+import { Colors, EmbedBuilder, MessageReaction, Snowflake, User } from "discord.js";
 import { ctx } from "..";
 
 
-export const handleReactionNotifications = async (reaction: MessageReaction, user: User) => {
+export const handleReactionNotifications = async (reaction: MessageReaction, reactor: User) => {
     if (reaction.message.inGuild()) {
         const guildId = reaction.message.guildId;
         const msg = reaction.message;
         const authorId = msg.author.id;
-        const shouldNotify = () => {
-            const rn = ctx.reactionNotifier.get(authorId);
-            if (!rn) return false;
-            const targetResolver = rn.targetId ? user.id === rn.targetId : true
-            return rn.guilds.includes(guildId) && targetResolver
+
+        if (reactor.id === authorId) return;
+
+        const userHasRole = async (userId: Snowflake, roleId: Snowflake) => {
+            const member = await reaction.message.guild!.members.fetch(userId);
+            return member.roles.cache.has(roleId);
         }
 
-        if (shouldNotify()) {
-            console.log(`notifying ${msg.author.tag} for ${user.tag} reaction on ${msg.url}`)
+        let shouldNotify = false;
+        for (const [_, rn] of ctx.reactionNotifier) {
+            const baseCriteria = guildId === rn.guildId && authorId === rn.userId
+            const reactorIsTarget = rn.targetId === reactor.id;
+            if (!baseCriteria) continue;
+            if (reactorIsTarget) {
+                shouldNotify = true;
+                break;
+            }
+            if (await userHasRole(reactor.id, rn.targetId)) {
+                shouldNotify = true;
+                break;
+            }
+        }
+
+        if (shouldNotify) {
+            console.log(`notifying ${msg.author.tag} for ${reactor.tag} reaction on ${msg.url}`)
             const messageValue = msg.content.length > 0 ? msg.content.slice(0, 1000) : `Jump to Message`
             msg.author
                 .send({
                     embeds: [new EmbedBuilder({
-                        author: { name: user.tag, iconURL: user.avatarURL() ?? undefined },
+                        author: { name: reactor.tag, iconURL: reactor.avatarURL() ?? undefined },
                         title: `Reacted with ${reaction.emoji.name} in ${reaction.message.guild.name}`,
                         fields: [{
                             name: "Message",

@@ -1,3 +1,4 @@
 export { db } from "./prisma";
-export type { DBGuild, DBPrefix } from "./types";
+export { fetchReactNotifications } from "./scripts/reactionNotifications";
+export type { DBGuild, DBPrefix, DBReactionNotifications } from "./types";
 

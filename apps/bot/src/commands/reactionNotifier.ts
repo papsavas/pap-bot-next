@@ -1,13 +1,13 @@
-import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, ComponentType, italic, RESTJSONErrorCodes, spoiler, StringSelectMenuBuilder } from "discord.js";
+import { ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, italic, RESTJSONErrorCodes, spoiler } from "discord.js";
 import { ctx } from "..";
 import { makeCommand } from "../utils/commands/makeCommand";
+import { resolveReactionNotificationId } from "../utils/resolveId";
 
 //TODO: handle message execution
-//TODO: support multiple users across multiple guilds
+//TODO: add/remove subcommands
 
 const name = "reaction-notifier";
 const targetOption = "target";
-const allGuildsOption = "all_guilds";
 
 const ReactionNotifierCommand = makeCommand({
     name,
@@ -18,18 +18,20 @@ const ReactionNotifierCommand = makeCommand({
         options: [
             {
                 name: targetOption,
-                description: "Receive notifications only from this user",
-                type: ApplicationCommandOptionType.User,
-                required: false
+                description: "Receive notifications only from this role/user",
+                type: ApplicationCommandOptionType.Mentionable,
+                required: true
             }
         ]
     },
     execute: async (command: ChatInputCommandInteraction) => {
         await command.deferReply({ ephemeral: true, fetchReply: true })
 
+        if (!command.inGuild()) return command.editReply({ content: "This command is guild only" })
+
         //establish dms or abort
         try {
-            await command.user.send(italic(`This message establishes our DM channel where i will notify you. Continue with selecting in guild`))
+            await command.user.send(italic(`This message establishes our DM channel where i will notify you about reaction notifications.`))
         } catch (error: any) {
             if (error.code === RESTJSONErrorCodes.CannotSendMessagesToThisUser)
                 await command.editReply({
@@ -39,56 +41,18 @@ ${spoiler("Tip: Once a DM channel between us is established you can close them a
                 })
             return
         }
-
-        const target = command.options.getUser(targetOption, false);
-        const memberGuilds = command.client.guilds.cache
-            .filter(async g => (await g.members.fetch()).has(command.user.id))
-        const select = new StringSelectMenuBuilder({
-            custom_id: "reaction_notifier_guilds_select",
-            placeholder: "Select guild(s)",
-            type: ComponentType.StringSelect,
-            maxValues: memberGuilds.size + 1,
-            options: memberGuilds.map(
-                (g, gid) => ({
-                    label: g.name,
-                    value: gid,
-                })
-            )
-        });
-        select.addOptions([{
-            label: "All",
-            value: allGuildsOption,
-            description: "This will ignore other selections and notify you for all received reactions across guilds"
-        }])
-
-        const selectMessage = await command.editReply({
-            components: [
-                new ActionRowBuilder<StringSelectMenuBuilder>()
-                    .setComponents(select)
-            ]
-        });
-
-        const collectedSelect = await selectMessage.awaitMessageComponent({
-            componentType: ComponentType.StringSelect,
-        })
-
-        const selectedGuilds = collectedSelect.values.includes(allGuildsOption) ? [] : collectedSelect.values;
-        const userId = command.user.id;
-
+        const resolvedValues = command.options.resolved;
+        const targetId = (resolvedValues?.roles ?? resolvedValues?.members)!.firstKey()!;
+        const [guildId, userId] = [command.guildId, command.user.id];
         //update cache and db
-        ctx.reactionNotifier.set(userId, {
-            targetId: target?.id ?? null,
-            guilds: selectedGuilds
+        ctx.reactionNotifier.set(resolveReactionNotificationId({ guildId, userId, targetId }), {
+            userId,
+            targetId,
+            guildId
         }, true)
 
         //respond to user
-        await collectedSelect.reply({
-            content: `You selected ${selectedGuilds.length > 0 ?
-                selectedGuilds.map(id => memberGuilds.get(id)?.name).join(", ")
-                : "All guilds"
-                }`,
-            ephemeral: true
-        })
+        command.editReply(`Enabled notifications for ${targetId ?? "all"}`)
     }
 })
 
