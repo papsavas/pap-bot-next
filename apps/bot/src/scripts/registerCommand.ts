@@ -9,6 +9,8 @@ import client from "./client";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+//TODO: use REST
+
 const bot = await client(["Guilds"], []);
 const [path, file, inputCommand, guildId, ...rest] = process.argv;
 if (!inputCommand) throw new Error("You must provide a command name");

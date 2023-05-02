@@ -1,6 +1,8 @@
 import deleteCommand from "../utils/commands/delete";
 import client from "./client";
 
+//TODO: use REST
+
 const bot = await client(["Guilds"], []);
 const [path, file, inputCommand, guildId, ...rest] = process.argv;
 if (!inputCommand) throw new Error("You must provide a command name");
