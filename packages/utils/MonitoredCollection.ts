@@ -2,9 +2,10 @@ import { Collection } from "discord.js";
 
 
 export type Monitors<K, V> = Partial<{
-    get: (collection: MonitoredCollection<K, V>, key: K) => unknown;
+    get: (collection: Collection<K, V>, key: K) => unknown;
     set: (key: K, value: V) => unknown;
-    delete: (collection: MonitoredCollection<K, V>, key: K) => unknown
+    delete: (collection: Collection<K, V>, key: K) => unknown
+    sweep: (difference: Collection<K, V>) => unknown
 }>
 
 export class MonitoredCollection<K, V> extends Collection<K, V> {
@@ -34,5 +35,13 @@ export class MonitoredCollection<K, V> extends Collection<K, V> {
         if (trigger && this.monitors.delete)
             this.monitors.delete(this, key);
         return super.delete(key);
+    }
+
+    sweep(fn: (value: V, key: K, collection: this) => boolean, trigger?: boolean) {
+        const old = this.clone();
+        const removed = super.sweep(fn);
+        if (trigger && this.monitors.sweep)
+            this.monitors.sweep(this.difference(old))
+        return removed;
     }
 }
