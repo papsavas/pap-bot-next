@@ -1,4 +1,4 @@
-import { fetchPrefixes, fetchReactNotifications, upsertGuild } from "database";
+import { fetchPrefixes, fetchReactionNotifications, upsertGuild } from "database";
 import { Client } from "discord.js";
 import { BOT_PORT } from "http-contract";
 import { dirname, join } from "node:path";
@@ -28,7 +28,7 @@ const ready = makeEvent({
 })
 
 const loadReactionNotifiers = async () => {
-    const reactionNotifiers = await fetchReactNotifications({});
+    const reactionNotifiers = await fetchReactionNotifications({});
     for (const { userId, targetId, guildId } of reactionNotifiers) {
         ctx.reactionNotifier.set(createReactionNotificationsId({ guildId, userId, targetId }), { targetId, guildId, userId })
     }
