@@ -1,7 +1,7 @@
 {
   "name": "bot",
   "version": "0.1.0",
-  "description": "Multipurporsed Discord Bot",
+  "description": "Multipurpose Discord Bot",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
