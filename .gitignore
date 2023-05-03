@@ -35,5 +35,8 @@ yarn-error.log*
 
 resources.txt
 
+#dist
+dist
+
 #local scripts
 **/scripts/local
