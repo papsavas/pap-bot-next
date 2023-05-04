@@ -1,4 +1,4 @@
-import { Guild, Role, User } from "discord.js";
+import { Collection, Guild, Role, User } from "discord.js";
 import { MonitoredCollection } from "utils";
 import { Command } from "./Command";
 
@@ -14,7 +14,7 @@ type ReactionNotifier = {
 }
 
 type Context = {
-    commands: Command[],
+    commands: Collection<Command['name'], Command>,
     prefix: MonitoredCollection<Guild['id'], GuildPrefix>,
     reactionNotifier: MonitoredCollection<string, ReactionNotifier>
 }

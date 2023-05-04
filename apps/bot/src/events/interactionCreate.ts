@@ -4,10 +4,15 @@ import { makeEvent } from "../utils/makeEvent";
 const interactionCreate = makeEvent({
     event: "interactionCreate",
     async execute(interaction) {
-        if (interaction.isCommand()) {
-            ctx.commands.find(c => c.name === interaction.commandName)
-                ?.execute(interaction)
-                ?? Promise.reject(`interaction ${interaction.commandName} is not handled`);
+        try {
+            if (interaction.isCommand()) {
+                //TODO: fix perf
+                const cmd = ctx.commands.get(interaction.commandName);
+                if (!cmd) throw `${interaction.type} ${interaction.commandName} is not handled`;
+                return await cmd.execute(interaction)
+            }
+        } catch (error) {
+            console.error(`${interaction.type} ${interaction.id} failed\n`, error);
         }
     }
 })

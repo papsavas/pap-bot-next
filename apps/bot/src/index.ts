@@ -1,9 +1,8 @@
-import { Client, ClientEvents, Events, Partials, Snowflake } from "discord.js";
+import { Client, ClientEvents, Collection, Events, Partials, Snowflake } from "discord.js";
 import dotenv from 'dotenv';
 import findConfig from "find-config";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from 'node:url';
 import { MonitoredCollection, importDir } from "utils";
+import { Command } from "../types/Command";
 import { Context, GuildPrefix, ReactionNotifier } from "../types/Context";
 import { DiscordEvent } from "../types/DiscordEvent";
 import { prefixMonitors } from "./monitors/prefix";
@@ -12,7 +11,7 @@ import { reactionNotifierMonitors } from "./monitors/reactionNotifier";
 dotenv.config({ path: findConfig('.env')! })
 
 export const ctx: Context = {
-    commands: [],
+    commands: new Collection<string, Command>(),
     prefix: new MonitoredCollection<Snowflake, GuildPrefix>(undefined, prefixMonitors),
     reactionNotifier: new MonitoredCollection<Snowflake, ReactionNotifier>(undefined, reactionNotifierMonitors),
 }
