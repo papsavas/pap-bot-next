@@ -1,8 +1,8 @@
-import { ApplicationCommandDataResolvable, CommandInteraction, Message, Snowflake } from "discord.js";
+import { ApplicationCommandData, CommandInteraction, Message, Snowflake } from "discord.js";
 
 export type PartialCommand = {
     name: string;
-    data: ApplicationCommandDataResolvable;
+    data: ApplicationCommandData;
     execute: (...args: any) => Promise<unknown>;
 }
 
