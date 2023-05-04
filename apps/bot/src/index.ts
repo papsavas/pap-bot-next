@@ -11,9 +11,6 @@ import { reactionNotifierMonitors } from "./monitors/reactionNotifier";
 
 dotenv.config({ path: findConfig('.env')! })
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 export const ctx: Context = {
     commands: [],
     prefix: new MonitoredCollection<Snowflake, GuildPrefix>(undefined, prefixMonitors),
@@ -39,7 +36,7 @@ export const bot = new Client({
 })
 
 const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>(
-    join(__dirname, "events"),
+    "src/events",
     (file) => {
         const [name, postfix] = file.split(".");
         const isTypescriptFile = postfix === "ts";

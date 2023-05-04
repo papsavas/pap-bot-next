@@ -9,10 +9,11 @@ import { Command } from "../../types/Command";
 import { createReactionNotificationsId } from "../handlers/reactionNotifications";
 import { app } from "../server";
 import { makeEvent } from "../utils/makeEvent";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
-const commands = importDir<Command>(join(__dirname, "..", "commands"), (f) => f.endsWith(".ts"));
+const commandFiles = importDir<Command>(
+    'src/commands',
+    (f) => f.endsWith(".ts")
+);
 
 const ready = makeEvent({
     event: "ready",
