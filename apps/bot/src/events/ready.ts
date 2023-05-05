@@ -8,9 +8,10 @@ import { createReactionNotificationsId } from "../handlers/reactionNotifications
 import { app } from "../server";
 import { makeEvent } from "../utils/makeEvent";
 
-const commandFiles = importDir<Command>(
-    'src/commands',
-    (f) => f.endsWith(".ts")
+const commandFiles = importDir<Command>({
+    path: 'src/commands',
+    filter: (f) => f.endsWith(".ts")
+}
 );
 
 const ready = makeEvent({
@@ -20,7 +21,7 @@ const ready = makeEvent({
         await loadReactionNotifiers();
         await loadPrefixes();
         //load commands into context
-        const cmds = await commandFiles;
+        const cmds = (await commandFiles).values();
         for (const cmd of cmds)
             ctx.commands.set(cmd.name, cmd);
         //launch server

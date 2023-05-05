@@ -1,1 +1,2 @@
-export default function export_default_function_ts() { }
+const obj = { nested: { key: "value" } }
+export default obj;

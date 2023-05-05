@@ -34,22 +34,26 @@ export const bot = new Client({
     ]
 })
 
-const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>(
-    "src/events",
-    (file) => {
+const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>({
+    path: "src/events",
+    filter: (file) => {
         const [name, postfix] = file.split(".");
         const isTypescriptFile = postfix === "ts";
         const isNamedDiscordEvent = Object.values<string>(Events).includes(name)
         return isTypescriptFile && isNamedDiscordEvent;
-    }
+    },
+    throwOnMiss: true
+}
 )
 
 eventFiles
-    .then(events => events.forEach(ev =>
-        bot.on(ev.event,
-            async (...args) => { ev.execute(...args) }
-        ))
-    )
+    .then(events => {
+        for (const ev of events.values())
+            bot.on(ev.event,
+                async (...args) => { ev.execute(...args) }
+            )
+    })
+
 
 bot.login(process.env.DISCORD_BOT_TOKEN)
     .then(_ => console.log("Logged in"))
