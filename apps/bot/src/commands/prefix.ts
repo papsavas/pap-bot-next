@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
+import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
 import { ctx } from "..";
 import { CommandSource } from "../../types/Command";
 import { makeCommand } from "../utils/commands/makeCommand";
@@ -7,20 +7,21 @@ import { sliceCommand } from "../utils/commands/slice";
 const name = "prefix";
 const valueOption = "value";
 
+export const data = {
+    name,
+    description: "prefix for manual commands",
+    type: ApplicationCommandType.ChatInput,
+    options: [{
+        name: valueOption,
+        description: "Set new value for prefix",
+        type: ApplicationCommandOptionType.String,
+        required: false
+    }]
+} satisfies ApplicationCommandData
 
 const prefixCommand = makeCommand({
     name,
-    data: {
-        name,
-        description: "prefix for manual commands",
-        type: ApplicationCommandType.ChatInput,
-        options: [{
-            name: valueOption,
-            description: "Set new value for prefix",
-            type: ApplicationCommandOptionType.String,
-            required: false
-        }]
-    },
+    data,
     execute: async (source: CommandSource) => {
         if (source instanceof CommandInteraction) {
             await source.deferReply({ ephemeral: true });

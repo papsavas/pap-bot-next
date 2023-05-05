@@ -1,47 +1,48 @@
-import { ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, EmbedBuilder, italic, RESTJSONErrorCodes, roleMention, spoiler, userMention } from "discord.js";
+import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, EmbedBuilder, italic, RESTJSONErrorCodes, roleMention, spoiler, userMention } from "discord.js";
 import { ctx } from "..";
 import { createReactionNotificationsId } from "../handlers/reactionNotifications";
 import { makeCommand } from "../utils/commands/makeCommand";
 
 //TODO: handle message execution
-//TODO: add/remove subcommands
 
 const name = "reaction-notifier";
 const targetOption = "target";
 const [addSubCmd, showSubCmd, clearSubCmd] = ["add", "show", "clear"];
 
+export const data = {
+    name,
+    description: "Notifications for User/Role reactions",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+        {
+            name: addSubCmd,
+            description: "Add User/Role",
+            type: ApplicationCommandOptionType.Subcommand,
+            options: [
+                {
+                    name: targetOption,
+                    description: "Receive react notifications from this role/user",
+                    type: ApplicationCommandOptionType.Mentionable,
+                    required: true
+                }
+            ]
+        },
+        {
+            name: showSubCmd,
+            description: "Display current targets",
+            type: ApplicationCommandOptionType.Subcommand,
+        },
+        {
+            name: clearSubCmd,
+            description: "Delete all targets",
+            type: ApplicationCommandOptionType.Subcommand,
+        }
+    ]
+} satisfies ApplicationCommandData
+
 const ReactionNotifierCommand = makeCommand({
     name,
-    data: {
-        name,
-        description: "Notifications for User/Role reactions",
-        type: ApplicationCommandType.ChatInput,
-        options: [
-            {
-                name: addSubCmd,
-                description: "Add User/Role",
-                type: ApplicationCommandOptionType.Subcommand,
-                options: [
-                    {
-                        name: targetOption,
-                        description: "Receive react notifications from this role/user",
-                        type: ApplicationCommandOptionType.Mentionable,
-                        required: true
-                    }
-                ]
-            },
-            {
-                name: showSubCmd,
-                description: "Display current targets",
-                type: ApplicationCommandOptionType.Subcommand,
-            },
-            {
-                name: clearSubCmd,
-                description: "Delete all targets",
-                type: ApplicationCommandOptionType.Subcommand,
-            }
-        ]
-    },
+    data,
     execute: async (command: ChatInputCommandInteraction) => {
         await command.deferReply({ ephemeral: true, fetchReply: true })
 

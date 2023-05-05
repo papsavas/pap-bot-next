@@ -1,40 +1,41 @@
-import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, ComponentType, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, ComponentType, EmbedBuilder } from "discord.js";
 import { makeCommand } from "../utils/commands/makeCommand";
 
 const name = "poll";
 const [textOption, pingOption, timeOption] = ["text", "ping", "time",];
 
+export const data = {
+    name,
+    description: "Creates a poll",
+    type: ApplicationCommandType.ChatInput,
+    options: [
+        {
+            name: textOption,
+            description: "the poll's message",
+            required: true,
+            type: ApplicationCommandOptionType.String
+        },
+        {
+            name: timeOption,
+            description: "Minutes to keep poll active",
+            type: ApplicationCommandOptionType.Number,
+            minValue: 1,
+            maxValue: 10,
+            required: false
+        },
+        {
+            name: pingOption,
+            description: "Role to ping",
+            type: ApplicationCommandOptionType.Role,
+            required: false,
+        }
+
+    ]
+} satisfies ApplicationCommandData
+
 const pollCommand = makeCommand({
     name,
-    data: {
-        name,
-        description: "Creates a poll",
-        type: ApplicationCommandType.ChatInput,
-        options: [
-            {
-                name: textOption,
-                description: "the poll's message",
-                required: true,
-                type: ApplicationCommandOptionType.String
-            },
-            {
-                name: timeOption,
-                description: "Minutes to keep poll active",
-                type: ApplicationCommandOptionType.Number,
-                minValue: 1,
-                maxValue: 10,
-                required: false
-            },
-            {
-                name: pingOption,
-                description: "Role to ping",
-                type: ApplicationCommandOptionType.Role,
-                required: false,
-            }
-
-        ]
-
-    },
+    data,
     execute: async (interaction: ChatInputCommandInteraction) => {
         await interaction.deferReply();
         const text = interaction.options.getString(textOption, true);

@@ -1,15 +1,17 @@
-import { ActionRowBuilder, ApplicationCommandType, AttachmentBuilder, AttachmentPayload, ChannelSelectMenuBuilder, ChannelType, ComponentType, JSONEncodable, MessageContextMenuCommandInteraction, RESTJSONErrorCodes, TextChannel, WebhookClient } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandData, ApplicationCommandType, AttachmentBuilder, AttachmentPayload, ChannelSelectMenuBuilder, ChannelType, ComponentType, JSONEncodable, MessageContextMenuCommandInteraction, RESTJSONErrorCodes, TextChannel, WebhookClient } from "discord.js";
 import { makeCommand } from "../utils/commands/makeCommand";
 
 const name = "move-message";
 
+export const data = {
+    name,
+    type: ApplicationCommandType.Message
+
+} satisfies ApplicationCommandData
+
 const moveMessageCommand = makeCommand({
     name,
-    data: {
-        name,
-        type: ApplicationCommandType.Message
-
-    },
+    data,
     execute: async (command: MessageContextMenuCommandInteraction) => {
         const message = command.targetMessage;
         const guildChannels = command.guild?.channels;
