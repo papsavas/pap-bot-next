@@ -1,4 +1,4 @@
-import { APIApplicationCommand, REST, Routes } from "discord.js";
+import { APIApplicationCommand, ApplicationCommandData, ApplicationCommandDataResolvable, REST, Routes } from "discord.js";
 import { importDir } from "utils";
 import { describe, expect, it, } from "vitest";
 import { Command } from "../../types/Command";
@@ -15,16 +15,23 @@ describe('Commands', async () => {
         expect(names).toHaveLength(new Set(names).size)
     })
 
+    it("should export data", async () => {
+        await expect(importDir<ApplicationCommandDataResolvable>({
+            path: "src/commands", exportName: "data", throwOnMiss: true
+        })).resolves.not.toThrow()
+    })
+
     it.todo("Data should be synced", async (ctx) => {
         const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN!);
-        const registeredCommands = await rest.get(Routes.applicationCommands(process.env.DISCORD_DEV_BOT_ID!)) as APIApplicationCommand[];
-        const localCmds = await importDir<Command>({ path: "src/commands", filter: (f) => f.endsWith('ts') });
-        expect(cmds).toHaveLength(localCmds.size);
-        for (const registeredCmd of registeredCommands) {
-            const localCmd = localCmds.get(registeredCmd.name);
-            if (!localCmd) throw `no matching local command for ${registeredCmd.name}`
-            expect(registeredCmd.name).toEqual(localCmd.name)
-            expect(registeredCmd).to.deep.include(localCmd.data)
+        const registeredGlobalCommands = await rest.get(Routes.applicationCommands(process.env.DISCORD_DEV_BOT_ID!)) as APIApplicationCommand[];
+        const localCommandData = await importDir<ApplicationCommandData>({
+            path: "src/commands", exportName: "data"
+        })
+        for (const localData of localCommandData.values()) {
+            const registeredData = registeredGlobalCommands.find(c => c.name === localData.name);
+            expect(registeredData).to.not.toBeUndefined();
+            expect(registeredData).toContain(localData);
         }
+
     })
 });
