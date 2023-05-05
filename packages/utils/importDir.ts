@@ -3,8 +3,6 @@ import { readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-type WithFilename<T> = T & { filename: string };
-
 type Props = {
     path: string,
     filter?: (v: string) => boolean,
