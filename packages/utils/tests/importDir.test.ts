@@ -29,7 +29,7 @@ describe('Import Directory', () => {
         const res = await importDir({
             path: dirPath,
             filter: (f) => !(f.includes("no") || f.includes("default")),
-            exportName: "specifiedExport"
+            namedExport: "specifiedExport"
         });
         expect(res.size).toBe(2);
     })

@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 type Props = {
     path: string,
     filter?: (v: string) => boolean,
-    exportName?: string,
+    namedExport?: string,
     throwOnMiss?: boolean
 }
 
@@ -14,14 +14,14 @@ type Props = {
  * @description Imports directory files
  * @param path Target relative path (`<parentDir>/<dir>`)
  * @param filter 
- * @param exportName (default `default`)
+ * @param namedExport (default `default`)
  * @param throwOnMiss (default `false`)
  * @returns Map<`fileName`, `T`>
  */
 export const importDir = async <T>({
     path,
     filter = () => true,
-    exportName = "default",
+    namedExport = "default",
     throwOnMiss = false
 }: Props
 ): Promise<Collection<string, T>> => {
@@ -34,10 +34,10 @@ export const importDir = async <T>({
             .flatMap(file =>
                 import(join(pathToFileURL(resolvedPath).toString(), file))
                     .then(r =>
-                        r[exportName] ?
-                            [collection.set(file.split(".")[0], r[exportName])] :
+                        r[namedExport] ?
+                            [collection.set(file.split(".")[0], r[namedExport])] :
                             throwOnMiss ?
-                                Promise.reject(`ImportDir: no ${exportName} export provided for file ${file}`) :
+                                Promise.reject(`ImportDir: no ${namedExport} export provided for file ${file}`) :
                                 []
                     ))
     )

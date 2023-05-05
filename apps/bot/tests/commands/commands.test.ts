@@ -17,7 +17,7 @@ describe('Commands', async () => {
 
     it("should export data", async () => {
         await expect(importDir<ApplicationCommandDataResolvable>({
-            path: "src/commands", exportName: "data", throwOnMiss: true
+            path: "src/commands", namedExport: "data", throwOnMiss: true
         })).resolves.not.toThrow()
     })
 
@@ -25,7 +25,7 @@ describe('Commands', async () => {
         const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN!);
         const registeredGlobalCommands = await rest.get(Routes.applicationCommands(process.env.DISCORD_DEV_BOT_ID!)) as APIApplicationCommand[];
         const localCommandData = await importDir<ApplicationCommandData>({
-            path: "src/commands", exportName: "data"
+            path: "src/commands", namedExport: "data"
         })
         for (const localData of localCommandData.values()) {
             const registeredData = registeredGlobalCommands.find(c => c.name === localData.name);
