@@ -32,14 +32,14 @@ export const importDir = async <T>({
         files
             .filter(filter)
             .flatMap(file =>
-                import(join(pathToFileURL(resolvedPath).toString(), file)
-                ).then(r =>
-                    r[exportName] ?
-                        [collection.set(file.split(".")[0], r[exportName])] :
-                        throwOnMiss ?
-                            Promise.reject(`ImportDir: no ${exportName} export provided for file ${file}`) :
-                            []
-                ))
+                import(join(pathToFileURL(resolvedPath).toString(), file))
+                    .then(r =>
+                        r[exportName] ?
+                            [collection.set(file.split(".")[0], r[exportName])] :
+                            throwOnMiss ?
+                                Promise.reject(`ImportDir: no ${exportName} export provided for file ${file}`) :
+                                []
+                    ))
     )
     return collection;
 }

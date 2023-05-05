@@ -9,7 +9,7 @@ export type PartialCommand = {
 export type Command =
     PartialCommand & {
         register: (guildId?: Snowflake) => Promise<void>;
-        unregister: (guildId?: Snowflake) => Promise<void>
+        delete: (guildId?: Snowflake) => Promise<void>
     }
 
 export type CommandSource = CommandInteraction | Message

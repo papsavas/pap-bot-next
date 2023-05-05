@@ -1,23 +1,24 @@
-import { Snowflake } from "discord.js";
-import { bot } from "../..";
+import { RESTPostAPIApplicationGuildCommandsJSONBody, Snowflake } from "discord.js";
 import { Command, PartialCommand } from "../../../types/Command";
-import createCommand from "./create";
-import deleteCommand from "./delete";
+import { deleteCommand, getCommands, registerCommand } from "./rest";
 
 export const makeCommand = (command: PartialCommand): Command => {
     return {
         ...command,
         register: async (guildId?: Snowflake) => {
-            const res = await createCommand(bot.application?.commands!, command.data, guildId);
-            console.log(`registered command ${res?.name} for ${res?.guild?.name ?? "global manager"}`)
+            const res = await registerCommand({
+                guildId,
+                body: command.data as RESTPostAPIApplicationGuildCommandsJSONBody,
+            });
+            console.log(`registered command ${res?.name} for ${res.guild_id ?? "global manager"}`)
         },
-        unregister: async (guildId?: Snowflake) => {
-            const commands = await bot.application?.commands.fetch(undefined, { guildId });
+        delete: async (guildId?: Snowflake) => {
+            const commands = await getCommands({ guildId });
             const cmd = commands?.find(c => c.name === command.name)
             if (!cmd)
                 return console.error(`Command ${command.name} could not be fetched for deletion`)
-            const res = await deleteCommand(bot.application?.commands!, cmd.id, guildId);
-            console.log(`deleted command ${res?.name} for ${res?.guild?.name ?? "global manager"}`)
+            await deleteCommand({ commandId: cmd.id, guildId });
+            console.log(`deleted command ${cmd.name} for ${guildId ?? "global manager"}`)
         }
     };
 }

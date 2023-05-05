@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "registerCommand": "node --loader ts-node/esm ./src/scripts/registerCommand",
-    "unregisterCommand": "node --loader ts-node/esm ./src/scripts/unregisterCommand",
+    "clearCommands": "node --loader ts-node/esm ./src/scripts/clearCommands",
+    "deleteCommand": "node --loader ts-node/esm ./src/scripts/deleteCommand",
     "migrateChannel": "node --loader ts-node/esm ./src/scripts/migrateChannel",
     "syncGuilds": "node --loader ts-node/esm ./src/scripts/syncDBguilds"
   },

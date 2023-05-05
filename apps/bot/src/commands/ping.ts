@@ -5,7 +5,7 @@ const name = "ping";
 
 export const data = {
     name,
-    description: "Returnsaaa `pong` response",
+    description: "Returns a `pong` response",
     type: ApplicationCommandType.ChatInput,
 
 } satisfies ApplicationCommandData;
