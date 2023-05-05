@@ -9,10 +9,10 @@ const interactionCreate = makeEvent({
                 //TODO: fix perf
                 const cmd = ctx.commands.get(interaction.commandName);
                 if (!cmd) throw `${interaction.type} ${interaction.commandName} is not handled`;
-                return await cmd.execute(interaction)
+                await cmd.execute(interaction)
             }
         } catch (error) {
-            console.error(`${interaction.type} ${interaction.id} failed\n`, error);
+            console.error(`interaction type:${interaction.type} id:${interaction.id} failed\n`, error);
         }
     }
 })
