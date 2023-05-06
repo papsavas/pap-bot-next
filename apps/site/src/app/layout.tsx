@@ -17,20 +17,22 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText">
+        <body
+          className="bg-lightBg text-lightText dark:bg-darkBg dark:text-darkText"
+          suppressHydrationWarning={true}
+        >
           <NavBar />
-          <div>
+
+          <div className="flex h-screen">
             {userId ? (
-              <div className="flex h-screen">
-                <Suspense fallback={<GuildNavBarFallback />}>
-                  {/* @ts-expect-error Server Component */}
-                  <GuildNavBar />
-                </Suspense>
-                <main className="mt-8 flex flex-1 justify-center">
-                  <GuildProvider>{children}</GuildProvider>
-                </main>
-              </div>
+              <Suspense fallback={<GuildNavBarFallback />}>
+                {/* @ts-expect-error Server Component */}
+                <GuildNavBar />
+              </Suspense>
             ) : null}
+            <main className="mt-8 flex flex-1 justify-center">
+              <GuildProvider>{children}</GuildProvider>
+            </main>
           </div>
         </body>
       </html>
