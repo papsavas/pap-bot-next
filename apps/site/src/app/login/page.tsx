@@ -1,4 +1,4 @@
-import { SignIn } from "@clerk/nextjs/app-beta";
+import { SignIn } from "@clerk/nextjs";
 
 export const metadata = {
   title: "Login",

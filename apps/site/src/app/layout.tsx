@@ -1,4 +1,4 @@
-import { ClerkProvider, auth } from "@clerk/nextjs/app-beta";
+import { ClerkProvider, auth } from "@clerk/nextjs";
 import { Suspense } from "react";
 
 import GuildNavBar, {

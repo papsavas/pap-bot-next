@@ -1,4 +1,4 @@
-import { currentUser } from "@clerk/nextjs/app-beta";
+import { currentUser } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
 import { getGuilds } from "../../../utils/getGuild";
 

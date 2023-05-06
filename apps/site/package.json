@@ -11,7 +11,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.16.4",
+    "@clerk/nextjs": "^4.17.1",
     "@ts-rest/core": "^3.18.1",
     "database": "*",
     "http-contract": "*",
