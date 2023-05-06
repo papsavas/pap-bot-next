@@ -14,8 +14,7 @@ const GuildPrefix: FC<{ guildId: string }> = ({ guildId }) => {
 
   const { data, isLoading, error } = useSWR<Prefix>(
     `/api/prefix/${guildId}`,
-    fetcher,
-    { revalidateOnFocus: true }
+    fetcher
   );
 
   if (error) triggerFailure();
