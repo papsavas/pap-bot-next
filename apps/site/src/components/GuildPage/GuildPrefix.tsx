@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { Prefix } from "types";
 import useBlink from "../../hooks/useBlink";
 import { fetcher } from "../../lib/fetcher";
+import { getDiscordId } from "../../utils/user";
 import Form from "../Form/Form";
 
 const GuildPrefix: FC<{ guildId: string }> = ({ guildId }) => {
@@ -27,7 +28,7 @@ const GuildPrefix: FC<{ guildId: string }> = ({ guildId }) => {
       method: "PUT",
       body: JSON.stringify({
         prefix: value,
-        userId: user!.externalAccounts[0].providerUserId,
+        userId: getDiscordId(user!),
       }),
     });
     if (res.status === 200) return triggerSuccess();

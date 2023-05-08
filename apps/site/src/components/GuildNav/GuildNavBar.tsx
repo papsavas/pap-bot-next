@@ -1,4 +1,6 @@
+import { currentUser } from "@clerk/nextjs";
 import { getGuilds } from "../../utils/getGuild";
+import { getDiscordId } from "../../utils/user";
 import { SelectedProvider } from "../Providers/SelectedProvider";
 import GuildLink from "./GuildLink";
 
@@ -20,7 +22,8 @@ export const GuildNavBarFallback = () => (
 );
 
 export default async function GuildNavBar() {
-  const guilds = await getGuilds();
+  const user = await currentUser();
+  const guilds = await getGuilds(getDiscordId(user!));
   if (guilds.status !== 200) return <>Error</>;
   return (
     <nav className={navbarStyles}>
