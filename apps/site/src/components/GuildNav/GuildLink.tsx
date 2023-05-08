@@ -26,6 +26,7 @@ const GuildLink: FC<{ guild: Guild }> = ({ guild }) => {
           width={128}
           height={128}
           alt={`${name} guild`}
+          priority={false}
           className="rounded-2xl object-contain"
         />
       </Link>
