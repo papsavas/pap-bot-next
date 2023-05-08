@@ -27,7 +27,7 @@ const GuildPrefix: FC<{ guildId: string }> = ({ guildId }) => {
       method: "PUT",
       body: JSON.stringify({
         prefix: value,
-        userId: user?.externalAccounts[0].providerUserId,
+        userId: user!.externalAccounts[0].providerUserId,
       }),
     });
     if (res.status === 200) return triggerSuccess();
