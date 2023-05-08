@@ -1,7 +1,7 @@
 import { initServer } from "@ts-rest/express";
 import { Guild as DiscordGuild, PermissionsBitField, Snowflake } from "discord.js";
 import { contract } from "http-contract";
-import { Guild } from "types";
+import { guildObject } from "types";
 
 const memberIsEligible = (g: DiscordGuild, memberId: Snowflake) =>
     g.members
@@ -15,13 +15,17 @@ export const guildsRouter = s.router(contract.guilds, {
         const guildCache = req.bot.guilds.cache.clone();
         const { memberId } = query;
         if (memberId)
-            for (const [gid, g] of guildCache)
-                if (!await memberIsEligible(g, memberId))
+            for (const [gid, g] of guildCache) {
+                const eligible = await memberIsEligible(g, memberId);
+                if (!eligible)
                     guildCache.delete(gid);
+            }
 
+        const body = guildCache.toJSON()
+            .map(g => guildObject.parse(g.toJSON()));
         return {
             status: 200,
-            body: guildCache.toJSON() as unknown as Guild[]
+            body
         }
     },
     getGuild: async ({ req, params }) => {
@@ -30,7 +34,7 @@ export const guildsRouter = s.router(contract.guilds, {
             return { status: 400, body: { message: "Guild does not exist" } }
         return {
             status: 200,
-            body: guild.toJSON() as unknown as Guild
+            body: guildObject.parse(guild.toJSON())
         }
     }
 
