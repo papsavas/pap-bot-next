@@ -15,7 +15,7 @@
     "@ts-rest/core": "^3.18.1",
     "database": "*",
     "http-contract": "*",
-    "next": "^13.4.1",
+    "next": "^13.4.2-canary.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "swr": "^2.1.1",
@@ -23,6 +23,7 @@
     "utils": "*"
   },
   "devDependencies": {
+    "@clerk/types": "^3.36.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/node": "^18.15.2",
