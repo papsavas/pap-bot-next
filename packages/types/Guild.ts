@@ -12,5 +12,4 @@ export const guildObject = z.object({
     name: z.string()
 });
 
-//TODO: check against JSON discordjs Guild
 export type Guild = z.infer<typeof guildObject>
