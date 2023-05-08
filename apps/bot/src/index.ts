@@ -43,8 +43,7 @@ const eventFiles = importDir<DiscordEvent<keyof ClientEvents>>({
         return isTypescriptFile && isNamedDiscordEvent;
     },
     throwOnMiss: true
-}
-)
+})
 
 eventFiles
     .then(events => {

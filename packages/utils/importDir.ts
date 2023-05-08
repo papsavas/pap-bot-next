@@ -3,7 +3,7 @@ import { readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-type Props = {
+type Options = {
     path: string,
     filter?: (v: string) => boolean,
     namedExport?: string,
@@ -23,7 +23,7 @@ export const importDir = async <T>({
     filter = () => true,
     namedExport = "default",
     throwOnMiss = false
-}: Props
+}: Options
 ): Promise<Collection<string, T>> => {
     const resolvedPath = resolve(path);
     const collection = new Collection<string, T>();
@@ -31,13 +31,13 @@ export const importDir = async <T>({
     await Promise.all(
         files
             .filter(filter)
-            .flatMap(file =>
-                import(join(pathToFileURL(resolvedPath).toString(), file))
+            .flatMap(filename =>
+                import(join(pathToFileURL(resolvedPath).toString(), filename))
                     .then(r =>
                         r[namedExport] ?
-                            [collection.set(file.split(".")[0], r[namedExport])] :
+                            [collection.set(filename, r[namedExport])] :
                             throwOnMiss ?
-                                Promise.reject(`ImportDir: no ${namedExport} export provided for file ${file}`) :
+                                Promise.reject(`ImportDir: no ${namedExport} export provided for file ${filename}`) :
                                 []
                     ))
     )

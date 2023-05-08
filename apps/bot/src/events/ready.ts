@@ -11,8 +11,7 @@ import { makeEvent } from "../utils/makeEvent";
 const commandFiles = importDir<Command>({
     path: 'src/commands',
     filter: (f) => f.endsWith(".ts")
-}
-);
+});
 
 const ready = makeEvent({
     event: "ready",

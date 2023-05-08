@@ -19,8 +19,7 @@ describe('Import Directory', () => {
     })
 
     it("should map file names to keys", async () => {
-        const fileNames = (await readdir(dirPath))
-            .map(f => f.split('.')[0]);
+        const fileNames = await readdir(dirPath)
         const res = await importDir({ path: dirPath, filter: defaultFilter })
         expect([...res.keys()].every(file => fileNames.includes(file))).toBeTruthy()
     })
