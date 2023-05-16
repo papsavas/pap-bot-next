@@ -1,27 +1,18 @@
 import { coverageConfigDefaults, defineConfig } from "vitest/config";
-
 export default defineConfig({
     test: {
-        exclude: [
-            "**/node_modules/**",
-            "**/dist/**",
-        ],
-        environmentMatchGlobs: [
-            ["**/bot/**", "node"],
-            ["**/site/**", "jsdom"],
-            ["**/packages/**", "node"]
-        ],
         setupFiles: [
             "tests/setupTests.ts",
         ],
         passWithNoTests: true,
         testTimeout: 120000,
         typecheck: { checker: "tsc" },
+        globals: true,
         coverage: {
             enabled: true,
             all: true,
             provider: "c8",
-            exclude: [...coverageConfigDefaults.exclude, ".next/**"]
+            exclude: [...coverageConfigDefaults.exclude, ".next/**", "*.config.*"]
         }
     }
 })
