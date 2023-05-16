@@ -1,4 +1,4 @@
-import { makeEvent } from "../utils/makeEvent";
+import { makeEvent } from "../lib/makeEvent";
 
 const messageDelete = makeEvent({
     event: "messageDelete",

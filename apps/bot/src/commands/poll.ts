@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, ComponentType, EmbedBuilder } from "discord.js";
-import { makeCommand } from "../utils/commands/makeCommand";
+import { makeCommand } from "../lib/commands/makeCommand";
 
 const name = "poll";
 const [textOption, pingOption, timeOption] = ["text", "ping", "time",];

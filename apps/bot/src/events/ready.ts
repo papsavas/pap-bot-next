@@ -5,8 +5,8 @@ import { importDir, values } from "utils";
 import { ctx } from "..";
 import { Command } from "../../types/Command";
 import { createReactionNotificationsId } from "../handlers/reactionNotifications";
+import { makeEvent } from "../lib/makeEvent";
 import { app } from "../server";
-import { makeEvent } from "../utils/makeEvent";
 
 const commandFiles = importDir<Command>({
     path: 'src/commands',

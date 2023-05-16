@@ -1,8 +1,8 @@
 import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, Message, userMention } from "discord.js";
 import { ctx } from "..";
 import { CommandSource } from "../../types/Command";
-import { makeCommand } from "../utils/commands/makeCommand";
-import { sliceCommand } from "../utils/commands/slice";
+import { makeCommand } from "../lib/commands/makeCommand";
+import { sliceCommand } from "../lib/commands/slice";
 
 const name = "prefix";
 const valueOption = "value";

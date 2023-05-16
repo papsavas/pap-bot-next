@@ -1,6 +1,6 @@
 import { handleReactionNotifications } from "../handlers/reactionNotifications";
-import { makeEvent } from "../utils/makeEvent";
-import { fetchPartial } from "../utils/Partials";
+import { makeEvent } from "../lib/makeEvent";
+import { fetchPartial } from "../lib/Partials";
 
 const messageReactionAdd = makeEvent({
     event: "messageReactionAdd",

@@ -1,5 +1,5 @@
 import { Partials } from "discord.js";
-import { migrateMessages } from "../utils/migrateMessages";
+import { migrateMessages } from "../lib/migrateMessages";
 import client from "./client";
 
 const [path, file, guildId, oldChannelId, newChannelId, ...rest] = process.argv;

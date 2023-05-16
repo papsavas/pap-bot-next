@@ -1,4 +1,4 @@
-import { makeEvent } from "../utils/makeEvent";
+import { makeEvent } from "../lib/makeEvent";
 
 const messageReactionRemove = makeEvent({
     event: "messageReactionRemove",

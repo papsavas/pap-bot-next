@@ -1,7 +1,7 @@
 import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, EmbedBuilder, italic, RESTJSONErrorCodes, roleMention, spoiler, userMention } from "discord.js";
 import { ctx } from "..";
 import { createReactionNotificationsId } from "../handlers/reactionNotifications";
-import { makeCommand } from "../utils/commands/makeCommand";
+import { makeCommand } from "../lib/commands/makeCommand";
 
 //TODO: handle message execution
 

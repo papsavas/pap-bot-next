@@ -1,5 +1,5 @@
 import { ctx } from "..";
-import { makeEvent } from "../utils/makeEvent";
+import { makeEvent } from "../lib/makeEvent";
 
 const interactionCreate = makeEvent({
     event: "interactionCreate",

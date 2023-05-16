@@ -1,4 +1,4 @@
-import { setCommands } from "../utils/commands/rest";
+import { setCommands } from "../lib/commands/rest";
 
 const [path, file, guildId, ...args] = process.argv;
 

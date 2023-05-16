@@ -1,5 +1,5 @@
 import { ApplicationCommandData, ApplicationCommandType, ChatInputCommandInteraction } from "discord.js";
-import { makeCommand } from "../utils/commands/makeCommand";
+import { makeCommand } from "../lib/commands/makeCommand";
 
 const name = "ping";
 

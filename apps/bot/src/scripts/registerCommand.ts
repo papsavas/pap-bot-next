@@ -1,7 +1,7 @@
 
 import { ApplicationCommandData, RESTPostAPIApplicationCommandsJSONBody } from "discord.js";
 import { importDir } from "utils";
-import { registerCommand } from "../utils/commands/rest";
+import { registerCommand } from "../lib/commands/rest";
 
 
 

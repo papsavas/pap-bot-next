@@ -1,5 +1,5 @@
 
-import { deleteCommand, getCommands } from "../utils/commands/rest";
+import { deleteCommand, getCommands } from "../lib/commands/rest";
 
 
 
