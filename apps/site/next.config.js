@@ -2,7 +2,7 @@
 const nextConfig = {
   transpilePackages: ["server"],
   experimental: {
-    appDir: true,
+    typedRoutes: true,
   },
   images: {
     domains: ["cdn.discordapp.com"],
