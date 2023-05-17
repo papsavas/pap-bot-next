@@ -1,4 +1,6 @@
-import { ApplicationCommandData, ApplicationCommandType, ChatInputCommandInteraction } from "discord.js";
+import { ApplicationCommandData, ApplicationCommandType } from "discord.js";
+import { CommandSource } from "../../types/Command";
+import SourceHandler from "../lib/SourceHandler";
 import { makeCommand } from "../lib/commands/makeCommand";
 
 const name = "ping";
@@ -13,8 +15,9 @@ export const data = {
 const pingCommand = makeCommand({
     name,
     data,
-    execute: async (command: ChatInputCommandInteraction) => {
-        await command.reply("Pong");
+    execute: async (source: CommandSource) => {
+        return SourceHandler(source)
+            .reply({ content: "Pong", ephemeral: true },)
     }
 })
 
