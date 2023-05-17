@@ -4,21 +4,26 @@ import { SourceHandlerOptions } from "../../types/SourceHandler";
 const SourceHandler: SourceHandlerOptions = (source) => {
     return {
         source,
-        edit: (data) =>
+        deferReply: (callback, interactionOptions) =>
+            (source instanceof CommandInteraction ?
+                source.deferReply(interactionOptions) :
+                source.channel.sendTyping())
+                .then(callback),
+        edit: (options) =>
             source instanceof CommandInteraction ?
-                source.editReply(data) : source.edit(data),
+                source.editReply(options) : source.edit(options),
 
-        reply: (data) =>
+        reply: (options) =>
             source instanceof CommandInteraction ?
                 source.deferred ?
-                    source.editReply(data) :
+                    source.editReply(options) :
                     source.replied ?
                         //@ts-expect-error infers union
-                        source.followUp(data) :
+                        source.followUp(options) :
                         //@ts-expect-error infers union
-                        source.reply(data) :
+                        source.reply(options) :
                 //@ts-expect-error infers union
-                source.reply(data),
+                source.reply(options),
 
         delete: () =>
             source instanceof CommandInteraction ?

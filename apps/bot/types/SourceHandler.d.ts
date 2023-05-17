@@ -1,4 +1,7 @@
-import { CommandInteraction, InteractionEditReplyOptions, InteractionReplyOptions, Message, MessageEditOptions, MessageReplyOptions } from "discord.js";
+import { CommandInteraction, InteractionDeferReplyOptions, InteractionEditReplyOptions, InteractionReplyOptions, Message, MessageEditOptions, MessageReplyOptions } from "discord.js";
+import { CommandSource } from "./Command";
+
+
 
 export type EditOptions<T> =
     T extends CommandInteraction ?
@@ -14,9 +17,10 @@ export type ReplyOptions<T> =
     MessageReplyOptions :
     never
 
-export type SourceHandlerOptions = <T extends CommandInteraction | Message>(source: T) => {
-    source: T
-    edit: (data: EditOptions<T>) => Promise<Message>
-    reply: (data: ReplyOptions<T>) => Promise<Message>
+export type SourceHandlerOptions = <T extends CommandSource>(source: T) => {
+    source: T,
+    deferReply: (callback: () => Promise<unknown>, InteractionOptions?: InteractionDeferReplyOptions) => Promise<unknown>
+    edit: (options: EditOptions<T>) => Promise<Message>
+    reply: (options: ReplyOptions<T>) => Promise<Message>
     delete: () => Promise<Message | void>
 }
