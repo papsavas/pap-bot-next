@@ -19,7 +19,7 @@ export type ReplyOptions<T> =
 
 export type SourceHandlerOptions = <T extends CommandSource>(source: T) => {
     source: T,
-    deferReply: (callback: () => Promise<unknown>, InteractionOptions?: InteractionDeferReplyOptions) => Promise<unknown>
+    deferReply: (callback: () => unknown, InteractionOptions?: InteractionDeferReplyOptions) => Promise<unknown>
     edit: (options: EditOptions<T>) => Promise<Message>
     reply: (options: ReplyOptions<T>) => Promise<Message>
     delete: () => Promise<Message | void>
