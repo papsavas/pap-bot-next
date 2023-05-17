@@ -1,13 +1,13 @@
 import { ApplicationCommandData, CommandInteraction, Message, Snowflake } from "discord.js";
 
-export type PartialCommand = {
+export type CommandOptions = {
     name: string;
     data: ApplicationCommandData;
-    execute: (...args: any) => Promise<unknown>;
+    execute: (source: CommandSource) => Promise<unknown>;
 }
 
 export type Command =
-    PartialCommand & {
+    CommandOptions & {
         register: (guildId?: Snowflake) => Promise<void>;
         delete: (guildId?: Snowflake) => Promise<void>
     }

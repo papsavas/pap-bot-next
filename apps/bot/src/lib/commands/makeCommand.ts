@@ -1,8 +1,8 @@
 import { RESTPostAPIApplicationGuildCommandsJSONBody, Snowflake } from "discord.js";
-import { Command, PartialCommand } from "../../../types/Command";
+import { Command, CommandOptions } from "../../../types/Command";
 import { deleteCommand, getCommands, registerCommand } from "./rest";
 
-export const makeCommand = (command: PartialCommand): Command => {
+export const makeCommand = (command: CommandOptions): Command => {
     return {
         ...command,
         register: async (guildId?: Snowflake) => {
