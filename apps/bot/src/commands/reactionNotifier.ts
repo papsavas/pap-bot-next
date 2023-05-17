@@ -1,7 +1,13 @@
-import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, bold, ChatInputCommandInteraction, EmbedBuilder, italic, RESTJSONErrorCodes, roleMention, spoiler, userMention } from "discord.js";
+import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, EmbedBuilder, italic, RESTJSONErrorCodes, roleMention, userMention } from "discord.js";
 import { ctx } from "..";
+import { CommandSource } from "../../types/Command";
 import { createReactionNotificationsId } from "../handlers/reactionNotifications";
 import { makeCommand } from "../lib/commands/makeCommand";
+import { sliceCommand } from "../lib/commands/slice";
+import { warnings } from "../lib/commands/warnings";
+import { NotServedError } from "../lib/errors";
+import SourceHandler from "../lib/SourceHandler";
+
 
 //TODO: handle message execution
 
@@ -43,61 +49,75 @@ export const data = {
 const ReactionNotifierCommand = makeCommand({
     name,
     data,
-    execute: async (command: ChatInputCommandInteraction) => {
-        await command.deferReply({ ephemeral: true, fetchReply: true })
+    execute: async (command: CommandSource) => {
+        const handler = SourceHandler(command);
+        if (!command.inGuild())
+            return handler.reply({ content: warnings(name).only.guild })
+        const ctxPrefix = ctx.prefix.get(command.guildId);
+        if (!ctxPrefix) throw new NotServedError("Reaction Notifier", command.guildId)
+        return handler.deferReply(async () => {
+            const [subCmd, targetId] =
+                command instanceof CommandInteraction ?
+                    [
+                        (command as ChatInputCommandInteraction).options.getSubcommand(true),
+                        (command.options.resolved?.roles ?? command.options.resolved?.members)?.firstKey()] :
+                    [
+                        sliceCommand(command, ctxPrefix.prefix).arg1,
+                        sliceCommand(command, ctxPrefix.prefix).arg2
+                    ];
 
-        if (!command.inGuild()) return command.editReply({ content: "This command is guild only" })
+            const user = command instanceof CommandInteraction ? command.user : command.author;
+            switch (subCmd) {
+                case addSubCmd: {
+                    //establish dms or abort
+                    if (!targetId)
+                        return handler.reply({ content: `\`Target not provided. \n ${ctxPrefix.prefix}${name} add <targetId>\`` })
+                    try {
+                        await user.send(italic(`This message establishes our DM channel where i will notify you about reaction notifications.`))
+                    } catch (error: any) {
+                        if (error.code === RESTJSONErrorCodes.CannotSendMessagesToThisUser)
+                            await handler.reply({
+                                content: warnings(name).closedDms
+                            })
+                        return
+                    }
+                    const [guildId, userId] = [command.guildId, user.id];
+                    //update cache and db
+                    ctx.reactionNotifier.set(createReactionNotificationsId({ guildId, userId, targetId }), {
+                        userId,
+                        targetId,
+                        guildId
+                    }, true)
 
-        const subCmd = command.options.getSubcommand(true);
-
-        switch (subCmd) {
-            case addSubCmd: {
-                //establish dms or abort
-                try {
-                    await command.user.send(italic(`This message establishes our DM channel where i will notify you about reaction notifications.`))
-                } catch (error: any) {
-                    if (error.code === RESTJSONErrorCodes.CannotSendMessagesToThisUser)
-                        await command.editReply({
-                            content: `Your DMs for this guild are closed, please open them or you will not be able to receive reaction notifications.
-${bold(italic(`Server name dropdown => Privacy Settings => Direct Messages ✅`) + " After, you'll need to retry this command")}
-${spoiler("Tip: Once a DM channel between us is established you can close them again everywhere")}`
-                        })
-                    return
+                    //respond to user
+                    return handler.reply({ content: `Enabled notifications for ${targetId ?? "all"}` })
                 }
-                const resolvedValues = command.options.resolved;
-                const targetId = (resolvedValues?.roles ?? resolvedValues?.members)!.firstKey()!;
-                const [guildId, userId] = [command.guildId, command.user.id];
-                //update cache and db
-                ctx.reactionNotifier.set(createReactionNotificationsId({ guildId, userId, targetId }), {
-                    userId,
-                    targetId,
-                    guildId
-                }, true)
 
-                //respond to user
-                return command.editReply(`Enabled notifications for ${targetId ?? "all"}`)
+                case showSubCmd: {
+                    const filtered = ctx.reactionNotifier
+                        .filter(v => v.guildId === command.guildId && v.userId === user.id);
+                    return handler.reply({
+                        embeds: [
+                            new EmbedBuilder({
+                                title: "Current Targets",
+                                description: filtered.size === 0 ? "-" : filtered.reduce(
+                                    (acc, { targetId }) =>
+                                        acc += `${command.guild!.roles.cache.has(targetId) ? roleMention(targetId) : userMention(targetId)}\n`, "")
+                            })
+                        ]
+                    })
+                }
+
+                case clearSubCmd: {
+                    const removed = ctx.reactionNotifier.sweep(v => v.guildId === command.guildId, true);
+                    return handler.reply({ content: `Removed ${removed} targets` });
+                }
             }
 
-            case showSubCmd: {
-                const filtered = ctx.reactionNotifier
-                    .filter(v => v.guildId === command.guildId && v.userId === command.user.id);
-                return command.editReply({
-                    embeds: [
-                        new EmbedBuilder({
-                            title: "Current Targets",
-                            description: filtered.size === 0 ? "-" : filtered.reduce(
-                                (acc, { targetId }) =>
-                                    acc += `${command.guild!.roles.cache.has(targetId) ? roleMention(targetId) : userMention(targetId)}\n`, "")
-                        })
-                    ]
-                })
-            }
+        }, { ephemeral: true, fetchReply: true })
 
-            case clearSubCmd: {
-                const removed = ctx.reactionNotifier.sweep(v => v.guildId === command.guildId, true);
-                return command.editReply(`Removed ${removed} targets`);
-            }
-        }
+
+
 
 
     }
