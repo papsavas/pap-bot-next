@@ -4,6 +4,7 @@ import { CommandSource } from "../../types/Command";
 import SourceHandler from "../lib/SourceHandler";
 import { makeCommand } from "../lib/commands/makeCommand";
 import { sliceCommand } from "../lib/commands/slice";
+import { warnings } from "../lib/commands/warnings";
 import { NotServedError } from "../lib/errors";
 
 const name = "poll";
@@ -44,7 +45,7 @@ const pollCommand = makeCommand({
     execute: async (source: CommandSource) => {
         const handler = SourceHandler(source);
         if (!source.inGuild())
-            return handler.reply({ content: "This is a guild only command" });
+            return handler.reply({ content: warnings(name).only.guild });
         const ctxPrefix = ctx.prefix.get(source.guildId);
         if (!ctxPrefix) throw new NotServedError("Poll", source.guildId);
         return handler.deferReply(async () => {

@@ -4,6 +4,7 @@ import { CommandSource } from "../../types/Command";
 import SourceHandler from "../lib/SourceHandler";
 import { makeCommand } from "../lib/commands/makeCommand";
 import { sliceCommand } from "../lib/commands/slice";
+import { warnings } from "../lib/commands/warnings";
 import { NotServedError } from "../lib/errors";
 
 const name = "prefix";
@@ -28,7 +29,7 @@ const prefixCommand = makeCommand({
         const handler = SourceHandler(source);
         return handler.deferReply(() => {
             if (!source.inGuild()) {
-                return source.reply("This is a guild only command");
+                return handler.reply({ content: warnings(name).only.guild });
             }
             const ctxPrefix = ctx.prefix.get(source.guildId)!;
             if (!ctxPrefix) throw new NotServedError(`Prefix`, source.guildId);

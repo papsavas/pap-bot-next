@@ -1,5 +1,8 @@
 import { ActionRowBuilder, ApplicationCommandData, ApplicationCommandType, AttachmentBuilder, AttachmentPayload, ChannelSelectMenuBuilder, ChannelType, ComponentType, JSONEncodable, MessageContextMenuCommandInteraction, RESTJSONErrorCodes, TextChannel, WebhookClient } from "discord.js";
+import { CommandSource } from "../../types/Command";
+import SourceHandler from "../lib/SourceHandler";
 import { makeCommand } from "../lib/commands/makeCommand";
+import { warnings } from "../lib/commands/warnings";
 
 const name = "move-message";
 
@@ -12,7 +15,14 @@ export const data = {
 const moveMessageCommand = makeCommand({
     name,
     data,
-    execute: async (command: MessageContextMenuCommandInteraction) => {
+    execute: async (command: CommandSource) => {
+        const handler = SourceHandler(command);
+        if (!(command instanceof MessageContextMenuCommandInteraction)) {
+            return handler.reply({
+                content: warnings(name).only.messageContext,
+                ephemeral: true
+            })
+        }
         const message = command.targetMessage;
         const guildChannels = command.guild?.channels;
         if (!guildChannels) return
