@@ -22,12 +22,13 @@ const GuildPrefix: FC<{ guildId: string }> = ({ guildId }) => {
 
   const handleSubmit: FormSubmit = async (ev, value) => {
     ev.preventDefault();
-    if (!data || value === data.prefix) return triggerSuccess();
+    const sanitizedValue = value.trim();
+    if (!data || sanitizedValue === data.prefix) return triggerSuccess();
     //update prefix
     const res = await fetch(`/api/prefix/${guildId}`, {
       method: "PUT",
       body: JSON.stringify({
-        prefix: value,
+        prefix: sanitizedValue,
         userId: getDiscordId(user!),
       }),
     });
