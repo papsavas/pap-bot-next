@@ -1,37 +1,28 @@
-import { ActionRowBuilder, ApplicationCommandData, ApplicationCommandType, AttachmentBuilder, AttachmentPayload, ChannelSelectMenuBuilder, ChannelType, ComponentType, JSONEncodable, MessageContextMenuCommandInteraction, RESTJSONErrorCodes, TextChannel, WebhookClient } from "discord.js";
-import { CommandSource } from "../../types/Command";
-import SourceHandler from "../lib/SourceHandler";
-import { makeCommand } from "../lib/commands/makeCommand";
-import { warnings } from "../lib/commands/warnings";
+import { ActionRowBuilder, ApplicationCommandType, AttachmentBuilder, AttachmentPayload, ChannelSelectMenuBuilder, ChannelType, ComponentType, DiscordAPIError, JSONEncodable, MessageContextMenuCommandInteraction, RESTJSONErrorCodes, TextChannel, WebhookClient } from "discord.js";
+import { Command } from "../lib/commands/Command";
 
-const name = "move-message";
-
-export const data = {
-    name,
-    type: ApplicationCommandType.Message
-
-} satisfies ApplicationCommandData
-
-const moveMessageCommand = makeCommand({
-    name,
-    data,
-    execute: async (command: CommandSource) => {
-        const handler = SourceHandler(command);
+const moveMessageCommand = new Command({
+    data: {
+        name: "move-message",
+        type: ApplicationCommandType.Message
+    },
+    execute: async ({ source: command, warnings, reply }) => {
         if (!(command instanceof MessageContextMenuCommandInteraction)) {
-            return handler.reply({
-                content: warnings(name).only.messageContext,
+            return reply({
+                content: warnings.only.messageContext,
                 ephemeral: true
             })
         }
+
         const message = command.targetMessage;
-        const guildChannels = command.guild?.channels;
+        const guildChannels = command.guild.channels;
         if (!guildChannels) return
         const select = new ChannelSelectMenuBuilder({
             customId: "move_msg_channel_select",
             channelTypes: [ChannelType.GuildText],
             placeholder: "Select a channel",
         })
-        const res = await command.reply({
+        const res = await reply({
             ephemeral: true,
             components: [
                 new ActionRowBuilder<ChannelSelectMenuBuilder>()
@@ -70,13 +61,15 @@ const moveMessageCommand = makeCommand({
                 content: `Message moved in ${targetChannel.name}`
             });
             //TODO!: not catching
-        } catch (err: any) {
-            if (err.code === RESTJSONErrorCodes.MissingPermissions)
+        } catch (err) {
+            if ((err as DiscordAPIError).code === RESTJSONErrorCodes.MissingPermissions)
                 await collectedSelect.editReply({
                     content: "I am missing permissions"
                 })
         }
     }
 })
+
+export const { name, data } = moveMessageCommand;
 
 export default moveMessageCommand;
