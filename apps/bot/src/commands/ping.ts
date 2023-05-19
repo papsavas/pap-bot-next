@@ -1,24 +1,18 @@
-import { ApplicationCommandData, ApplicationCommandType } from "discord.js";
-import { CommandSource } from "../../types/Command";
-import SourceHandler from "../lib/SourceHandler";
-import { makeCommand } from "../lib/commands/makeCommand";
+import { ApplicationCommandType } from "discord.js";
+import { Command } from "../lib/commands/Command";
 
-const name = "ping";
 
-export const data = {
-    name,
-    description: "Returns a `pong` response",
-    type: ApplicationCommandType.ChatInput,
-
-} satisfies ApplicationCommandData;
-
-const pingCommand = makeCommand({
-    name,
-    data,
-    execute: async (source: CommandSource) => {
-        return SourceHandler(source)
-            .reply({ content: "Pong", ephemeral: true },)
+const pingCommand = new Command({
+    data: {
+        name: "ping",
+        description: "Returns a `pong` response",
+        type: ApplicationCommandType.ChatInput,
+    },
+    execute: async ({ reply }) => {
+        reply({ content: "Pong", ephemeral: true })
     }
 })
+
+export const { name, data } = pingCommand
 
 export default pingCommand;
