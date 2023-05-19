@@ -12,7 +12,8 @@ type ToArgxType<T> = {
 type ToArgsxType<T> = {
     [K in keyof T as Argsx]: string;
 }
-type CommandLiteral = {
+
+export type CommandLiteral = {
     fullCommand: string;
     primaryCommand: string;
 } & ArgxType & ArgsxType
