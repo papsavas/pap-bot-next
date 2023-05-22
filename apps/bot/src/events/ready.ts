@@ -3,8 +3,8 @@ import { Client } from "discord.js";
 import { BOT_PORT } from "http-contract";
 import { importDir, values } from "utils";
 import { ctx } from "..";
-import { Command } from "../../types/Command";
 import { createReactionNotificationsId } from "../handlers/reactionNotifications";
+import { Command } from "../lib/commands/Command";
 import { makeEvent } from "../lib/makeEvent";
 import { app } from "../server";
 
@@ -62,8 +62,6 @@ const syncGuilds = async (client: Client) =>
             }
         }))
     )
-
-
 
 export default ready;
 

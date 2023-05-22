@@ -2,9 +2,9 @@ import { Client, ClientEvents, Collection, Events, Partials, Snowflake } from "d
 import dotenv from 'dotenv';
 import findConfig from "find-config";
 import { MonitoredCollection, importDir } from "utils";
-import { Command } from "../types/Command";
 import { Context, GuildPrefix, ReactionNotifier } from "../types/Context";
 import { DiscordEvent } from "../types/DiscordEvent";
+import { Command } from "./lib/commands/Command";
 import { prefixMonitors } from "./monitors/prefix";
 import { reactionNotifierMonitors } from "./monitors/reactionNotifier";
 
