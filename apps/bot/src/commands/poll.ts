@@ -1,67 +1,55 @@
-import { ActionRowBuilder, ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, CommandInteraction, ComponentType, EmbedBuilder } from "discord.js";
-import { ctx } from "..";
-import { CommandSource } from "../../types/Command";
-import SourceHandler from "../lib/SourceHandler";
-import { makeCommand } from "../lib/commands/makeCommand";
-import { sliceCommand } from "../lib/commands/slice";
-import { warnings } from "../lib/commands/warnings";
-import { NotServedError } from "../lib/errors";
+import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, ComponentType, EmbedBuilder } from "discord.js";
+import { Command } from "../lib/commands/Command";
 
-const name = "poll";
 const [textOption, pingOption, timeOption] = ["text", "ping", "time",];
 
-export const data = {
-    name,
-    description: "Creates a poll",
-    type: ApplicationCommandType.ChatInput,
-    options: [
-        {
-            name: textOption,
-            description: "the poll's message",
-            required: true,
-            type: ApplicationCommandOptionType.String
-        },
-        {
-            name: timeOption,
-            description: "Minutes to keep poll active",
-            type: ApplicationCommandOptionType.Number,
-            minValue: 1,
-            maxValue: 10,
-            required: false
-        },
-        {
-            name: pingOption,
-            description: "Role to ping",
-            type: ApplicationCommandOptionType.Role,
-            required: false,
-        }
-
-    ]
-} satisfies ApplicationCommandData
-
-const pollCommand = makeCommand({
-    name,
-    data,
-    execute: async (source: CommandSource) => {
-        const handler = SourceHandler(source);
+const pollCommand = new Command({
+    data: {
+        name: "poll",
+        description: "Creates a poll",
+        type: ApplicationCommandType.ChatInput,
+        options: [
+            {
+                name: textOption,
+                description: "the poll's message",
+                required: true,
+                type: ApplicationCommandOptionType.String
+            },
+            {
+                name: timeOption,
+                description: "Minutes to keep poll active",
+                type: ApplicationCommandOptionType.Number,
+                minValue: 1,
+                maxValue: 10,
+                required: false
+            },
+            {
+                name: pingOption,
+                description: "Role to ping",
+                type: ApplicationCommandOptionType.Role,
+                required: false,
+            }
+        ]
+    },
+    execute: async ({ source, deferReply, reply, warnings, sliced, user }) => {
         if (!source.inGuild())
-            return handler.reply({ content: warnings(name).only.guild });
-        const ctxPrefix = ctx.prefix.get(source.guildId);
-        if (!ctxPrefix) throw new NotServedError("Poll", source.guildId);
-        return handler.deferReply(async () => {
+            return reply({ content: warnings.only.guild });
+
+        return deferReply(async () => {
+
             const [text, timeLimit, pingRole, username] =
-                source instanceof CommandInteraction ?
+                source instanceof ChatInputCommandInteraction ?
                     [
-                        (source as ChatInputCommandInteraction).options.getString(textOption, true),
-                        (source as ChatInputCommandInteraction).options.getNumber(timeOption, false),
-                        (source as ChatInputCommandInteraction).options.getRole(pingOption, false),
+                        source.options.getString(textOption, true),
+                        source.options.getNumber(timeOption, false),
+                        source.options.getRole(pingOption, false),
                         source.user.username
                     ] :
                     [
-                        sliceCommand(source, ctxPrefix.prefix).arg1,
-                        parseInt(sliceCommand(source, ctxPrefix.prefix).arg2),
-                        source.mentions.roles.first(),
-                        source.author.username
+                        sliced!.args1,
+                        null,
+                        null,
+                        user.username
                     ]
 
             const embed = new EmbedBuilder({
@@ -83,7 +71,8 @@ const pollCommand = makeCommand({
                 style: ButtonStyle.Danger
             })
 
-            const response = await handler.reply({
+            const response = await reply({
+                fetchReply: true,
                 content: pingRole?.toString(),
                 allowedMentions: { parse: ["roles", "everyone"] },
                 embeds: [embed],
@@ -109,7 +98,7 @@ const pollCommand = makeCommand({
 
             collector.on("collect", buttonInteraction => {
                 buttonInteraction.customId === "upvote" ? ++upCount : ++downCount
-                handler.edit({
+                response.edit({
                     components: [
                         new ActionRowBuilder<ButtonBuilder>()
                             .setComponents(
@@ -135,7 +124,7 @@ const pollCommand = makeCommand({
             })
 
             collector.on("end", (collection) => {
-                handler.edit({
+                response.edit({
                     embeds: [EmbedBuilder.from(embed).setFooter({
                         text: "Poll has ended. Thanks for voting!"
                     })],
@@ -158,5 +147,7 @@ const pollCommand = makeCommand({
 
     }
 })
+
+export const { name, data } = pollCommand;
 
 export default pollCommand;
