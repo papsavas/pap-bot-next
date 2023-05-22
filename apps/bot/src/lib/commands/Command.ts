@@ -1,4 +1,5 @@
 import { ApplicationCommandData, CommandInteraction, InteractionDeferReplyOptions, InteractionEditReplyOptions, InteractionReplyOptions, Message, MessageEditOptions, MessageReplyOptions, RESTPostAPIApplicationGuildCommandsJSONBody, Snowflake, TextBasedChannel, User, bold, italic, spoiler } from "discord.js";
+import { values } from "utils";
 import { ctx } from "../..";
 import { deleteCommand, getCommands, registerCommand } from "./rest";
 import { CommandLiteral, sliceCommand } from "./slice";
@@ -68,10 +69,10 @@ export class Command {
                 channel,
                 user,
                 warnings,
-                sliced: source instanceof Message
-                    ? source.inGuild()
-                        ? sliceCommand(source, ctx.prefix.get(source.guildId)!.prefix) :
-                        null :
+                sliced: source instanceof Message ?
+                    source.inGuild() ?
+                        sliceCommand(source, ctx.prefix.get(source.guildId)!.prefix) :
+                        sliceCommand(source, values.defaultPrefix) :
                     null,
 
                 deferReply: (callback: () => unknown, interactionOptions?: InteractionDeferReplyOptions) =>
