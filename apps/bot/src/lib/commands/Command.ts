@@ -23,23 +23,21 @@ type ReplyOptions<T> =
     MessageReplyOptions :
     never
 
-export type CommandOptions = {
-    name: string;
-    data: ApplicationCommandData;
-    execute: (data: CommandContext) => Promise<unknown>;
-}
 
 export type CommandSource = CommandInteraction | Message
 
+
+
+//TODO: provide resolved command args
 type CommandContext = {
     source: CommandSource;
     user: User;
     channel: TextBasedChannel | null;
     warnings: Warnings;
-    sliced: CommandLiteral | null;
+    //TODO: type according to CommandSource
+    sliced: CommandLiteral | null
     deferReply: (callback: () => unknown, InteractionOptions?: InteractionDeferReplyOptions) => Promise<unknown>;
-    edit: (options: EditOptions<CommandContext['source']>) => Promise<Message>;
-    reply: (options: ReplyOptions<CommandContext['source']>) => Promise<Message>;
+    reply: (options: ReplyOptions<CommandSource>) => Promise<Message>;
     delete: () => Promise<Message | void>;
 }
 
@@ -50,7 +48,6 @@ export class Command {
     constructor({ data, execute }: { data: ApplicationCommandData, execute: (ctx: CommandContext) => Promise<unknown> }) {
         this.name = data.name;
         this.data = data;
-
         this.execute = async (source) => {
             const user = source instanceof CommandInteraction ? source.user : source.author;
             const channel = source.channel;
@@ -92,11 +89,6 @@ export class Command {
                                 source.reply(options) :
                         //@ts-expect-error infers union
                         source.reply(options),
-
-                edit: (options: EditOptions<typeof source>) =>
-                    source instanceof CommandInteraction ?
-                        source.editReply(options) :
-                        source.edit(options),
 
                 delete: () =>
                     source instanceof CommandInteraction ?
