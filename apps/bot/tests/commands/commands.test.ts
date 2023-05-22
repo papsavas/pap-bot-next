@@ -1,7 +1,7 @@
 import { APIApplicationCommand, ApplicationCommandData, ApplicationCommandDataResolvable, REST, Routes } from "discord.js";
 import { importDir } from "utils";
 import { describe, expect, it, } from "vitest";
-import { Command } from "../../types/Command";
+import { Command } from './../../src/lib/commands/Command';
 
 describe('Commands', async () => {
     const cmds = await importDir<Command>({ path: "src/commands", filter: (f) => f.endsWith(".ts") });
