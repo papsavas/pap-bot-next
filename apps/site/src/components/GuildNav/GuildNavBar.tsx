@@ -17,7 +17,6 @@ export const GuildNavBarFallback = () => (
           className="aspect-square min-w-full animate-pulse rounded-xl bg-neutral-900"
         ></li>
       ))}
-    ;
   </nav>
 );
 
