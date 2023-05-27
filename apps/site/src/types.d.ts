@@ -9,3 +9,9 @@ export type FormSubmit = (
     event: FormEvent<Element>,
     value: HTMLInputElement["value"]
 ) => void;
+
+export type HapticFormSubmit = (
+    ...args: [
+        ...Parameters<FormSubmit>,
+        ...[triggerSuccess: () => void, triggerFailure: () => void]
+    ]) => void

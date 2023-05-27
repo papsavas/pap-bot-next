@@ -3,24 +3,24 @@ import { useUser } from "@clerk/nextjs";
 import { FC } from "react";
 import useSWR from "swr";
 import { Prefix } from "types";
-import useBlink from "../../hooks/useBlink";
 import { fetcher } from "../../lib/fetcher";
+import { HapticFormSubmit } from "../../types";
 import { getDiscordId } from "../../utils/user";
-import Form from "../Form/Form";
+import HapticForm from "../Form/HapticForm";
 
 const GuildPrefix: FC<{ guildId: string }> = ({ guildId }) => {
   const { user } = useUser();
-  const [success, triggerSuccess] = useBlink();
-  const [failure, triggerFailure] = useBlink();
-
   const { data, isLoading, error } = useSWR<Prefix>(
     `/api/prefix/${guildId}`,
     fetcher
   );
 
-  if (error) triggerFailure();
-
-  const handleSubmit: FormSubmit = async (ev, value) => {
+  const handleSubmit: HapticFormSubmit = async (
+    ev,
+    value,
+    triggerSuccess,
+    triggerFailure
+  ) => {
     ev.preventDefault();
     const sanitizedValue = value.trim();
     if (!data || sanitizedValue === data.prefix) return triggerSuccess();
@@ -36,15 +36,13 @@ const GuildPrefix: FC<{ guildId: string }> = ({ guildId }) => {
   };
 
   return (
-    <Form
+    <HapticForm
       label="prefix"
       submitLabel="Save"
       initialValue={data?.prefix ?? "loading..."}
       onSubmit={handleSubmit}
       loading={isLoading}
       disabled={isLoading}
-      success={success}
-      failure={failure}
       error={error}
       inline
     />
