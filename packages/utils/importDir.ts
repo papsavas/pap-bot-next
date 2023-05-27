@@ -34,11 +34,14 @@ export const importDir = async <T>({
             .map(filename =>
                 import(join(pathToFileURL(resolvedPath).toString(), filename))
                     .then(r => {
+                        const missed = namedExports.find(exp => !r[exp]);
+                        if (missed && throwOnMiss)
+                            throw new Error(`ImportDir: no "${missed}" export found in file ${filename}`)
                         const fileExports = Object.entries<T>(r).reduce<T>((acc, [k, v]) => {
                             if (namedExports.includes(k))
-                                return k === "default" ? { ...acc, ...v } : { ...acc, [k]: v }
-                            if (throwOnMiss)
-                                throw new Error(`ImportDir: no ${k} export found in file ${filename}`)
+                                return k === "default" ?
+                                    { ...acc, ...v } :
+                                    { ...acc, [k]: v }
                             return acc;
                         }, {} as T);
                         collection.set(filename, fileExports)

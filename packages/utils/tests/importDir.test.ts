@@ -37,8 +37,12 @@ describe('Import Directory', () => {
         await expect(importDir({ path: dirPath })).resolves.not.toThrow();
     })
 
-    it("should throw on miss", async () => {
-        await expect(importDir({ path: dirPath, throwOnMiss: true })).rejects.toThrow();
+    it("should throw on no default export", async () => {
+        await expect(importDir({ path: dirPath, throwOnMiss: true, })).rejects.toThrow();
+    })
+
+    it("should throw on missed export", async () => {
+        await expect(importDir({ path: dirPath, throwOnMiss: true, namedExports: ['invalidExport'] })).rejects.toThrow();
     })
 });
 
