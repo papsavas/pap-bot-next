@@ -37,7 +37,7 @@ const reactionNotifierCommand = new Command({
             }
         ]
     },
-    execute: async ({ reply, deferReply, warnings, source: command, sliced, user }) => {
+    execute: async ({ reply, deferReply, warnings, source: command, sliced, source, user, ctx }) => {
         if (!command.inGuild())
             return reply({ content: warnings.only.guild })
 

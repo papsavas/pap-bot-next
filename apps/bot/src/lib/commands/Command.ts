@@ -1,6 +1,6 @@
-import { ApplicationCommandData, CommandInteraction, InteractionDeferReplyOptions, InteractionEditReplyOptions, InteractionReplyOptions, Message, MessageEditOptions, MessageReplyOptions, RESTPostAPIApplicationGuildCommandsJSONBody, Snowflake, TextBasedChannel, User, bold, italic, spoiler } from "discord.js";
+import { ApplicationCommandData, CommandInteraction, InteractionDeferReplyOptions, InteractionReplyOptions, Message, MessageReplyOptions, RESTPostAPIApplicationGuildCommandsJSONBody, Snowflake, TextBasedChannel, User, bold, italic, spoiler } from "discord.js";
 import { values } from "utils";
-import { ctx } from "../../ctx";
+import { Context } from "../../../types/Context";
 import { deleteCommand, getCommands, registerCommand } from "./rest";
 import { CommandLiteral, sliceCommand } from "./slice";
 
@@ -9,13 +9,6 @@ type Warnings = {
     closedDms: string
 }
 
-type EditOptions<T> =
-    T extends CommandInteraction ?
-    InteractionEditReplyOptions :
-    T extends Message ?
-    MessageEditOptions :
-    never
-
 type ReplyOptions<T> =
     T extends CommandInteraction ?
     InteractionReplyOptions :
@@ -23,14 +16,12 @@ type ReplyOptions<T> =
     MessageReplyOptions :
     never
 
-
-export type CommandSource = CommandInteraction | Message
-
-
+type CommandSource = CommandInteraction | Message
 
 //TODO: provide resolved command args
 type CommandContext = {
     source: CommandSource;
+    ctx: Context;
     user: User;
     channel: TextBasedChannel | null;
     warnings: Warnings;
@@ -44,11 +35,11 @@ type CommandContext = {
 export class Command {
     readonly name: string;
     readonly data: ApplicationCommandData;
-    execute: (source: CommandSource) => Promise<void>;
-    constructor({ data, execute }: { data: ApplicationCommandData, execute: (ctx: CommandContext) => Promise<unknown> }) {
+    execute: (source: CommandSource, ctx: Context) => Promise<void>;
+    constructor({ data, execute }: { data: ApplicationCommandData, execute: (cmdCtx: CommandContext) => Promise<unknown> }) {
         this.name = data.name;
         this.data = data;
-        this.execute = async (source) => {
+        this.execute = async (source, ctx) => {
             const user = source instanceof CommandInteraction ? source.user : source.author;
             const channel = source.channel;
             const warnings = {
@@ -63,6 +54,7 @@ export class Command {
             }
             await execute({
                 source,
+                ctx,
                 channel,
                 user,
                 warnings,

@@ -17,7 +17,7 @@ const prefixCommand = new Command({
             required: false
         }]
     },
-    execute: async ({ deferReply, reply, source, sliced, warnings, user }) => {
+    execute: async ({ deferReply, reply, source, sliced, warnings, user, ctx }) => {
         return deferReply(() => {
             if (!source.inGuild()) {
                 return reply({ content: warnings.only.guild });
