@@ -4,7 +4,7 @@ import { BOT_PORT } from "http-contract";
 import { importDir, values } from "utils";
 import { ctx } from "../ctx";
 import { createReactionNotificationsId } from "../handlers/reactionNotifications";
-import { Command } from "../lib/commands/Command";
+import Command from "../lib/commands/Command";
 import { makeEvent } from "../lib/makeEvent";
 import { app } from "../server";
 

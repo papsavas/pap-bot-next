@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ApplicationCommandType, AttachmentBuilder, AttachmentPayload, ChannelSelectMenuBuilder, ChannelType, ComponentType, DiscordAPIError, JSONEncodable, MessageContextMenuCommandInteraction, RESTJSONErrorCodes, TextChannel, WebhookClient } from "discord.js";
-import { Command } from "../lib/commands/Command";
+import Command from "../lib/commands/Command";
 
 const moveMessageCommand = new Command({
     data: {

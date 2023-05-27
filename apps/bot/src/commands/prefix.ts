@@ -1,6 +1,5 @@
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, userMention } from "discord.js";
-import { ctx } from "../ctx";
-import { Command } from "../lib/commands/Command";
+import Command from "../lib/commands/Command";
 import { NotServedError } from "../lib/errors";
 
 const valueOption = "value";
@@ -38,6 +37,6 @@ const prefixCommand = new Command({
     }
 })
 
-export const { name, data } = prefixCommand
+export const { name, data } = prefixCommand;
 
 export default prefixCommand;

@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, ComponentType, EmbedBuilder } from "discord.js";
-import { Command } from "../lib/commands/Command";
+import Command from "../lib/commands/Command";
 
 const [textOption, pingOption, timeOption] = ["text", "ping", "time",];
 

@@ -1,6 +1,5 @@
 import { ApplicationCommandType } from "discord.js";
-import { Command } from "../lib/commands/Command";
-
+import Command from "../lib/commands/Command";
 
 const pingCommand = new Command({
     data: {
@@ -13,6 +12,6 @@ const pingCommand = new Command({
     }
 })
 
-export const { name, data } = pingCommand
+export const { name, data } = pingCommand;
 
 export default pingCommand;

@@ -32,7 +32,7 @@ type CommandContext = {
     delete: () => Promise<Message | void>;
 }
 
-export class Command {
+export default class Command {
     readonly name: string;
     readonly data: ApplicationCommandData;
     execute: (source: CommandSource, ctx: Context) => Promise<void>;

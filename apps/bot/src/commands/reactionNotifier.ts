@@ -1,7 +1,6 @@
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, EmbedBuilder, italic, RESTJSONErrorCodes, roleMention, userMention } from "discord.js";
-import { ctx } from "../ctx";
 import { createReactionNotificationsId } from "../handlers/reactionNotifications";
-import { Command } from "../lib/commands/Command";
+import Command from "../lib/commands/Command";
 
 const targetOption = "target";
 const [addSubCmd, showSubCmd, clearSubCmd] = ["add", "show", "clear"];
