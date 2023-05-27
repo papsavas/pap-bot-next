@@ -28,7 +28,7 @@ describe('Import Directory', () => {
         const res = await importDir({
             path: dirPath,
             filter: (f) => !(f.includes("no") || f.includes("default")),
-            namedExport: "specifiedExport"
+            namedExports: ["specifiedExport"]
         });
         expect(res.size).toBe(2);
     })

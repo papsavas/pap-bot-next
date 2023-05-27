@@ -9,7 +9,7 @@ const [path, file, inputCommand, guildId, ...args] = process.argv;
 if (!inputCommand) throw new Error("You must provide a command name");
 const files = await importDir<ApplicationCommandData>({
     path: "src/commands",
-    namedExport: "data",
+    namedExports: ["data"],
     filter: (f) => f.endsWith(".ts")
 });
 const cmd = files.find((c, filename) => inputCommand === c.name || inputCommand === filename)

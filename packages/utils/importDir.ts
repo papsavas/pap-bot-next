@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 type Options = {
     path: string,
     filter?: (v: string) => boolean,
-    namedExport?: string,
+    namedExports?: string[],
     throwOnMiss?: boolean
 }
 
@@ -14,14 +14,14 @@ type Options = {
  * @description Imports directory files
  * @param path Target relative path (`<parentDir>/<dir>`)
  * @param filter 
- * @param namedExport (default `default`)
+ * @param namedExports (default `["default"]`)
  * @param throwOnMiss (default `false`)
  * @returns Map<`fileName`, `T`>
  */
 export const importDir = async <T>({
     path,
     filter = () => true,
-    namedExport = "default",
+    namedExports = ["default"],
     throwOnMiss = false
 }: Options
 ): Promise<Collection<string, T>> => {
@@ -31,15 +31,20 @@ export const importDir = async <T>({
     await Promise.all(
         files
             .filter(filter)
-            .flatMap(filename =>
+            .map(filename =>
                 import(join(pathToFileURL(resolvedPath).toString(), filename))
-                    .then(r =>
-                        r[namedExport] ?
-                            [collection.set(filename, r[namedExport])] :
-                            throwOnMiss ?
-                                Promise.reject(`ImportDir: no ${namedExport} export provided for file ${filename}`) :
-                                []
-                    ))
+                    .then(r => {
+                        const fileExports = Object.entries<T>(r).reduce<T>((acc, [k, v]) => {
+                            if (namedExports.includes(k))
+                                return k === "default" ? { ...acc, ...v } : { ...acc, [k]: v }
+                            if (throwOnMiss)
+                                throw new Error(`ImportDir: no ${k} export found in file ${filename}`)
+                            return acc;
+                        }, {} as T);
+                        collection.set(filename, fileExports)
+                    })
+
+            )
     )
     return collection;
 }
