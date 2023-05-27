@@ -1,6 +1,6 @@
 import { ApplicationCommandData, CommandInteraction, InteractionDeferReplyOptions, InteractionEditReplyOptions, InteractionReplyOptions, Message, MessageEditOptions, MessageReplyOptions, RESTPostAPIApplicationGuildCommandsJSONBody, Snowflake, TextBasedChannel, User, bold, italic, spoiler } from "discord.js";
 import { values } from "utils";
-import { ctx } from "../..";
+import { ctx } from "../../ctx";
 import { deleteCommand, getCommands, registerCommand } from "./rest";
 import { CommandLiteral, sliceCommand } from "./slice";
 

@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, userMention } from "discord.js";
-import { ctx } from "..";
+import { ctx } from "../ctx";
 import { Command } from "../lib/commands/Command";
 import { NotServedError } from "../lib/errors";
 

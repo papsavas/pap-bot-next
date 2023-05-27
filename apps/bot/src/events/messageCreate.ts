@@ -1,4 +1,4 @@
-import { ctx } from "..";
+import { ctx } from "../ctx";
 import { sliceCommand } from "../lib/commands/slice";
 import { NotServedError } from "../lib/errors";
 import { makeEvent } from "../lib/makeEvent";

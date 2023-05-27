@@ -1,20 +1,11 @@
-import { Client, ClientEvents, Collection, Events, Partials, Snowflake } from "discord.js";
+import { Client, ClientEvents, Events, Partials } from "discord.js";
 import dotenv from 'dotenv';
 import findConfig from "find-config";
-import { MonitoredCollection, importDir } from "utils";
-import { Context, GuildPrefix, ReactionNotifier } from "../types/Context";
+import { importDir } from "utils";
 import { DiscordEvent } from "../types/DiscordEvent";
-import { Command } from "./lib/commands/Command";
-import { prefixMonitors } from "./monitors/prefix";
-import { reactionNotifierMonitors } from "./monitors/reactionNotifier";
 
 dotenv.config({ path: findConfig('.env')! })
 
-export const ctx: Context = {
-    commands: new Collection<string, Command>(),
-    prefix: new MonitoredCollection<Snowflake, GuildPrefix>(undefined, prefixMonitors),
-    reactionNotifier: new MonitoredCollection<Snowflake, ReactionNotifier>(undefined, reactionNotifierMonitors),
-}
 
 export const bot = new Client({
     intents: [

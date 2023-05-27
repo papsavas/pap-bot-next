@@ -1,4 +1,4 @@
-import { ctx } from "..";
+import { ctx } from "../ctx";
 import { makeEvent } from "../lib/makeEvent";
 
 const interactionCreate = makeEvent({

@@ -1,7 +1,7 @@
 import { DBPrefix, DBReactionNotifications } from "database";
 import { MonitoredCollection } from "utils";
 import { assertType, describe, it } from "vitest";
-import { ctx } from "../src/index";
+import { ctx } from "../src/ctx";
 
 describe('Context Should respect DB types', () => {
     it("Reaction Notifications", () => {
