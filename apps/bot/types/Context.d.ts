@@ -1,6 +1,6 @@
 import { Collection, Guild, Role, User } from "discord.js";
 import { MonitoredCollection } from "utils";
-import { Command } from "./Command";
+import Command from "../src/lib/commands/Command";
 
 type GuildPrefix = {
     prefix: string,

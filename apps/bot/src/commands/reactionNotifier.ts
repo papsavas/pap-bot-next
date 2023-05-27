@@ -1,87 +1,69 @@
-import { ApplicationCommandData, ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, CommandInteraction, EmbedBuilder, italic, RESTJSONErrorCodes, roleMention, userMention } from "discord.js";
-import { ctx } from "..";
-import { CommandSource } from "../../types/Command";
+import { ApplicationCommandOptionType, ApplicationCommandType, ChatInputCommandInteraction, EmbedBuilder, italic, RESTJSONErrorCodes, roleMention, userMention } from "discord.js";
 import { createReactionNotificationsId } from "../handlers/reactionNotifications";
-import { makeCommand } from "../lib/commands/makeCommand";
-import { sliceCommand } from "../lib/commands/slice";
-import { warnings } from "../lib/commands/warnings";
-import { NotServedError } from "../lib/errors";
-import SourceHandler from "../lib/SourceHandler";
+import Command from "../lib/commands/Command";
 
-
-//TODO: handle message execution
-
-const name = "reaction-notifier";
 const targetOption = "target";
 const [addSubCmd, showSubCmd, clearSubCmd] = ["add", "show", "clear"];
 
-export const data = {
-    name,
-    description: "Notifications for User/Role reactions",
-    type: ApplicationCommandType.ChatInput,
-    options: [
-        {
-            name: addSubCmd,
-            description: "Add User/Role",
-            type: ApplicationCommandOptionType.Subcommand,
-            options: [
-                {
-                    name: targetOption,
-                    description: "Receive react notifications from this role/user",
-                    type: ApplicationCommandOptionType.Mentionable,
-                    required: true
-                }
-            ]
-        },
-        {
-            name: showSubCmd,
-            description: "Display current targets",
-            type: ApplicationCommandOptionType.Subcommand,
-        },
-        {
-            name: clearSubCmd,
-            description: "Delete all targets",
-            type: ApplicationCommandOptionType.Subcommand,
-        }
-    ]
-} satisfies ApplicationCommandData
-
-const ReactionNotifierCommand = makeCommand({
-    name,
-    data,
-    execute: async (command: CommandSource) => {
-        const handler = SourceHandler(command);
+const reactionNotifierCommand = new Command({
+    data: {
+        name: "reaction-notifier",
+        description: "Notifications for User/Role reactions",
+        type: ApplicationCommandType.ChatInput,
+        options: [
+            {
+                name: addSubCmd,
+                description: "Add User/Role",
+                type: ApplicationCommandOptionType.Subcommand,
+                options: [
+                    {
+                        name: targetOption,
+                        description: "Receive react notifications from this role/user",
+                        type: ApplicationCommandOptionType.Mentionable,
+                        required: true
+                    }
+                ]
+            },
+            {
+                name: showSubCmd,
+                description: "Display current targets",
+                type: ApplicationCommandOptionType.Subcommand,
+            },
+            {
+                name: clearSubCmd,
+                description: "Delete all targets",
+                type: ApplicationCommandOptionType.Subcommand,
+            }
+        ]
+    },
+    execute: async ({ reply, deferReply, warnings, source: command, sliced, source, user, ctx }) => {
         if (!command.inGuild())
-            return handler.reply({ content: warnings(name).only.guild })
-        const ctxPrefix = ctx.prefix.get(command.guildId);
-        if (!ctxPrefix) throw new NotServedError("Reaction Notifier", command.guildId)
-        return handler.deferReply(async () => {
-            const [subCmd, targetId] =
-                command instanceof CommandInteraction ?
-                    [
-                        (command as ChatInputCommandInteraction).options.getSubcommand(true),
-                        (command.options.resolved?.roles ?? command.options.resolved?.members)?.firstKey()] :
-                    [
-                        sliceCommand(command, ctxPrefix.prefix).arg1,
-                        sliceCommand(command, ctxPrefix.prefix).arg2
-                    ];
+            return reply({ content: warnings.only.guild })
 
-            const user = command instanceof CommandInteraction ? command.user : command.author;
+        if (!(command instanceof ChatInputCommandInteraction))
+            return reply({ content: warnings.only.slashCommand })
+
+        const [guildId, userId] = [command.guildId, user.id];
+        return deferReply(async () => {
+            const [subCmd, targetId] =
+                [
+                    command.options.getSubcommand(true),
+                    (command.options.resolved?.roles ?? command.options.resolved?.members)?.firstKey()
+                ]
+
             switch (subCmd) {
                 case addSubCmd: {
                     //establish dms or abort
                     if (!targetId)
-                        return handler.reply({ content: `\`Target not provided. \n ${ctxPrefix.prefix}${name} add <targetId>\`` })
+                        return reply({ content: `Please provide a target (role or member)` })
                     try {
                         await user.send(italic(`This message establishes our DM channel where i will notify you about reaction notifications.`))
                     } catch (error: any) {
                         if (error.code === RESTJSONErrorCodes.CannotSendMessagesToThisUser)
-                            await handler.reply({
-                                content: warnings(name).closedDms
+                            return reply({
+                                content: warnings.closedDms
                             })
-                        return
                     }
-                    const [guildId, userId] = [command.guildId, user.id];
                     //update cache and db
                     ctx.reactionNotifier.set(createReactionNotificationsId({ guildId, userId, targetId }), {
                         userId,
@@ -90,13 +72,13 @@ const ReactionNotifierCommand = makeCommand({
                     }, true)
 
                     //respond to user
-                    return handler.reply({ content: `Enabled notifications for ${targetId ?? "all"}` })
+                    return reply({ content: `Enabled notifications for ${targetId ?? "all"}` })
                 }
 
                 case showSubCmd: {
                     const filtered = ctx.reactionNotifier
-                        .filter(v => v.guildId === command.guildId && v.userId === user.id);
-                    return handler.reply({
+                        .filter(v => v.guildId === guildId && v.userId === user.id);
+                    return reply({
                         embeds: [
                             new EmbedBuilder({
                                 title: "Current Targets",
@@ -109,18 +91,15 @@ const ReactionNotifierCommand = makeCommand({
                 }
 
                 case clearSubCmd: {
-                    const removed = ctx.reactionNotifier.sweep(v => v.guildId === command.guildId, true);
-                    return handler.reply({ content: `Removed ${removed} targets` });
+                    const removed = ctx.reactionNotifier.sweep(v => v.guildId === guildId, true);
+                    return reply({ content: `Removed ${removed} targets` });
                 }
             }
 
         }, { ephemeral: true, fetchReply: true })
-
-
-
-
-
     }
 })
 
-export default ReactionNotifierCommand;
+export const { name, data } = reactionNotifierCommand;
+
+export default reactionNotifierCommand;

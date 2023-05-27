@@ -1,7 +1,7 @@
 import { Colors, EmbedBuilder, MessageReaction, Snowflake, User } from "discord.js";
 import { createCombinedId, resolveCombinedId } from "utils";
-import { ctx } from "..";
 import { ReactionNotifier } from "../../types/Context";
+import { ctx } from "../ctx";
 
 export const createReactionNotificationsId =
     ({ guildId, userId, targetId }: ReactionNotifier) =>

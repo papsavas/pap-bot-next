@@ -1,4 +1,4 @@
-import { ctx } from "..";
+import { ctx } from "../ctx";
 import { makeEvent } from "../lib/makeEvent";
 
 const interactionCreate = makeEvent({
@@ -9,7 +9,7 @@ const interactionCreate = makeEvent({
                 //TODO: fix perf
                 const cmd = ctx.commands.get(interaction.commandName);
                 if (!cmd) throw `${interaction.type} ${interaction.commandName} is not handled`;
-                await cmd.execute(interaction)
+                await cmd.execute(interaction, ctx)
             }
         } catch (error) {
             console.error(`interaction type:${interaction.type} id:${interaction.id} failed\n`, error);

@@ -2,8 +2,9 @@ import { createExpressEndpoints } from "@ts-rest/express";
 import { Client } from "discord.js";
 import express from "express";
 import { contract } from "http-contract";
-import { bot, ctx } from "..";
+import { bot } from "..";
 import { Context } from "../../types/Context";
+import { ctx } from "../ctx";
 import { guildsRouter } from "./routes/guilds";
 import { prefixRouter } from "./routes/prefix";
 
