@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 type Options = {
     path: string,
     filter?: (v: string) => boolean,
-    namedExports?: string[],
+    namedExports?: [string, ...string[]],
     throwOnMiss?: boolean
 }
 
@@ -25,6 +25,8 @@ export const importDir = async <T>({
     throwOnMiss = false
 }: Options
 ): Promise<Collection<string, T>> => {
+    if (namedExports.length === 0)
+        throw new Error("ImportDir: No export provided")
     const resolvedPath = resolve(path);
     const collection = new Collection<string, T>();
     const files = await readdir(resolvedPath);
