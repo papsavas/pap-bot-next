@@ -12,7 +12,7 @@ const messageCreate = makeEvent({
             if (message.content.startsWith(guildCommandPrefix.prefix)) {
                 const { primaryCommand } = sliceCommand(message, guildCommandPrefix.prefix);
                 const cmd = ctx.commands.find(cmd => cmd.name === primaryCommand.toLowerCase());
-                cmd?.execute(message);
+                cmd?.execute(message, ctx);
             }
         }
     }
