@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import GuildComponent from "../../../components/GuildPage/GuildComponent";
+import Guild from "../../../components/GuildPage/GuildComponent";
+import { SegmentProps } from "../../../types";
 import { getGuild } from "../../../utils/getGuild";
 
 export async function generateMetadata({
@@ -19,5 +20,5 @@ export async function generateMetadata({
 
 export default async function GuildPage({ params }: SegmentProps) {
   // @ts-expect-error Server Component
-  return <GuildComponent id={params.id} />;
+  return <Guild id={params.id} />;
 }

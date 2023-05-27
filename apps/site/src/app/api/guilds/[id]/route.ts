@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { SegmentProps } from "../../../../types";
 import { getGuild } from "../../../../utils/getGuild";
 
 export async function GET(request: NextRequest, { params }: SegmentProps) {

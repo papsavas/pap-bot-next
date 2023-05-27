@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prefixWithoutGuildIdObject } from "types/Prefix";
 import { tsRest } from "../../../../lib/ts-rest";
+import { SegmentProps } from "../../../../types";
 
 export async function GET(request: NextRequest, { params }: SegmentProps) {
     const { body, status } = await tsRest.prefix.getPrefix({ params: { guildId: params.id } });

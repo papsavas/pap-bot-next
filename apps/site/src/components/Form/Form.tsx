@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
+import { FormSubmit } from "../../types";
 
 const Form: FC<{
   label: string;
