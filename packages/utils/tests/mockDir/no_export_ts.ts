@@ -1,3 +1,1 @@
-function no_export_ts() {
-
-}
+function no_export_ts() {}

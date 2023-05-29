@@ -1,47 +1,47 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
-    "build": {
-      "dependsOn": [
-        "^build",
-        "db:generate"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**"
-      ]
-    },
-    "lint": {
-      "outputs": []
-    },
-    "dev": {
-      "cache": false,
-      "dependsOn": [
-        "^dev",
-        "db:generate"
-      ]
-    },
-    "test": {
-      "dependsOn": [
-        "db:generate"
-      ]
-    },
-    "test:watch": {
-      "cache": false
-    },
-    "db:generate": {
-      "cache": false
-    },
-    "db:push": {
-      "cache": false
-    },
-    "deploy": {
-      "dependsOn": [
-        "build",
-        "db:generate",
-        "test",
-        "lint"
-      ]
-    }
-  }
+	"$schema": "https://turbo.build/schema.json",
+	"pipeline": {
+		"build": {
+			"dependsOn": [
+				"^build",
+				"db:generate"
+			],
+			"outputs": [
+				"dist/**",
+				".next/**"
+			]
+		},
+		"lint": {
+			"outputs": []
+		},
+		"dev": {
+			"cache": false,
+			"dependsOn": [
+				"^dev",
+				"db:generate"
+			]
+		},
+		"test": {
+			"dependsOn": [
+				"db:generate"
+			]
+		},
+		"test:watch": {
+			"cache": false
+		},
+		"db:generate": {
+			"cache": false
+		},
+		"db:push": {
+			"cache": false
+		},
+		"deploy": {
+			"dependsOn": [
+				"build",
+				"db:generate",
+				"test",
+				"lint"
+			]
+		}
+	}
 }

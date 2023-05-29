@@ -1,10 +1,10 @@
-import { Dispatch, SetStateAction, createContext } from "react";
+import { Dispatch, SetStateAction, createContext } from 'react';
 
 type SelectedGuildContext = {
-    selected: string;
-    setSelected: Dispatch<SetStateAction<string>>;
+	selected: string;
+	setSelected: Dispatch<SetStateAction<string>>;
 };
 
 export const SelectedContext = createContext<SelectedGuildContext>(
-    {} as SelectedGuildContext
+	{} as SelectedGuildContext
 );

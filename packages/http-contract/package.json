@@ -1,9 +1,9 @@
 {
-    "name": "http-contract",
-    "type": "module",
-    "types": "index.ts",
-    "main": "index.ts",
-    "dependencies": {
-        "@ts-rest/core": "^3.18.1"
-    }
+	"name": "http-contract",
+	"type": "module",
+	"types": "index.ts",
+	"main": "index.ts",
+	"dependencies": {
+		"@ts-rest/core": "^3.18.1"
+	}
 }

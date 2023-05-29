@@ -1,16 +1,16 @@
 {
-    "name": "types",
-    "type": "module",
-    "main": "index.ts",
-    "types": "index.ts",
-    "scripts": {
-        "test": "vitest typecheck",
-        "test:watch": "vitest typecheck"
-    },
-    "dependencies": {
-        "zod": "^3.21.4"
-    },
-    "devDependencies": {
-        "vitest": "^0.31.0"
-    }
+	"name": "types",
+	"type": "module",
+	"main": "index.ts",
+	"types": "index.ts",
+	"scripts": {
+		"test": "vitest typecheck",
+		"test:watch": "vitest typecheck"
+	},
+	"dependencies": {
+		"zod": "^3.21.4"
+	},
+	"devDependencies": {
+		"vitest": "^0.31.0"
+	}
 }

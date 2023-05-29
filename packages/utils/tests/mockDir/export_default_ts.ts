@@ -1,2 +1,2 @@
-const obj = { nested: { key: "value" } }
+const obj = { nested: { key: 'value' } };
 export default obj;

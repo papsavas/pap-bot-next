@@ -1,18 +1,18 @@
-import { SignIn } from "@clerk/nextjs";
+import { SignIn } from '@clerk/nextjs';
 
 export const metadata = {
-  title: "Login",
+	title: 'Login',
 };
 
 export default function LoginPage() {
-  return (
-    <main>
-      <SignIn
-        afterSignInUrl={"/"}
-        appearance={{
-          elements: { card: "bg-neutral-200" },
-        }}
-      />
-    </main>
-  );
+	return (
+		<main>
+			<SignIn
+				afterSignInUrl={'/'}
+				appearance={{
+					elements: { card: 'bg-neutral-200' },
+				}}
+			/>
+		</main>
+	);
 }

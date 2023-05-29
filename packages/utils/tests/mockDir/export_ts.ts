@@ -1,1 +1,1 @@
-export const specifiedExport = "exportVar";
+export const specifiedExport = 'exportVar';

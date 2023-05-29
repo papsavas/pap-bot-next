@@ -1,13 +1,13 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "module": "esnext",
-    "target": "ES2017",
-    "moduleResolution": "node",
-    "isolatedModules": true,
-    "preserveWatchOutput": true,
-    "skipLibCheck": true,
-    "noEmit": true
-  },
-  "exclude": ["node_modules"]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"module": "esnext",
+		"target": "ES2017",
+		"moduleResolution": "node",
+		"isolatedModules": true,
+		"preserveWatchOutput": true,
+		"skipLibCheck": true,
+		"noEmit": true
+	},
+	"exclude": ["node_modules"]
 }
