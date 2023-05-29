@@ -1,0 +1,21 @@
+# dependencies
+node_modules
+
+# testing
+coverage
+
+# dist
+.next
+out
+build
+dist
+
+
+
+# local env files
+**/*.env*
+
+# DB
+**/migrations
+
+resources.txt
