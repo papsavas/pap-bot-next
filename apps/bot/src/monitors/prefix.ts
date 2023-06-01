@@ -1,6 +1,6 @@
 import { upsertPrefix } from 'database';
 import { Snowflake } from 'discord.js';
-import { Monitors } from 'utils';
+import { Monitors } from 'papmap';
 import { GuildPrefix } from '../../types/Context';
 
 export const prefixMonitors: Monitors<Snowflake, GuildPrefix> = {

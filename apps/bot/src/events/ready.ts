@@ -43,7 +43,7 @@ const loadReactionNotifiers = async () => {
 				targetId,
 				guildId,
 				userId,
-			}
+			}, false
 		);
 	}
 };
@@ -51,7 +51,7 @@ const loadReactionNotifiers = async () => {
 const loadPrefixes = async () => {
 	const prefixes = await fetchPrefixes({});
 	for (const { guildId, userId, prefix } of prefixes)
-		ctx.prefix.set(guildId, { prefix, userId });
+		ctx.prefix.set(guildId, { prefix, userId }, false);
 };
 
 const syncGuilds = async (client: Client) =>

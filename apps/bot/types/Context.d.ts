@@ -1,5 +1,5 @@
 import { Collection, Guild, Role, User } from 'discord.js';
-import { MonitoredCollection } from 'utils';
+import { PapMap } from 'papmap';
 import Command from '../src/lib/commands/Command';
 
 type GuildPrefix = {
@@ -15,6 +15,6 @@ type ReactionNotifier = {
 
 type Context = {
 	commands: Collection<Command['name'], Command>;
-	prefix: MonitoredCollection<Guild['id'], GuildPrefix>;
-	reactionNotifier: MonitoredCollection<string, ReactionNotifier>;
+	prefix: PapMap<Guild['id'], GuildPrefix>;
+	reactionNotifier: PapMap<string, ReactionNotifier>;
 };

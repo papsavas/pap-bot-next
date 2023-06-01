@@ -3,7 +3,7 @@ import {
 	upsertReactionNotifications,
 } from 'database';
 import { Snowflake } from 'discord.js';
-import { Monitors } from 'utils';
+import { Monitors } from 'papmap';
 import { ReactionNotifier } from '../../types/Context';
 
 export const reactionNotifierMonitors: Monitors<Snowflake, ReactionNotifier> = {
